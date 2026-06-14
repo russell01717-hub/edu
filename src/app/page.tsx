@@ -48,7 +48,7 @@ export default function LoginPage() {
           className="w-full py-3.5 rounded-xl font-semibold text-white transition-all cursor-pointer flex items-center justify-center gap-2 btn-orange">
           {loading ? <span className="inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : "Kirish"}
         </button>
-        <p className="text-center text-gray-400 text-xs mt-6">Admin: <strong className="text-gray-600">admin</strong> | Parol: <strong className="text-gray-600">admin123</strong></p>
+        <p className="text-center text-gray-400 text-xs mt-6">Arab tili o'quv markazi</p>
       </form>
     </div>
   )

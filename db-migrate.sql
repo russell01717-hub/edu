@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS groups (
   name TEXT NOT NULL,
   description TEXT DEFAULT '',
   price_per_lesson INT DEFAULT 0,
+  days TEXT DEFAULT '',
   created_at TIMESTAMP DEFAULT NOW()
 );
 

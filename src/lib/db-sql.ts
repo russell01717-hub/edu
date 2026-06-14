@@ -59,17 +59,33 @@ export async function getGroups() {
   `
   return groups.map(g => ({
     id: g.id, name: g.name, description: g.description || "",
-    pricePerLesson: g.price_per_lesson, studentCount: g.studentCount,
+    pricePerLesson: g.price_per_lesson, days: g.days || "",
+    studentCount: g.studentCount,
     createdAt: g.created_at?.toISOString?.() || g.created_at,
   }))
 }
 
-export async function createGroup(name: string, description: string, pricePerLesson: number) {
+export async function getGroup(id: number) {
+  const [g] = await sql`SELECT g.*, COUNT(s.id)::int as "studentCount" FROM groups g LEFT JOIN students s ON s.group_id = g.id WHERE g.id = ${id} GROUP BY g.id`
+  if (!g) return null
+  return { id: g.id, name: g.name, description: g.description || "", pricePerLesson: g.price_per_lesson, days: g.days || "", studentCount: g.studentCount, createdAt: g.created_at?.toISOString?.() || g.created_at }
+}
+
+export async function createGroup(name: string, description: string, pricePerLesson: number, days?: string) {
   const [g] = await sql`
-    INSERT INTO groups (name, description, price_per_lesson) VALUES (${name}, ${description || ""}, ${pricePerLesson || 0})
+    INSERT INTO groups (name, description, price_per_lesson, days) VALUES (${name}, ${description || ""}, ${pricePerLesson || 0}, ${days || ""})
     RETURNING *
   `
-  return { id: g.id, name: g.name, description: g.description, pricePerLesson: g.price_per_lesson, createdAt: g.created_at?.toISOString?.() || g.created_at, studentCount: 0 }
+  return { id: g.id, name: g.name, description: g.description, pricePerLesson: g.price_per_lesson, days: g.days || "", createdAt: g.created_at?.toISOString?.() || g.created_at, studentCount: 0 }
+}
+
+export async function updateGroup(id: number, name: string, description: string, pricePerLesson: number, days?: string) {
+  const [g] = await sql`
+    UPDATE groups SET name = ${name}, description = ${description || ""}, price_per_lesson = ${pricePerLesson || 0}, days = ${days || ""} WHERE id = ${id}
+    RETURNING *
+  `
+  if (!g) return null
+  return { id: g.id, name: g.name, description: g.description || "", pricePerLesson: g.price_per_lesson, days: g.days || "", createdAt: g.created_at?.toISOString?.() || g.created_at }
 }
 
 export async function deleteGroup(id: number) {

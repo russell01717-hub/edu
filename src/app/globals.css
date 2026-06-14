@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+:root {
+  --theme-primary: #f97316;
+  --theme-secondary: #ea580c;
+}
+
 @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes slideIn { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
 @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
@@ -7,15 +12,28 @@
 @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
 @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+@keyframes glow { 0%, 100% { box-shadow: 0 0 5px rgba(249,115,22,0.3); } 50% { box-shadow: 0 0 20px rgba(249,115,22,0.6); } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes rotateIn { from { opacity: 0; transform: rotate(-10deg) scale(0.8); } to { opacity: 1; transform: rotate(0) scale(1); } }
 
 .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
 .animate-slideIn { animation: slideIn 0.4s ease-out; }
 .animate-scaleIn { animation: scaleIn 0.5s ease-out; }
 .animate-bounceIn { animation: bounceIn 0.5s ease-out; }
 .animate-float { animation: float 3s ease-in-out infinite; }
+.animate-glow { animation: glow 2s ease-in-out infinite; }
+.animate-slideUp { animation: slideUp 0.6s ease-out; }
+.animate-rotateIn { animation: rotateIn 0.5s ease-out; }
 
 .card-hover { transition: all 0.3s ease; }
-.card-hover:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.1); transform: translateY(-2px); }
+.card-hover:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.12); transform: translateY(-3px); }
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
+  color: white;
+  transition: all 0.3s ease;
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 15px rgba(249,115,22,0.4); }
 
 .btn-orange {
   background: linear-gradient(135deg, #f97316, #ea580c);
@@ -35,7 +53,12 @@
 }
 .input-field:focus {
   outline: none;
-  border-color: #f97316;
-  box-shadow: 0 0 0 3px rgba(249,115,22,0.15);
+  border-color: var(--theme-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-primary) 20%, transparent);
   background: white;
 }
+
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb { background: var(--theme-primary); border-radius: 3px; }

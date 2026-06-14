@@ -69,9 +69,22 @@ export async function deleteUser(id: number) {
 export async function getGroups() {
   return data.groups.map(g => ({ ...g, studentCount: data.students.filter(s => s.groupId === g.id).length }))
 }
-export async function createGroup(name: string, description: string, pricePerLesson: number) {
-  const g = { id: nextId("groups"), name, description, pricePerLesson, createdAt: new Date().toISOString() }
+export async function getGroup(id: number) {
+  const g = data.groups.find(x => x.id === id)
+  if (!g) return null
+  return { ...g, studentCount: data.students.filter(s => s.groupId === g.id).length }
+}
+export async function createGroup(name: string, description: string, pricePerLesson: number, days?: string) {
+  const g = { id: nextId("groups"), name, description, pricePerLesson, days: days || "", createdAt: new Date().toISOString() }
   data.groups.push(g); save()
+  return g
+}
+export async function updateGroup(id: number, name: string, description: string, pricePerLesson: number, days?: string) {
+  const g = data.groups.find(x => x.id === id)
+  if (!g) return null
+  g.name = name; g.description = description; g.pricePerLesson = pricePerLesson
+  if (days !== undefined) g.days = days
+  save()
   return g
 }
 export async function deleteGroup(id: number) {

@@ -26,7 +26,7 @@ export default function PaymentsPage() {
           <h1 className="text-2xl font-bold text-gray-900">To'lovlar</h1>
           <p className="text-sm text-gray-400">Barcha to'lovlar tarixi</p>
         </div>
-        <button onClick={() => setShowForm(!showForm)} className="btn-orange flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm cursor-pointer w-full sm:w-auto justify-center">
+        <button onClick={() => setShowForm(!showForm)} className="btn-primary flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm cursor-pointer w-full sm:w-auto justify-center">
           ➕ Yangi to'lov
         </button>
       </div>
@@ -36,7 +36,7 @@ export default function PaymentsPage() {
             <label className="text-xs text-gray-400 block mb-1 font-medium">O'quvchi</label>
             <select value={studentId} onChange={e => setStudentId(e.target.value)} className="input-field" required>
               <option value="">Tanlang</option>
-              {students.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
+              {students.map(s => <option key={s.id} value={s.id}>{s.name} ({s.balance?.toLocaleString()})</option>)}
             </select>
           </div>
           <div className="w-full sm:w-40">
@@ -51,7 +51,7 @@ export default function PaymentsPage() {
             <label className="text-xs text-gray-400 block mb-1 font-medium">Izoh</label>
             <input value={note} onChange={e => setNote(e.target.value)} className="input-field" />
           </div>
-          <button type="submit" className="btn-orange px-5 py-2.5 rounded-xl font-semibold text-sm cursor-pointer w-full sm:w-auto" style={{ marginTop: "22px" }}>✓ Saqlash</button>
+          <button type="submit" className="btn-primary px-5 py-2.5 rounded-xl font-semibold text-sm cursor-pointer w-full sm:w-auto" style={{ marginTop: "22px" }}>✓ Saqlash</button>
         </form>
       )}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
@@ -68,7 +68,7 @@ export default function PaymentsPage() {
                   <td className="py-3 px-4 font-semibold text-gray-900">{p.studentName}</td>
                   <td className="py-3 px-4">{p.groupName}</td>
                   <td className={`py-3 px-4 font-semibold ${p.type === "income" ? "text-green-600" : "text-red-600"}`}>{p.type === "income" ? "+" : "-"}{Math.abs(p.amount).toLocaleString()}</td>
-                  <td className="py-3 px-4">{p.type === "income" ? "To'lov" : "Chegirma"}</td>
+                  <td className="py-3 px-4"><span className={`px-2 py-0.5 rounded text-xs font-semibold ${p.type === "income" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>{p.type === "income" ? "To'lov" : "Chegirma"}</span></td>
                   <td className="py-3 px-4 text-gray-400">{p.note || "-"}</td>
                   <td className="py-3 px-4 text-gray-500">{p.date}</td>
                 </tr>

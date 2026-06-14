@@ -46,7 +46,7 @@ export default function UsersPage() {
           <h1 className="text-2xl font-bold text-gray-900">Foydalanuvchilar</h1>
           <p className="text-sm text-gray-400">Tizim foydalanuvchilarini boshqaring</p>
         </div>
-        <button onClick={() => { resetForm(); setShowForm(!showForm) }} className="btn-orange flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm cursor-pointer w-full sm:w-auto justify-center">
+        <button onClick={() => { resetForm(); setShowForm(!showForm) }} className="btn-primary flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm cursor-pointer w-full sm:w-auto justify-center">
           ➕ Yangi foydalanuvchi
         </button>
       </div>
@@ -64,7 +64,7 @@ export default function UsersPage() {
             <label className="text-xs text-gray-400 block mb-1 font-medium">Parol</label>
             <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="input-field" placeholder={editId ? "Yangi" : ""} required={!editId} />
           </div>
-          <button type="submit" className="btn-orange px-5 py-2.5 rounded-xl font-semibold text-sm cursor-pointer w-full sm:w-auto" style={{ marginTop: "22px" }}>{editId ? "✓ Yangilash" : "✓ Saqlash"}</button>
+          <button type="submit" className="btn-primary px-5 py-2.5 rounded-xl font-semibold text-sm cursor-pointer w-full sm:w-auto" style={{ marginTop: "22px" }}>{editId ? "✓ Yangilash" : "✓ Saqlash"}</button>
           {error && <span className="text-red-500 text-sm">{error}</span>}
         </form>
       )}
