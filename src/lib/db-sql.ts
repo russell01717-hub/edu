@@ -150,12 +150,12 @@ export async function setAttendance(studentId: number, lessonId: number, status:
   } else {
     await sql`INSERT INTO attendances (student_id, lesson_id, status) VALUES (${studentId}, ${lessonId}, ${status})`
   }
-  if (status === "absent") {
+  if (status === "present") {
     const [student] = await sql`SELECT s.*, g.price_per_lesson FROM students s JOIN groups g ON s.group_id = g.id WHERE s.id = ${studentId}`
     if (student && student.price_per_lesson > 0) {
       const [lesson] = await sql`SELECT date FROM lessons WHERE id = ${lessonId}`
       await sql`UPDATE students SET balance = balance - ${student.price_per_lesson} WHERE id = ${studentId}`
-      await sql`INSERT INTO payments (student_id, amount, type, note, date) VALUES (${studentId}, ${-student.price_per_lesson}, 'expense', ${`Dars qoldirgan: ${lesson?.date || ""}`}, ${lesson?.date || ""})`
+      await sql`INSERT INTO payments (student_id, amount, type, note, date) VALUES (${studentId}, ${-student.price_per_lesson}, 'expense', ${`Dars: ${lesson?.date || ""}`}, ${lesson?.date || ""})`
     }
   }
 }

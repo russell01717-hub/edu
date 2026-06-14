@@ -112,13 +112,13 @@ export async function setAttendance(studentId: number, lessonId: number, status:
   const existing = data.attendances.find(a => a.studentId === studentId && a.lessonId === lessonId)
   if (existing) existing.status = status
   else data.attendances.push({ id: nextId("attendances"), studentId, lessonId, status, createdAt: new Date().toISOString() })
-  if (status === "absent") {
+  if (status === "present") {
     const student = data.students.find(s => s.id === studentId)
     const group = data.groups.find(g => g.id === student?.groupId)
     if (student && group && group.pricePerLesson > 0) {
       student.balance -= group.pricePerLesson
       const lesson = data.lessons.find(l => l.id === lessonId)
-      data.payments.push({ id: nextId("payments"), studentId, amount: -group.pricePerLesson, type: "expense", note: `Dars qoldirgan: ${lesson?.date || ""}`, date: lesson?.date || "", createdAt: new Date().toISOString() })
+      data.payments.push({ id: nextId("payments"), studentId, amount: -group.pricePerLesson, type: "expense", note: `Dars kelgan: ${lesson?.date || ""}`, date: lesson?.date || "", createdAt: new Date().toISOString() })
     }
   }
   save()
