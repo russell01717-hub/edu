@@ -30,24 +30,25 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden"
-      style={{ background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" }}>
-      <div className="absolute w-[600px] h-[600px] rounded-full bg-white/5 -top-48 -right-48 animate-[float_6s_ease-in-out_infinite]" />
-      <div className="absolute w-[400px] h-[400px] rounded-full bg-white/5 -bottom-24 -left-24 animate-[float_8s_ease-in-out_infinite_reverse]" />
-      <form onSubmit={handleSubmit} className="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-md z-10 animate-scaleIn">
-        <h1 className="text-3xl font-bold text-center mb-1" style={{ background: "linear-gradient(135deg, #667eea, #764ba2)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>EduPlatform</h1>
-        <p className="text-center text-gray-400 mb-8 text-sm">Arab tili o'quv markazi</p>
-        {error && <div className="bg-red-50 text-red-700 p-3 rounded-xl text-sm text-center mb-4 animate-bounceIn">{error}</div>}
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-black">
+      <div className="absolute w-[500px] h-[500px] rounded-full bg-orange-500/10 -top-32 -right-32 animate-float" />
+      <div className="absolute w-[400px] h-[400px] rounded-full bg-orange-600/10 -bottom-24 -left-24 animate-[float_8s_ease-in-out_infinite_reverse]" />
+      <form onSubmit={handleSubmit} className="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-md z-10 animate-scaleIn border border-gray-100">
+        <div className="text-center mb-8">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4 animate-float">E</div>
+          <h1 className="text-3xl font-bold text-gray-900">EduPlatform</h1>
+          <p className="text-gray-400 text-sm mt-1">Arab tili o'quv markazi</p>
+        </div>
+        {error && <div className="bg-red-50 text-red-600 p-3 rounded-xl text-sm text-center mb-4 animate-bounceIn border border-red-100">{error}</div>}
         <input type="text" placeholder="Login" value={login} onChange={e => setLogin(e.target.value)}
-          className="w-full px-4 py-3 border-2 border-gray-100 rounded-xl mb-4 text-sm focus:outline-none focus:border-indigo-400 focus:ring-3 focus:ring-indigo-100 bg-gray-50 transition-all" required />
+          className="input-field mb-4" required />
         <input type="password" placeholder="Parol" value={password} onChange={e => setPassword(e.target.value)}
-          className="w-full px-4 py-3 border-2 border-gray-100 rounded-xl mb-6 text-sm focus:outline-none focus:border-indigo-400 focus:ring-3 focus:ring-indigo-100 bg-gray-50 transition-all" required />
+          className="input-field mb-6" required />
         <button type="submit" disabled={loading}
-          className="w-full py-3.5 rounded-xl font-semibold text-white transition-all cursor-pointer flex items-center justify-center gap-2"
-          style={{ background: "linear-gradient(135deg, #6366f1, #8b5cf6)" }}>
+          className="w-full py-3.5 rounded-xl font-semibold text-white transition-all cursor-pointer flex items-center justify-center gap-2 btn-orange">
           {loading ? <span className="inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : "Kirish"}
         </button>
-        <p className="text-center text-gray-400 text-xs mt-6">Admin: <strong>admin</strong> | Parol: <strong>admin123</strong></p>
+        <p className="text-center text-gray-400 text-xs mt-6">Admin: <strong className="text-gray-600">admin</strong> | Parol: <strong className="text-gray-600">admin123</strong></p>
       </form>
     </div>
   )
