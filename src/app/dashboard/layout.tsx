@@ -66,7 +66,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const res = await fetch("/api/users", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: user.id, name: user.name, password: newPass }),
+      body: JSON.stringify({ id: user.id, name: user.name, login: user.login, password: newPass }),
     })
     if (res.ok) { setPassMsg("Parol o'zgartirildi"); setNewPass("") }
     else { setPassMsg("Xatolik") }

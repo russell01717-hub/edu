@@ -32,16 +32,24 @@ export default function GroupsPage() {
     setDays(prev => prev.includes(d) ? prev.filter(x => x !== d) : [...prev, d].sort())
   }
 
-  const teacherParams = user?.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""
-
-  function load() {
-    fetch(`/api/groups${teacherParams}`).then(r => r.json()).then(setGroups)
+  useEffect(() => {
+    if (!user) return
+    const params = user.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""
+    fetch(`/api/groups${params}`).then(r => r.json()).then(setGroups)
     fetch("/api/users").then(r => r.json()).then(setUsers)
-  }
-  useEffect(load, [teacherParams])
+  }, [user])
 
   function openCreate() {
-    setEditId(null); setName(""); setDesc(""); setPrice(""); setDays([]); setSubject(""); setTeacherId(user?.role === "teacher" ? user.id.toString() : ""); setShowForm(true); setError("")
+    setEditId(null); setName(""); setDesc(""); setPrice(""); setDays([]); setSubject("")
+    if (user?.role === "teacher") {
+      // Auto-set subject based on teacher login
+      if (user.login === "sardor" || user.login === "shoxali") setSubject("arabic")
+      else if (user.login === "gayrat") setSubject("english")
+      setTeacherId(user.id.toString())
+    } else {
+      setTeacherId("")
+    }
+    setShowForm(true); setError("")
   }
 
   function openEdit(g: any) {
@@ -60,14 +68,22 @@ export default function GroupsPage() {
         const res = await fetch("/api/groups", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) })
         if (!res.ok) { const d = await res.json(); setError(d.error || "Xatolik"); setSaving(false); return }
       }
-      setName(""); setDesc(""); setPrice(""); setDays([]); setSubject(""); setTeacherId(""); setEditId(null); setShowForm(false); load()
+      setName(""); setDesc(""); setPrice(""); setDays([]); setSubject(""); setTeacherId(""); setEditId(null); setShowForm(false)
+      if (user) {
+        const params = user.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""
+        fetch(`/api/groups${params}`).then(r => r.json()).then(setGroups)
+      }
     } catch (e: any) { setError(e.message) }
     setSaving(false)
   }
 
   async function del(id: number) {
     if (!confirm("O'chirasizmi?")) return
-    await fetch(`/api/groups?id=${id}`, { method: "DELETE" }); load()
+    await fetch(`/api/groups?id=${id}`, { method: "DELETE" })
+    if (user) {
+      const params = user.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""
+      fetch(`/api/groups${params}`).then(r => r.json()).then(setGroups)
+    }
   }
 
   const teachers = users.filter(u => u.role === "teacher")
@@ -101,9 +117,16 @@ export default function GroupsPage() {
             </div>
             <div>
               <label className="text-xs text-gray-400 block mb-1 font-medium">Fan</label>
-              <select value={subject} onChange={e => setSubject(e.target.value)} className="input-field">
-                {SUBJECTS.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
-              </select>
+              {user?.role === "admin" ? (
+                <select value={subject} onChange={e => setSubject(e.target.value)} className="input-field">
+                  {SUBJECTS.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
+                </select>
+              ) : (
+                <div className="input-field bg-gray-100 text-gray-500 flex items-center gap-2">
+                  <i className="fas fa-lock text-xs" />
+                  {subject === "arabic" ? "Arab tili" : "Ingliz tili"}
+                </div>
+              )}
             </div>
             {user?.role === "admin" && <div>
               <label className="text-xs text-gray-400 block mb-1 font-medium">O'qituvchi</label>

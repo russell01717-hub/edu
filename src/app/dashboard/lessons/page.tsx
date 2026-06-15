@@ -9,8 +9,11 @@ export default function LessonsPage() {
     try { setUser(JSON.parse(atob(localStorage.getItem("token") || ""))) } catch {}
   }, [])
 
-  const teacherParams = user?.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""
-  useEffect(() => { fetch(`/api/lessons${teacherParams}`).then(r => r.json()).then(setLessons) }, [teacherParams])
+  useEffect(() => {
+    if (!user) return
+    const params = user.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""
+    fetch(`/api/lessons${params}`).then(r => r.json()).then(setLessons)
+  }, [user])
 
   async function del(id: number) {
     if (!confirm("Darsni o'chirasizmi?")) return

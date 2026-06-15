@@ -9,8 +9,11 @@ export default function DashboardPage() {
     try { setUser(JSON.parse(atob(localStorage.getItem("token") || ""))) } catch {}
   }, [])
 
-  const teacherParams = user?.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""
-  useEffect(() => { fetch(`/api/stats${teacherParams}`).then(r => r.json()).then(setData) }, [teacherParams])
+  useEffect(() => {
+    if (!user) return
+    const params = user.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""
+    fetch(`/api/stats${params}`).then(r => r.json()).then(setData)
+  }, [user])
 
   const statusLabel: Record<string, string> = { present: "Keldi", late: "Kechikdi", absent: "Kelmadi" }
   const statusStyle: Record<string, string> = { present: "bg-green-100 text-green-700", late: "bg-yellow-100 text-yellow-700", absent: "bg-red-100 text-red-700" }

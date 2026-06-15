@@ -20,8 +20,11 @@ export default function AttendancePage() {
     try { setUser(JSON.parse(atob(localStorage.getItem("token") || ""))) } catch {}
   }, [])
 
-  const teacherParams = user?.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""
-  useEffect(() => { fetch(`/api/groups${teacherParams}`).then(r => r.json()).then(setGroups) }, [teacherParams])
+  useEffect(() => {
+    if (!user) return
+    const params = user.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""
+    fetch(`/api/groups${params}`).then(r => r.json()).then(setGroups)
+  }, [user])
 
   const group = groups.find(g => g.id === parseInt(selectedGroup))
 
@@ -38,7 +41,7 @@ export default function AttendancePage() {
     setAttendances(att); setStep("taking"); setMsg("")
     // Lesson number
     const month = date.substring(0, 7)
-    const res3 = await fetch("/api/lessons")
+    const res3 = await fetch(`/api/lessons${user?.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""}`)
     const allLessons = await res3.json()
     const monthLessons = allLessons.filter((l: any) => l.groupId === parseInt(selectedGroup) && l.date?.startsWith(month))
     setLessonNumber(monthLessons.length)

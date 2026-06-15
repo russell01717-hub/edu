@@ -1,4 +1,4 @@
-import { getUsers, createUser, updateUser, deleteUser, getUserById } from "@/lib/db"
+import { getUsers, createUser, updateUser, deleteUser, getUserByLogin, getUserById } from "@/lib/db"
 import { NextRequest } from "next/server"
 
 export const dynamic = "force-dynamic"
@@ -15,8 +15,12 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
-  const { id, name, password } = await req.json()
-  const user = await updateUser(id, name, password)
+  const { id, name, login, password } = await req.json()
+  let user = await updateUser(id, name, password)
+  if (!user && login) {
+    const found = await getUserByLogin(login)
+    if (found) user = await updateUser(found.id, name, password)
+  }
   if (!user) return Response.json({ error: "Foydalanuvchi topilmadi" }, { status: 404 })
   return Response.json(user)
 }

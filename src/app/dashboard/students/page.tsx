@@ -14,7 +14,7 @@ function calcMonths(startDate: string): number {
 function calcMonthlyFee(startDate: string, pricePerLesson: number, daysCount: number): number {
   const months = calcMonths(startDate)
   if (months <= 0 || !pricePerLesson) return 0
-  return pricePerLesson * daysCount * 4 // ~4 weeks per month
+  return pricePerLesson * daysCount * 4
 }
 
 export default function StudentsPage() {
@@ -37,13 +37,13 @@ export default function StudentsPage() {
     try { setUser(JSON.parse(atob(localStorage.getItem("token") || ""))) } catch {}
   }, [])
 
-  const teacherParams = user?.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""
-
   async function loadAll() {
+    if (!user) return
+    const params = user.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""
     const [s, g, l] = await Promise.all([
-      fetch(`/api/students${teacherParams}`).then(r => r.json()),
-      fetch(`/api/groups${teacherParams}`).then(r => r.json()),
-      fetch(`/api/lessons${teacherParams}`).then(r => r.json()),
+      fetch(`/api/students${params}`).then(r => r.json()),
+      fetch(`/api/groups${params}`).then(r => r.json()),
+      fetch(`/api/lessons${params}`).then(r => r.json()),
     ])
     setStudents(s); setGroups(g)
     const monthLessons = l.filter((le: any) => le.date?.startsWith(month)).sort((a: any, b: any) => a.date?.localeCompare(b.date))
@@ -56,7 +56,7 @@ export default function StudentsPage() {
       setAttMap(atts)
     }
   }
-  const load = useCallback(loadAll, [month, teacherParams])
+  const load = useCallback(loadAll, [month, user])
   useEffect(() => { load() }, [load])
 
   async function create(e: React.FormEvent) {
@@ -71,11 +71,6 @@ export default function StudentsPage() {
   async function del(id: number) {
     if (!confirm("O'chirasizmi?")) return
     await fetch(`/api/students?id=${id}`, { method: "DELETE" }); load()
-  }
-
-  async function markAttendance(studentId: number, status: string) {
-    await fetch("/api/attendance/today", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ studentId, status }) })
-    load()
   }
 
   const todayLessonMap: Record<number, any> = {}
@@ -116,10 +111,16 @@ export default function StudentsPage() {
           </div>
           <div className="w-full sm:w-44">
             <label className="text-xs text-gray-400 block mb-1 font-medium">Guruh</label>
-            <select value={groupId} onChange={e => setGroupId(e.target.value)} className="input-field" required>
-              <option value="">Tanlang</option>
-              {groups.map(g => <option key={g.id} value={g.id}>{g.name}{g.subject ? ` (${g.subject})` : ""}</option>)}
-            </select>
+            {user?.role === "admin" ? (
+              <select value={groupId} onChange={e => setGroupId(e.target.value)} className="input-field" required>
+                <option value="">Tanlang</option>
+                {groups.map(g => <option key={g.id} value={g.id}>{g.name}{g.subject ? ` (${g.subject === "arabic" ? "Arab tili" : g.subject === "english" ? "Ingliz tili" : g.subject})` : ""}</option>)}
+              </select>
+            ) : (
+              <select value={groupId} onChange={e => setGroupId(e.target.value)} className="input-field" required>
+                {groups.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
+              </select>
+            )}
           </div>
           <button type="submit" className="btn-primary px-5 py-2.5 rounded-xl font-semibold text-sm cursor-pointer w-full sm:w-auto flex items-center gap-2" style={{ marginTop: "22px" }}>
             <i className="fas fa-check" /> Saqlash
@@ -138,12 +139,10 @@ export default function StudentsPage() {
           const monthAtts = lessons
             .filter(l => l.groupId === s.groupId)
             .map(l => ({ lesson: l, status: attMap[`${s.id}_${l.id}`] || null }))
-          const curStatus = attMap[`${s.id}_${todayLesson?.id}`] || "none"
 
           return (
             <div key={s.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 card-hover animate-scaleIn relative overflow-hidden group"
               style={{ transformStyle: "preserve-3d", perspective: "800px" }}>
-              {/* 3D shine effect */}
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                 style={{ background: "linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.4) 50%, transparent 60%)", transform: "translateX(100%)", transition: "all 0.6s" }} />
 
@@ -170,7 +169,6 @@ export default function StudentsPage() {
                 )}
               </div>
 
-              {/* Balance */}
               <div className="p-3 rounded-xl mb-3 text-center relative overflow-hidden" style={{ background: s.balance >= 0 ? "#f0fdf4" : "#fef2f2" }}>
                 <p className="text-xs text-gray-400"><i className="fas fa-wallet mr-1" />Balans</p>
                 <p className={`text-2xl font-bold ${s.balance >= 0 ? "text-green-600" : "text-red-600"}`}>
@@ -179,12 +177,9 @@ export default function StudentsPage() {
                 {monthlyFee > 0 && <p className="text-[10px] text-gray-400 mt-0.5">Oyiga ~{monthlyFee.toLocaleString()} so'm</p>}
               </div>
 
-
-
-              {/* Monthly attendance */}
-              {monthAtts.length > 0 && (
-                <div>
-                  <p className="text-xs text-gray-400 mb-1.5 font-medium"><i className="fas fa-calendar-alt mr-1" />Oy davomida</p>
+              <div className="mb-3">
+                <p className="text-xs text-gray-400 mb-1.5 font-medium"><i className="fas fa-calendar-alt mr-1" />Oy davomida</p>
+                {monthAtts.length > 0 ? (
                   <div className="flex flex-wrap gap-1.5">
                     {monthAtts.map((ma, i) => {
                       const color = !ma.status ? "bg-gray-200 text-gray-500"
@@ -201,11 +196,10 @@ export default function StudentsPage() {
                       )
                     })}
                   </div>
-                </div>
-              )}
-              {monthAtts.length === 0 && (
-                <p className="text-xs text-gray-300 italic text-center py-2"><i className="fas fa-info-circle mr-1" />Bu oyda darslar hali boshlanmagan</p>
-              )}
+                ) : (
+                  <p className="text-xs text-gray-300 italic text-center py-2"><i className="fas fa-info-circle mr-1" />Bu oyda darslar hali boshlanmagan</p>
+                )}
+              </div>
             </div>
           )
         })}
