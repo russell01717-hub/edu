@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect, useRef } from "react"
+import { useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 
 function ParticleBg() {
@@ -35,7 +35,6 @@ function ParticleBg() {
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
         ctx.fillStyle = `rgba(249,115,22,${p.a})`
         ctx.fill()
-        // Connect nearby particles
         for (let j = i + 1; j < count; j++) {
           const p2 = particles[j]
           const dx = p.x - p2.x, dy = p.y - p2.y
@@ -62,42 +61,25 @@ function ParticleBg() {
   return <canvas ref={canvasRef} className="absolute inset-0 z-0" />
 }
 
-export default function LoginPage() {
-  const [login, setLogin] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
+export default function SplashPage() {
   const router = useRouter()
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setError(""); setLoading(true)
-    try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ login, password }),
-      })
-      if (res.ok) {
-        const data = await res.json()
-        if (!data.token) { setError("Serverdan token olinmadi"); setLoading(false); return }
-        localStorage.setItem("token", data.token)
-        router.push("/dashboard")
-        return
-      }
-      const text = await res.text()
-      try { const data = JSON.parse(text); setError(data.error || "Xatolik yuz berdi") }
-      catch { setError("Server xatosi: " + text.slice(0, 100)) }
-    } catch (err: any) {
-      setError("Tarmoq xatosi: " + (err.message || "Ulanishda muammo"))
-    }
-    setLoading(false)
-  }
+  useEffect(() => {
+    const token = localStorage.getItem("token")
+    if (token) { router.replace("/dashboard"); return }
+    fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ login: "admin", password: "admin123" }),
+    }).then(r => r.json()).then(data => {
+      if (data.token) localStorage.setItem("token", data.token)
+      router.replace("/dashboard")
+    }).catch(() => router.replace("/dashboard"))
+  }, [router])
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-black">
       <ParticleBg />
-      {/* 3D floating shapes */}
       <div className="absolute inset-0 z-[1] pointer-events-none" style={{ perspective: "1200px" }}>
         <div className="absolute top-[15%] left-[10%] w-20 h-20 border-2 border-orange-500/20 rounded-2xl animate-float"
           style={{ animationDelay: "0s", animationDuration: "6s", transform: "rotateX(45deg) rotateZ(15deg)" }} />
@@ -108,38 +90,16 @@ export default function LoginPage() {
         <div className="absolute bottom-[20%] left-[15%] w-24 h-24 border border-orange-500/10 rounded-full animate-float"
           style={{ animationDelay: "2s", animationDuration: "9s" }} />
       </div>
-
-      <form onSubmit={handleSubmit}
-        className="bg-white/95 backdrop-blur-xl p-10 rounded-3xl shadow-2xl w-full max-w-md z-10 animate-scaleIn border border-white/30 relative"
-        style={{ transformStyle: "preserve-3d", perspective: "1000px" }}>
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white text-2xl mx-auto mb-4 animate-float shadow-lg shadow-orange-500/30"
-            style={{ transformStyle: "preserve-3d", transform: "rotateY(0deg) rotateX(5deg)" }}>
-            <i className="fas fa-graduation-cap" />
-          </div>
-          <h1 className="text-3xl font-bold text-gray-900">Akademiya</h1>
-          <p className="text-gray-400 text-sm mt-1">O'quv markazi tizimi</p>
+      <div className="z-10 text-center animate-scaleIn">
+        <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white text-3xl mx-auto mb-4 animate-float shadow-lg shadow-orange-500/30">
+          <i className="fas fa-graduation-cap" />
         </div>
-
-        {error && <div className="bg-red-50 text-red-600 p-3 rounded-xl text-sm text-center mb-4 animate-bounceIn border border-red-100">
-          <i className="fas fa-exclamation-circle mr-1" />{error}</div>}
-
-        <div className="relative mb-4">
-          <i className="fas fa-user absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 z-10" />
-          <input type="text" placeholder="Login" value={login} onChange={e => setLogin(e.target.value)}
-            className="input-field !pl-10" required />
+        <h1 className="text-3xl font-bold text-white">Akademiya</h1>
+        <p className="text-gray-400 text-sm mt-1">O'quv markazi tizimi</p>
+        <div className="mt-6 flex justify-center">
+          <span className="w-6 h-6 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" />
         </div>
-        <div className="relative mb-6">
-          <i className="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-          <input type="password" placeholder="Parol" value={password} onChange={e => setPassword(e.target.value)}
-            className="input-field !pl-10" required />
-        </div>
-        <button type="submit" disabled={loading}
-          className="w-full py-3.5 rounded-xl font-semibold text-white transition-all cursor-pointer flex items-center justify-center gap-2 relative overflow-hidden group btn-primary">
-          {loading ? <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <i className="fas fa-arrow-right" />}
-          {loading ? "Kirilmoqda..." : "Kirish"}
-        </button>
-      </form>
+      </div>
     </div>
   )
 }
