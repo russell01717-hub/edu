@@ -12,6 +12,12 @@ export default function LessonsPage() {
   const teacherParams = user?.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""
   useEffect(() => { fetch(`/api/lessons${teacherParams}`).then(r => r.json()).then(setLessons) }, [teacherParams])
 
+  async function del(id: number) {
+    if (!confirm("Darsni o'chirasizmi?")) return
+    await fetch(`/api/lessons?id=${id}`, { method: "DELETE" })
+    setLessons(prev => prev.filter(l => l.id !== id))
+  }
+
   const lessonMap: Record<string, number> = {}
   const lessonsWithNum = lessons.map(l => {
     const key = `${l.groupId}_${l.date?.substring(0, 7)}`
@@ -29,14 +35,21 @@ export default function LessonsPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {lessonsWithNum.map(l => (
           <div key={l.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 card-hover animate-scaleIn">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white text-sm font-bold" style={{ background: `linear-gradient(135deg, var(--theme-primary), var(--theme-secondary))` }}>
-                <i className="fas fa-hashtag" />
+            <div className="flex items-start justify-between gap-3 mb-3">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white text-sm font-bold" style={{ background: `linear-gradient(135deg, var(--theme-primary), var(--theme-secondary))` }}>
+                  <i className="fas fa-hashtag" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 text-sm">{l.groupName}</h3>
+                  <p className="text-xs text-gray-400"><i className="fas fa-calendar-day mr-1" />{l.date}</p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-semibold text-gray-900 text-sm">{l.groupName}</h3>
-                <p className="text-xs text-gray-400"><i className="fas fa-calendar-day mr-1" />{l.date}</p>
-              </div>
+              {user?.role === "admin" && (
+                <button onClick={() => del(l.id)} className="p-1.5 rounded-lg text-xs hover:bg-red-50 text-red-400 hover:text-red-600 transition cursor-pointer shrink-0">
+                  <i className="fas fa-trash-can" />
+                </button>
+              )}
             </div>
             {l.topic && <p className="text-xs text-gray-500 mb-3 italic"><i className="fas fa-quote-left mr-1" />{l.topic}</p>}
             <div className="flex gap-2 text-xs">

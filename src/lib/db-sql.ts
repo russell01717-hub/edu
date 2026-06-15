@@ -181,6 +181,10 @@ export async function findLessonByGroupAndDate(groupId: number, date: string) {
   const [l] = await sql`SELECT * FROM lessons WHERE group_id = ${groupId} AND date = ${date}`
   return l || null
 }
+export async function deleteLesson(id: number) {
+  await sql`DELETE FROM attendances WHERE lesson_id = ${id}`
+  await sql`DELETE FROM lessons WHERE id = ${id}`
+}
 export async function getTodayAttendance(groupId: number) {
   const today = new Date().toISOString().split("T")[0]
   const lesson = await sql`SELECT * FROM lessons WHERE group_id = ${groupId} AND date = ${today}`

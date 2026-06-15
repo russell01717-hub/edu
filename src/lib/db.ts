@@ -34,6 +34,7 @@ export const deleteStudent = impl.deleteStudent
 export const getStudent = impl.getStudent
 export const getLessons = impl.getLessons
 export const createLesson = impl.createLesson
+export const deleteLesson = impl.deleteLesson
 export const findLessonByGroupAndDate = impl.findLessonByGroupAndDate
 export const getTodayAttendance = impl.getTodayAttendance
 export const getMonthAttendances = impl.getMonthAttendances

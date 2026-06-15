@@ -179,24 +179,7 @@ export default function StudentsPage() {
                 {monthlyFee > 0 && <p className="text-[10px] text-gray-400 mt-0.5">Oyiga ~{monthlyFee.toLocaleString()} so'm</p>}
               </div>
 
-              {/* Today's attendance */}
-              <div className="mb-3">
-                <p className="text-xs text-gray-400 mb-2 font-medium"><i className="fas fa-calendar-day mr-1" />Bugun</p>
-                <div className="flex gap-1.5">
-                  {["present", "late", "absent"].map(st => {
-                    const active = curStatus === st
-                    const icon = STAT_ICONS[st]
-                    const label = STAT_LABELS[st]
-                    return (
-                      <button key={st} onClick={() => markAttendance(s.id, st)}
-                        className={`flex-1 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${active ? "text-white shadow-lg scale-105" : "bg-gray-50 text-gray-400 hover:bg-gray-100 hover:text-gray-600"}`}
-                        style={active ? { background: `linear-gradient(135deg, var(--theme-primary), var(--theme-secondary))` } : {}}>
-                        <i className={`fas ${icon} mr-1`} />{label}
-                      </button>
-                    )
-                  })}
-                </div>
-              </div>
+
 
               {/* Monthly attendance */}
               {monthAtts.length > 0 && (

@@ -3,24 +3,30 @@ import { useEffect, useState } from "react"
 
 export default function DashboardPage() {
   const [data, setData] = useState({ students: 0, groups: 0, lessons: 0, totalPayments: 0, recentAttendance: [] as any[] })
+  const [user, setUser] = useState<any>(null)
 
-  useEffect(() => { fetch("/api/stats").then(r => r.json()).then(setData) }, [])
+  useEffect(() => {
+    try { setUser(JSON.parse(atob(localStorage.getItem("token") || ""))) } catch {}
+  }, [])
+
+  const teacherParams = user?.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""
+  useEffect(() => { fetch(`/api/stats${teacherParams}`).then(r => r.json()).then(setData) }, [teacherParams])
 
   const statusLabel: Record<string, string> = { present: "Keldi", late: "Kechikdi", absent: "Kelmadi" }
   const statusStyle: Record<string, string> = { present: "bg-green-100 text-green-700", late: "bg-yellow-100 text-yellow-700", absent: "bg-red-100 text-red-700" }
 
   const cards = [
-    { label: "O'quvchilar", value: data.students, icon: "fa-user-graduate", color: "from-blue-400 to-blue-600", delay: "0.1s" },
-    { label: "Guruhlar", value: data.groups, icon: "fa-users", color: "from-purple-400 to-purple-600", delay: "0.2s" },
-    { label: "Darslar", value: data.lessons, icon: "fa-book", color: "from-green-400 to-green-600", delay: "0.3s" },
-    { label: "To'lovlar (so'm)", value: data.totalPayments.toLocaleString(), icon: "fa-credit-card", color: "from-orange-400 to-orange-600", delay: "0.4s" },
+    { label: "O'quvchilar", value: data.students, icon: "fa-user-graduate", delay: "0.1s" },
+    { label: "Guruhlar", value: data.groups, icon: "fa-users", delay: "0.2s" },
+    { label: "Darslar", value: data.lessons, icon: "fa-book", delay: "0.3s" },
+    { label: "To'lovlar (so'm)", value: data.totalPayments.toLocaleString(), icon: "fa-credit-card", delay: "0.4s" },
   ]
 
   return (
     <div className="animate-fadeIn">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-400 text-sm"><i className="fas fa-hand-wave mr-1" /> Xush kelibsiz!</p>
+        <h1 className="text-2xl font-bold" style={{ color: "var(--theme-primary)" }}>Dashboard</h1>
+        <p className="text-gray-400 text-sm"><i className="fas fa-hand-wave mr-1" /> Xush kelibsiz{user?.name ? `, ${user.name}` : ""}!</p>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-8">
@@ -28,7 +34,7 @@ export default function DashboardPage() {
           <div key={i} className="bg-white rounded-2xl p-4 lg:p-6 shadow-sm border border-gray-100 card-hover relative overflow-hidden group"
             style={{ animation: `scaleIn 0.5s ease-out ${s.delay} both` }}>
             <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full opacity-10 group-hover:scale-150 transition-transform duration-500"
-              style={{ background: `linear-gradient(135deg, ${s.color.replace("from-", "").split(" ")[0]}, ${s.color.replace("to-", "").split(" ")[1]})` }} />
+              style={{ background: `linear-gradient(135deg, var(--theme-primary), var(--theme-secondary))` }} />
             <div className="relative">
               <i className={`fas ${s.icon} text-2xl mb-3 block`} style={{ color: `var(--theme-primary)` }} />
               <p className="text-2xl lg:text-3xl font-bold text-gray-900">{s.value}</p>
@@ -38,7 +44,7 @@ export default function DashboardPage() {
         ))}
       </div>
 
-      <div className="bg-white rounded-2xl p-4 lg:p-6 shadow-sm border border-gray-100 animate-slideUp">
+      {user?.role === "admin" && <div className="bg-white rounded-2xl p-4 lg:p-6 shadow-sm border border-gray-100 animate-slideUp">
         <h2 className="text-lg font-semibold text-gray-900 mb-4"><i className="fas fa-clipboard-list mr-2" style={{ color: "var(--theme-primary)" }} />Oxirgi davomat</h2>
         {data.recentAttendance.length === 0 ? (
           <div className="text-center py-12 text-gray-400 animate-fadeIn">
@@ -67,7 +73,7 @@ export default function DashboardPage() {
             </table>
           </div>
         )}
-      </div>
+      </div>}
     </div>
   )
 }

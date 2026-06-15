@@ -164,6 +164,11 @@ export async function createLesson(groupId: number, date: string, topic: string)
 export async function findLessonByGroupAndDate(groupId: number, date: string) {
   return data.lessons.find(l => l.groupId === groupId && l.date === date) || null
 }
+export async function deleteLesson(id: number) {
+  data.lessons = data.lessons.filter(l => l.id !== id)
+  data.attendances = data.attendances.filter(a => a.lessonId !== id)
+  save()
+}
 export async function getTodayAttendance(groupId: number) {
   const today = new Date().toISOString().split("T")[0]
   const lesson = data.lessons.find(l => l.groupId === groupId && l.date === today)

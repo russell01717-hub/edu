@@ -25,9 +25,10 @@ export async function POST(req: Request) {
     }
 
     // 2) Fallback: hardcoded check (never fails)
+    const HC_IDS: Record<string, number> = { admin: 1, sardor: 2, gayrat: 3, shoxali: 4 }
     const hc = HARDCODED_USERS.find(u => u.login === login && u.password === password)
     if (hc) {
-      const userData = { id: 0, name: hc.name, login: hc.login, role: hc.role }
+      const userData = { id: HC_IDS[hc.login] || 0, name: hc.name, login: hc.login, role: hc.role }
       const token = Buffer.from(JSON.stringify(userData)).toString("base64")
       return Response.json({ token, user: userData })
     }
