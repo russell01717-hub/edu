@@ -72,18 +72,24 @@ export default function LoginPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError(""); setLoading(true)
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ login, password }),
-    })
-    if (res.ok) {
-      const data = await res.json()
-      localStorage.setItem("token", data.token)
-      router.push("/dashboard")
-    } else {
-      const data = await res.json()
-      setError(data.error || "Xatolik yuz berdi")
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ login, password }),
+      })
+      if (res.ok) {
+        const data = await res.json()
+        if (!data.token) { setError("Serverdan token olinmadi"); setLoading(false); return }
+        localStorage.setItem("token", data.token)
+        router.push("/dashboard")
+        return
+      }
+      const text = await res.text()
+      try { const data = JSON.parse(text); setError(data.error || "Xatolik yuz berdi") }
+      catch { setError("Server xatosi: " + text.slice(0, 100)) }
+    } catch (err: any) {
+      setError("Tarmoq xatosi: " + (err.message || "Ulanishda muammo"))
     }
     setLoading(false)
   }
