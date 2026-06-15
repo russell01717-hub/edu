@@ -23,7 +23,10 @@ export default function AttendancePage() {
   useEffect(() => {
     if (!user) return
     const params = user.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""
-    fetch(`/api/groups${params}`).then(r => r.json()).then(setGroups)
+    fetch(`/api/groups${params}`).then(r => r.json()).then(g => {
+      setGroups(g)
+      if (user.role === "teacher" && g.length > 0 && !selectedGroup) setSelectedGroup(g[0].id.toString())
+    })
   }, [user])
 
   const group = groups.find(g => g.id === parseInt(selectedGroup))
@@ -81,14 +84,21 @@ export default function AttendancePage() {
           <div className="flex flex-col sm:flex-row gap-3 items-end">
             <div className="w-full sm:w-48">
               <label className="text-xs text-gray-400 block mb-1 font-medium"><i className="fas fa-users mr-1" />Guruh</label>
-              <select value={selectedGroup} onChange={e => setSelectedGroup(e.target.value)} className="input-field">
-                <option value="">Tanlang</option>
-                {groups.map(g => (
-                  <option key={g.id} value={g.id}>
-                    {g.name}{g.days ? ` (${g.days})` : ""}
-                  </option>
-                ))}
-              </select>
+              {user?.role === "admin" ? (
+                <select value={selectedGroup} onChange={e => setSelectedGroup(e.target.value)} className="input-field">
+                  <option value="">Tanlang</option>
+                  {groups.map(g => (
+                    <option key={g.id} value={g.id}>
+                      {g.name}{g.days ? ` (${g.days})` : ""}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <div className="input-field bg-gray-100 text-gray-500 flex items-center gap-2">
+                  <i className="fas fa-lock text-xs" />
+                  {group?.name || groups[0]?.name || "Guruh"}
+                </div>
+              )}
               {group?.days && (
                 <div className="flex gap-1 mt-2">
                   {group.days.split(",").filter(Boolean).map((d: string) => (

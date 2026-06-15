@@ -15,14 +15,18 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
-  const { id, name, login, password } = await req.json()
-  let user = await updateUser(id, name, password)
-  if (!user && login) {
-    const found = await getUserByLogin(login)
-    if (found) user = await updateUser(found.id, name, password)
+  try {
+    const { id, name, login, password } = await req.json()
+    let user = await updateUser(id, name, password)
+    if (!user && login) {
+      const found = await getUserByLogin(login)
+      if (found) user = await updateUser(found.id, name, password)
+    }
+    if (!user) return Response.json({ error: "Foydalanuvchi topilmadi" }, { status: 404 })
+    return Response.json(user)
+  } catch (e: any) {
+    return Response.json({ error: e.message || "Server xatolik" }, { status: 500 })
   }
-  if (!user) return Response.json({ error: "Foydalanuvchi topilmadi" }, { status: 404 })
-  return Response.json(user)
 }
 
 export async function DELETE(req: NextRequest) {

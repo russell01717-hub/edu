@@ -69,8 +69,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       body: JSON.stringify({ id: user.id, name: user.name, login: user.login, password: newPass }),
     })
     if (res.ok) { setPassMsg("Parol o'zgartirildi"); setNewPass("") }
-    else { setPassMsg("Xatolik") }
-    setTimeout(() => setPassMsg(""), 3000)
+    else { const d = await res.json(); setPassMsg(d.error || "Xatolik") }
+    setTimeout(() => setPassMsg(""), 4000)
   }
 
   function logout() { localStorage.removeItem("token"); router.push("/") }
