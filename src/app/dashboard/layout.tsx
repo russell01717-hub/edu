@@ -17,8 +17,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [user, setUser] = useState<any>(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [showProfile, setShowProfile] = useState(false)
-  const [newPass, setNewPass] = useState("")
-  const [passMsg, setPassMsg] = useState("")
+  const [editName, setEditName] = useState("")
+  const [editPhone, setEditPhone] = useState("")
+  const [editPass, setEditPass] = useState("")
+  const [profileMsg, setProfileMsg] = useState("")
   const [showTheme, setShowTheme] = useState(false)
   const [showHeaderTheme, setShowHeaderTheme] = useState(false)
   const [theme, setTheme] = useState(() => {
@@ -61,16 +63,27 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     setTheme(name); localStorage.setItem("theme", name); setShowTheme(false); setShowHeaderTheme(false)
   }
 
-  async function changePassword() {
-    if (!newPass || !user) return
+  async function saveProfile() {
+    if (!user) return
+    const payload: any = { id: user.id, login: user.login }
+    if (editName) payload.name = editName
+    else payload.name = user.name
+    payload.phone = editPhone || user.phone || ""
+    if (editPass) payload.password = editPass
     const res = await fetch("/api/users", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: user.id, name: user.name, login: user.login, password: newPass }),
+      body: JSON.stringify(payload),
     })
-    if (res.ok) { setPassMsg("Parol o'zgartirildi"); setNewPass("") }
-    else { const d = await res.json(); setPassMsg(d.error || "Xatolik") }
-    setTimeout(() => setPassMsg(""), 4000)
+    if (res.ok) {
+      const updated = await res.json()
+      const newToken = Buffer.from(JSON.stringify(updated)).toString("base64")
+      localStorage.setItem("token", newToken)
+      setUser(updated)
+      setEditName(""); setEditPhone(""); setEditPass("")
+      setProfileMsg("Profil yangilandi")
+    } else { const d = await res.json(); setProfileMsg(d.error || "Xatolik") }
+    setTimeout(() => setProfileMsg(""), 4000)
   }
 
   function logout() { localStorage.removeItem("token"); router.push("/") }
@@ -146,18 +159,22 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <div className="mb-3 p-3 rounded-xl bg-white/5">
           <p className="text-sm text-gray-300 font-medium"><i className="fas fa-user-circle mr-1.5" />{user?.name || "Admin"}</p>
           <p className="text-xs text-gray-500 mb-2">{user?.login || ""} {isTeacher && "(o'qituvchi)"}</p>
-          <button onClick={() => setShowProfile(!showProfile)} className="text-xs transition cursor-pointer" style={{ color: "var(--theme-primary)" }}>
-            <i className="fas fa-key mr-1" /> Parolni o'zgartirish
+          <button onClick={() => { setShowProfile(!showProfile); setEditName(""); setEditPhone(""); setEditPass(""); setProfileMsg("") }} className="text-xs transition cursor-pointer" style={{ color: "var(--theme-primary)" }}>
+            <i className="fas fa-pen-to-square mr-1" /> Tahrirlash
           </button>
           {showProfile && (
-            <div className="mt-2 animate-slideIn">
-              <input type="password" value={newPass} onChange={e => setNewPass(e.target.value)} placeholder="Yangi parol"
-                className="w-full px-3 py-1.5 rounded-lg text-sm bg-white/10 border border-white/20 text-white placeholder-gray-500 focus:outline-none mb-2" />
-              <button onClick={changePassword} className="w-full py-1.5 rounded-lg text-xs font-semibold text-white cursor-pointer flex items-center justify-center gap-1"
+            <div className="mt-2 animate-slideIn space-y-2">
+              <input value={editName} onChange={e => setEditName(e.target.value)} placeholder={user?.name || "Ism"}
+                className="w-full px-3 py-1.5 rounded-lg text-sm bg-white/10 border border-white/20 text-white placeholder-gray-500 focus:outline-none" />
+              <input value={editPhone} onChange={e => { const v = e.target.value; if (!v.startsWith("+998")) setEditPhone("+998" + v.replace(/[^0-9]/g, "").slice(0, 9)); else setEditPhone("+" + v.replace(/[^0-9]/g, "").slice(0, 12)) }} placeholder={user?.phone || "+998"}
+                className="w-full px-3 py-1.5 rounded-lg text-sm bg-white/10 border border-white/20 text-white placeholder-gray-500 focus:outline-none" />
+              <input type="password" value={editPass} onChange={e => setEditPass(e.target.value)} placeholder="Yangi parol (bo'sh qoldirsa o'zgarmaydi)"
+                className="w-full px-3 py-1.5 rounded-lg text-sm bg-white/10 border border-white/20 text-white placeholder-gray-500 focus:outline-none" />
+              <button onClick={saveProfile} className="w-full py-1.5 rounded-lg text-xs font-semibold text-white cursor-pointer flex items-center justify-center gap-1"
                 style={{ background: `linear-gradient(135deg, var(--theme-primary), var(--theme-secondary))` }}>
                 <i className="fas fa-check" /> Saqlash
               </button>
-              {passMsg && <p className="text-xs text-green-400 mt-1"><i className="fas fa-check-circle mr-1" />{passMsg}</p>}
+              {profileMsg && <p className={"text-xs mt-1 " + (profileMsg === "Profil yangilandi" ? "text-green-400" : "text-red-400")}><i className="fas fa-check-circle mr-1" />{profileMsg}</p>}
             </div>
           )}
         </div>

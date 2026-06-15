@@ -58,10 +58,10 @@ function reset() {
   const ah = bcrypt.hashSync("admin123", 10)
   const sh = bcrypt.hashSync("4444", 10)
   const gh = bcrypt.hashSync("4444", 10)
-  data.users.push({ id: nextId("users"), name: "Admin", login: "admin", password: ah, role: "admin", createdAt: new Date().toISOString() })
-  const su = nextId("users"); data.users.push({ id: su, name: "Sardor", login: "sardor", password: sh, role: "teacher", createdAt: new Date().toISOString() })
-  const gu = nextId("users"); data.users.push({ id: gu, name: "G'ayrat", login: "gayrat", password: gh, role: "teacher", createdAt: new Date().toISOString() })
-  const xu = nextId("users"); data.users.push({ id: xu, name: "Shoxali", login: "shoxali", password: gh, role: "teacher", createdAt: new Date().toISOString() })
+  data.users.push({ id: nextId("users"), name: "Admin", login: "admin", password: ah, role: "admin", phone: "", createdAt: new Date().toISOString() })
+  const su = nextId("users"); data.users.push({ id: su, name: "Sardor", login: "sardor", password: sh, role: "teacher", phone: "+998901234567", createdAt: new Date().toISOString() })
+  const gu = nextId("users"); data.users.push({ id: gu, name: "G'ayrat", login: "gayrat", password: gh, role: "teacher", phone: "+998901234568", createdAt: new Date().toISOString() })
+  const xu = nextId("users"); data.users.push({ id: xu, name: "Shoxali", login: "shoxali", password: gh, role: "teacher", phone: "+998901234569", createdAt: new Date().toISOString() })
   const now = new Date().toISOString()
   data.groups.push({ id: nextId("groups"), name: "Arab tili 1", description: "Sardor guruhi", pricePerLesson: 50000, days: "Du,Chor,Jum", subject: "arabic", teacherId: su, createdAt: now })
   data.groups.push({ id: nextId("groups"), name: "Arab tili 2", description: "Shoxali guruhi", pricePerLesson: 50000, days: "Du,Chor,Jum", subject: "arabic", teacherId: xu, createdAt: now })
@@ -72,7 +72,7 @@ function reset() {
 function nextId(table: keyof StoredData) { return ids[table]++ }
 function save() { try { fs.writeFileSync(dbPath, JSON.stringify({ data, ids }, null, 2)) } catch {} }
 
-export async function getUsers() { return data.users.map(u => { const { password, ...rest } = u; return rest }) }
+export async function getUsers() { return data.users.map(u => { const { password, ...rest } = u; return { ...rest, phone: rest.phone || "" } }) }
 export async function getUserByLogin(login: string) { return data.users.find(u => u.login === login) }
 export async function getUserById(id: number) { return data.users.find(u => u.id === id) }
 export async function createUser(name: string, login: string, password: string, role = "admin") {
@@ -83,14 +83,15 @@ export async function createUser(name: string, login: string, password: string, 
   const { password: _, ...userData } = u
   return userData
 }
-export async function updateUser(id: number, name: string, password?: string) {
+export async function updateUser(id: number, name: string, password?: string, phone?: string) {
   const u = data.users.find(u => u.id === id)
   if (!u) return null
   if (name) u.name = name
   if (password) u.password = bcrypt.hashSync(password, 10)
+  if (phone !== undefined) u.phone = phone
   save()
   const { password: _, ...userData } = u
-  return userData
+  return { ...userData, phone: userData.phone || "" }
 }
 export async function deleteUser(id: number) {
   if (id === 1) return false

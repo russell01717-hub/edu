@@ -19,15 +19,16 @@ const sql = postgres(process.env.DATABASE_URL!, {
   try { await sql`ALTER TABLE groups ADD COLUMN IF NOT EXISTS subject TEXT DEFAULT ''` } catch {}
   try { await sql`ALTER TABLE groups ADD COLUMN IF NOT EXISTS teacher_id INT DEFAULT 0` } catch {}
   try { await sql`ALTER TABLE students ADD COLUMN IF NOT EXISTS start_date TEXT DEFAULT ''` } catch {}
+  try { await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS phone TEXT DEFAULT ''` } catch {}
   try {
     const [cnt] = await sql`SELECT COUNT(*)::int as c FROM users`
     if (cnt.c === 0) {
       const ah = bcrypt.hashSync("admin123", 10)
       const fh = bcrypt.hashSync("4444", 10)
-      await sql`INSERT INTO users (name, login, password, role) VALUES ('Admin', 'admin', ${ah}, 'admin')`
-      await sql`INSERT INTO users (name, login, password, role) VALUES ('Sardor', 'sardor', ${fh}, 'teacher')`
-      await sql`INSERT INTO users (name, login, password, role) VALUES (${"G'ayrat"}, 'gayrat', ${fh}, 'teacher')`
-      await sql`INSERT INTO users (name, login, password, role) VALUES ('Shoxali', 'shoxali', ${fh}, 'teacher')`
+      await sql`INSERT INTO users (name, login, password, role, phone) VALUES ('Admin', 'admin', ${ah}, 'admin', '')`
+      await sql`INSERT INTO users (name, login, password, role, phone) VALUES ('Sardor', 'sardor', ${fh}, 'teacher', '+998901234567')`
+      await sql`INSERT INTO users (name, login, password, role, phone) VALUES (${"G'ayrat"}, 'gayrat', ${fh}, 'teacher', '+998901234568')`
+      await sql`INSERT INTO users (name, login, password, role, phone) VALUES ('Shoxali', 'shoxali', ${fh}, 'teacher', '+998901234569')`
     }
     // Seed default groups if none exist
     const [gc] = await sql`SELECT COUNT(*)::int as c FROM groups`
@@ -43,7 +44,7 @@ const sql = postgres(process.env.DATABASE_URL!, {
 })()
 
 export async function getUsers() {
-  const users = await sql`SELECT id, name, login, role, created_at as "createdAt" FROM users ORDER BY id`
+  const users = await sql`SELECT id, name, login, role, phone, created_at as "createdAt" FROM users ORDER BY id`
   return users.map(u => ({ ...u, createdAt: u.createdAt?.toISOString?.() || u.createdAt }))
 }
 export async function getUserByLogin(login: string) {
@@ -64,13 +65,13 @@ export async function createUser(name: string, login: string, password: string, 
   `
   return { ...user, createdAt: user.createdAt?.toISOString?.() || user.createdAt }
 }
-export async function updateUser(id: number, name: string, password?: string) {
+export async function updateUser(id: number, name: string, password?: string, phone?: string) {
   if (password) {
     const hash = bcrypt.hashSync(password, 10)
-    const [user] = await sql`UPDATE users SET name = ${name}, password = ${hash} WHERE id = ${id} RETURNING id, name, login, role, created_at as "createdAt"`
+    const [user] = await sql`UPDATE users SET name = ${name}, password = ${hash}, phone = ${phone || ''} WHERE id = ${id} RETURNING id, name, login, role, phone, created_at as "createdAt"`
     return user || null
   }
-  const [user] = await sql`UPDATE users SET name = ${name} WHERE id = ${id} RETURNING id, name, login, role, created_at as "createdAt"`
+  const [user] = await sql`UPDATE users SET name = ${name}, phone = ${phone || ''} WHERE id = ${id} RETURNING id, name, login, role, phone, created_at as "createdAt"`
   return user || null
 }
 export async function deleteUser(id: number) {
