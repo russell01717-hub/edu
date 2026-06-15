@@ -39,6 +39,16 @@ function migrate() {
       data.users.push({ id: nextId("users"), name: t.name, login: t.login, password: hash, role: "teacher", createdAt: new Date().toISOString() })
     }
   }
+  // Seed default groups if none exist
+  if (data.groups.length === 0) {
+    const sardor = data.users.find(u => u.login === "sardor")
+    const gayrat = data.users.find(u => u.login === "gayrat")
+    const shoxali = data.users.find(u => u.login === "shoxali")
+    const now = new Date().toISOString()
+    data.groups.push({ id: nextId("groups"), name: "Arab tili 1", description: "Sardor guruhi", pricePerLesson: 50000, days: "Du,Chor,Jum", subject: "arabic", teacherId: sardor?.id || 0, createdAt: now })
+    data.groups.push({ id: nextId("groups"), name: "Arab tili 2", description: "Shoxali guruhi", pricePerLesson: 50000, days: "Du,Chor,Jum", subject: "arabic", teacherId: shoxali?.id || 0, createdAt: now })
+    data.groups.push({ id: nextId("groups"), name: "Ingliz tili 1", description: "G'ayrat guruhi", pricePerLesson: 60000, days: "Se,Pay,Shan", subject: "english", teacherId: gayrat?.id || 0, createdAt: now })
+  }
   save()
 }
 
@@ -49,9 +59,13 @@ function reset() {
   const sh = bcrypt.hashSync("4444", 10)
   const gh = bcrypt.hashSync("4444", 10)
   data.users.push({ id: nextId("users"), name: "Admin", login: "admin", password: ah, role: "admin", createdAt: new Date().toISOString() })
-  data.users.push({ id: nextId("users"), name: "Sardor", login: "sardor", password: sh, role: "teacher", createdAt: new Date().toISOString() })
-  data.users.push({ id: nextId("users"), name: "G'ayrat", login: "gayrat", password: gh, role: "teacher", createdAt: new Date().toISOString() })
-  data.users.push({ id: nextId("users"), name: "Shoxali", login: "shoxali", password: gh, role: "teacher", createdAt: new Date().toISOString() })
+  const su = nextId("users"); data.users.push({ id: su, name: "Sardor", login: "sardor", password: sh, role: "teacher", createdAt: new Date().toISOString() })
+  const gu = nextId("users"); data.users.push({ id: gu, name: "G'ayrat", login: "gayrat", password: gh, role: "teacher", createdAt: new Date().toISOString() })
+  const xu = nextId("users"); data.users.push({ id: xu, name: "Shoxali", login: "shoxali", password: gh, role: "teacher", createdAt: new Date().toISOString() })
+  const now = new Date().toISOString()
+  data.groups.push({ id: nextId("groups"), name: "Arab tili 1", description: "Sardor guruhi", pricePerLesson: 50000, days: "Du,Chor,Jum", subject: "arabic", teacherId: su, createdAt: now })
+  data.groups.push({ id: nextId("groups"), name: "Arab tili 2", description: "Shoxali guruhi", pricePerLesson: 50000, days: "Du,Chor,Jum", subject: "arabic", teacherId: xu, createdAt: now })
+  data.groups.push({ id: nextId("groups"), name: "Ingliz tili 1", description: "G'ayrat guruhi", pricePerLesson: 60000, days: "Se,Pay,Shan", subject: "english", teacherId: gu, createdAt: now })
   save()
 }
 

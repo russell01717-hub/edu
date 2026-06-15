@@ -77,9 +77,9 @@ export default function GroupsPage() {
           <h1 className="text-2xl font-bold text-gray-900">Guruhlar</h1>
           <p className="text-sm text-gray-400"><i className="fas fa-users mr-1" style={{ color: "var(--theme-primary)" }} />{user?.role === "admin" ? "Barcha guruhlar" : "Sizning guruhlaringiz"}</p>
         </div>
-        <button onClick={openCreate} className="btn-primary flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm cursor-pointer w-full sm:w-auto justify-center">
+        {user?.role === "admin" && <button onClick={openCreate} className="btn-primary flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm cursor-pointer w-full sm:w-auto justify-center">
           <i className="fas fa-plus" /> Yangi guruh
-        </button>
+        </button>}
       </div>
       {showForm && (
         <form onSubmit={save} className="bg-white p-4 lg:p-5 rounded-2xl shadow-sm border border-gray-100 mb-6 animate-slideIn">
@@ -159,14 +159,14 @@ export default function GroupsPage() {
                       </span>}
                     </div>
                   </div>
-                  <div className="flex gap-1">
+                  {user?.role === "admin" && <div className="flex gap-1">
                     <button onClick={() => openEdit(g)} className="p-1.5 rounded-lg text-xs hover:bg-orange-50 transition cursor-pointer" style={{ color: "var(--theme-primary)" }}>
                       <i className="fas fa-pen-to-square" />
                     </button>
                     <button onClick={() => del(g.id)} className="p-1.5 rounded-lg text-xs hover:bg-red-50 text-red-500 transition cursor-pointer">
                       <i className="fas fa-trash-can" />
                     </button>
-                  </div>
+                  </div>}
                 </div>
                 <div className="flex flex-wrap gap-4 text-sm">
                   <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl" style={{ background: "color-mix(in srgb, var(--theme-primary) 10%, transparent)" }}>

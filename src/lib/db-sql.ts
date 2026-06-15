@@ -29,6 +29,16 @@ const sql = postgres(process.env.DATABASE_URL!, {
       await sql`INSERT INTO users (name, login, password, role) VALUES (${"G'ayrat"}, 'gayrat', ${fh}, 'teacher')`
       await sql`INSERT INTO users (name, login, password, role) VALUES ('Shoxali', 'shoxali', ${fh}, 'teacher')`
     }
+    // Seed default groups if none exist
+    const [gc] = await sql`SELECT COUNT(*)::int as c FROM groups`
+    if (gc.c === 0) {
+      const [su] = await sql`SELECT id FROM users WHERE login = 'sardor'`
+      const [gu] = await sql`SELECT id FROM users WHERE login = 'gayrat'`
+      const [xu] = await sql`SELECT id FROM users WHERE login = 'shoxali'`
+      await sql`INSERT INTO groups (name, description, price_per_lesson, days, subject, teacher_id) VALUES ('Arab tili 1', 'Sardor guruhi', 50000, 'Du,Chor,Jum', 'arabic', ${su?.id || 0})`
+      await sql`INSERT INTO groups (name, description, price_per_lesson, days, subject, teacher_id) VALUES ('Arab tili 2', 'Shoxali guruhi', 50000, 'Du,Chor,Jum', 'arabic', ${xu?.id || 0})`
+      await sql`INSERT INTO groups (name, description, price_per_lesson, days, subject, teacher_id) VALUES ('Ingliz tili 1', 'G''ayrat guruhi', 60000, 'Se,Pay,Shan', 'english', ${gu?.id || 0})`
+    }
   } catch {}
 })()
 
