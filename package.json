@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.2.0",
     "bcryptjs": "^2.4.3",
     "next": "^15.5.19",
     "postgres": "^3.4.5",

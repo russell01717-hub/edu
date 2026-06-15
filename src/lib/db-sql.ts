@@ -3,6 +3,12 @@ import bcrypt from "bcryptjs"
 
 const sql = postgres(process.env.DATABASE_URL!)
 
+// Auto-migrate: add missing columns for existing databases
+;(async () => {
+  try { await sql`ALTER TABLE groups ADD COLUMN IF NOT EXISTS days TEXT DEFAULT ''` } catch {}
+  try { await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS role TEXT DEFAULT 'admin'` } catch {}
+})()
+
 export async function getUsers() {
   const users = await sql`SELECT id, name, login, role, created_at as "createdAt" FROM users ORDER BY id`
   return users.map(u => ({ ...u, createdAt: u.createdAt?.toISOString?.() || u.createdAt }))
@@ -157,6 +163,47 @@ export async function createLesson(groupId: number, date: string, topic: string)
     RETURNING *
   `
   return { id: l.id, groupId: l.group_id, date: l.date, topic: l.topic, createdAt: l.created_at?.toISOString?.() || l.created_at }
+}
+
+export async function findLessonByGroupAndDate(groupId: number, date: string) {
+  const [l] = await sql`SELECT * FROM lessons WHERE group_id = ${groupId} AND date = ${date}`
+  return l || null
+}
+
+export async function getTodayAttendance(groupId: number) {
+  const today = new Date().toISOString().split("T")[0]
+  const lesson = await sql`SELECT * FROM lessons WHERE group_id = ${groupId} AND date = ${today}`
+  if (lesson.length === 0) return null
+  const atts = await sql`SELECT a.*, ${today} as "lessonDate" FROM attendances a WHERE a.lesson_id = ${lesson[0].id}`
+  return atts.map(a => ({ id: a.id, studentId: a.student_id, lessonId: a.lesson_id, status: a.status, date: a.lessonDate, createdAt: a.created_at?.toISOString?.() || a.created_at }))
+}
+
+export async function getMonthAttendances(month: string) {
+  const rows = await sql`
+    SELECT a.id, a.student_id as "studentId", a.lesson_id as "lessonId", a.status, l.date, a.created_at
+    FROM attendances a
+    JOIN lessons l ON a.lesson_id = l.id
+    WHERE l.date LIKE ${month + "%"}
+  `
+  return rows.map(a => ({
+    id: a.id, studentId: a.studentId, lessonId: a.lessonId, status: a.status,
+    date: a.date, createdAt: a.created_at?.toISOString?.() || a.created_at,
+  }))
+}
+
+export async function getStudentMonthAttendances(studentId: number, month: string) {
+  const atts = await sql`
+    SELECT a.*, l.date, l.id as "lessonId"
+    FROM attendances a
+    JOIN lessons l ON a.lesson_id = l.id
+    WHERE a.student_id = ${studentId} AND l.date LIKE ${month + "%"}
+    ORDER BY l.date
+  `
+  return atts.map((a, i) => ({
+    id: a.id, studentId: a.student_id, lessonId: a.lessonId, status: a.status,
+    date: a.date, lessonNumber: i + 1,
+    createdAt: a.created_at?.toISOString?.() || a.created_at,
+  }))
 }
 
 export async function setAttendance(studentId: number, lessonId: number, status: string) {

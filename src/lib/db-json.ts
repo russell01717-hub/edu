@@ -121,6 +121,35 @@ export async function createLesson(groupId: number, date: string, topic: string)
   data.lessons.push(l); save()
   return l
 }
+export async function findLessonByGroupAndDate(groupId: number, date: string) {
+  return data.lessons.find(l => l.groupId === groupId && l.date === date) || null
+}
+
+export async function getTodayAttendance(groupId: number) {
+  const today = new Date().toISOString().split("T")[0]
+  const lesson = data.lessons.find(l => l.groupId === groupId && l.date === today)
+  if (!lesson) return null
+  return data.attendances.filter(a => a.lessonId === lesson.id).map(a => ({ ...a, lessonDate: today }))
+}
+
+export async function getMonthAttendances(month: string) {
+  const monthLessons = data.lessons.filter(l => l.date?.startsWith(month))
+  return data.attendances.filter(a => monthLessons.some(l => l.id === a.lessonId))
+    .map(a => {
+      const l = data.lessons.find(le => le.id === a.lessonId)
+      return { id: a.id, studentId: a.studentId, lessonId: a.lessonId, status: a.status, date: l?.date || "", createdAt: a.createdAt }
+    })
+}
+
+export async function getStudentMonthAttendances(studentId: number, month: string) {
+  const monthLessons = data.lessons.filter(l => l.date?.startsWith(month))
+  return data.attendances.filter(a => a.studentId === studentId && monthLessons.some(l => l.id === a.lessonId))
+    .map(a => {
+      const l = data.lessons.find(le => le.id === a.lessonId)
+      return { ...a, date: l?.date || "", lessonNumber: monthLessons.filter(ml => ml.id <= a.lessonId).length }
+    })
+}
+
 export async function setAttendance(studentId: number, lessonId: number, status: string) {
   const existing = data.attendances.find(a => a.studentId === studentId && a.lessonId === lessonId)
   if (existing) existing.status = status
