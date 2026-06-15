@@ -56,7 +56,7 @@ function reset() {
 }
 
 function nextId(table: keyof StoredData) { return ids[table]++ }
-function save() { fs.writeFileSync(dbPath, JSON.stringify({ data, ids }, null, 2)) }
+function save() { try { fs.writeFileSync(dbPath, JSON.stringify({ data, ids }, null, 2)) } catch {} }
 
 export async function getUsers() { return data.users.map(u => { const { password, ...rest } = u; return rest }) }
 export async function getUserByLogin(login: string) { return data.users.find(u => u.login === login) }
@@ -219,4 +219,4 @@ export async function getStats() {
   return { students: totalStudents, groups: totalGroups, lessons: totalLessons, totalPayments, recentAttendance }
 }
 
-load()
+try { load() } catch { /* read-only FS, ignore */ }
