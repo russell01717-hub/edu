@@ -19,6 +19,7 @@ export async function POST(req: Request) {
 
     return Response.json({ token, user: userData })
   } catch (err: any) {
-    return Response.json({ error: err.message || "Server xatosi" }, { status: 500 })
+    console.error("Auth error:", err)
+    return Response.json({ error: "Server xatosi. Iltimos keyinroq urinib ko'ring." }, { status: 500 })
   }
 }

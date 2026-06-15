@@ -1,7 +1,12 @@
 import postgres from "postgres"
 import bcrypt from "bcryptjs"
 
-const sql = postgres(process.env.DATABASE_URL!)
+const sql = postgres(process.env.DATABASE_URL!, {
+  ssl: "require",
+  max: 1,
+  idle_timeout: 0,
+  connect_timeout: 10,
+})
 
 ;(async () => {
   try { await sql`ALTER TABLE groups ADD COLUMN IF NOT EXISTS days TEXT DEFAULT ''` } catch {}
