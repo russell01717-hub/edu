@@ -3,8 +3,14 @@ import { useEffect, useState } from "react"
 
 export default function LessonsPage() {
   const [lessons, setLessons] = useState<any[]>([])
+  const [user, setUser] = useState<any>(null)
 
-  useEffect(() => { fetch("/api/lessons").then(r => r.json()).then(setLessons) }, [])
+  useEffect(() => {
+    try { setUser(JSON.parse(atob(localStorage.getItem("token") || ""))) } catch {}
+  }, [])
+
+  const teacherParams = user?.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""
+  useEffect(() => { fetch(`/api/lessons${teacherParams}`).then(r => r.json()).then(setLessons) }, [teacherParams])
 
   const lessonMap: Record<string, number> = {}
   const lessonsWithNum = lessons.map(l => {

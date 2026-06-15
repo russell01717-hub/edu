@@ -14,8 +14,14 @@ export default function AttendancePage() {
   const [currentLessonId, setCurrentLessonId] = useState<number | null>(null)
   const [msg, setMsg] = useState("")
   const [lessonNumber, setLessonNumber] = useState(0)
+  const [user, setUser] = useState<any>(null)
 
-  useEffect(() => { fetch("/api/groups").then(r => r.json()).then(setGroups) }, [])
+  useEffect(() => {
+    try { setUser(JSON.parse(atob(localStorage.getItem("token") || ""))) } catch {}
+  }, [])
+
+  const teacherParams = user?.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""
+  useEffect(() => { fetch(`/api/groups${teacherParams}`).then(r => r.json()).then(setGroups) }, [teacherParams])
 
   const group = groups.find(g => g.id === parseInt(selectedGroup))
 

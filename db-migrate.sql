@@ -1,3 +1,9 @@
+-- Auto-migration columns
+ALTER TABLE groups ADD COLUMN IF NOT EXISTS days TEXT DEFAULT '';
+ALTER TABLE groups ADD COLUMN IF NOT EXISTS subject TEXT DEFAULT '';
+ALTER TABLE groups ADD COLUMN IF NOT EXISTS teacher_id INT DEFAULT 0;
+ALTER TABLE students ADD COLUMN IF NOT EXISTS start_date TEXT DEFAULT '';
+
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
   name TEXT NOT NULL,
@@ -7,14 +13,14 @@ CREATE TABLE IF NOT EXISTS users (
   created_at TIMESTAMP DEFAULT NOW()
 );
 
-ALTER TABLE groups ADD COLUMN IF NOT EXISTS days TEXT DEFAULT '';
-
 CREATE TABLE IF NOT EXISTS groups (
   id SERIAL PRIMARY KEY,
   name TEXT NOT NULL,
   description TEXT DEFAULT '',
   price_per_lesson INT DEFAULT 0,
   days TEXT DEFAULT '',
+  subject TEXT DEFAULT '',
+  teacher_id INT DEFAULT 0,
   created_at TIMESTAMP DEFAULT NOW()
 );
 
@@ -24,6 +30,7 @@ CREATE TABLE IF NOT EXISTS students (
   phone TEXT DEFAULT '',
   group_id INT REFERENCES groups(id) ON DELETE CASCADE,
   balance INT DEFAULT 0,
+  start_date TEXT DEFAULT '',
   created_at TIMESTAMP DEFAULT NOW()
 );
 
@@ -56,3 +63,15 @@ CREATE TABLE IF NOT EXISTS payments (
 INSERT INTO users (name, login, password, role)
 SELECT 'Admin', 'admin', '$2a$10$joXlAMPf2vJrZ/.ub6VMRu84yuLDihg5GtCCjI.jtQy4YdJchzyRS', 'admin'
 WHERE NOT EXISTS (SELECT 1 FROM users WHERE login = 'admin');
+
+INSERT INTO users (name, login, password, role)
+SELECT 'Sardor', 'sardor', '$2a$10$joXlAMPf2vJrZ/.ub6VMRu84yuLDihg5GtCCjI.jtQy4YdJchzyRS', 'teacher'
+WHERE NOT EXISTS (SELECT 1 FROM users WHERE login = 'sardor');
+
+INSERT INTO users (name, login, password, role)
+SELECT 'G''ayrat', 'gayrat', '$2a$10$joXlAMPf2vJrZ/.ub6VMRu84yuLDihg5GtCCjI.jtQy4YdJchzyRS', 'teacher'
+WHERE NOT EXISTS (SELECT 1 FROM users WHERE login = 'gayrat');
+
+INSERT INTO users (name, login, password, role)
+SELECT 'Shoxali', 'shoxali', '$2a$10$joXlAMPf2vJrZ/.ub6VMRu84yuLDihg5GtCCjI.jtQy4YdJchzyRS', 'teacher'
+WHERE NOT EXISTS (SELECT 1 FROM users WHERE login = 'shoxali');

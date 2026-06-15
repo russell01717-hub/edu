@@ -23,21 +23,23 @@ function load() {
       data = raw.data || raw
       ids = raw.ids || { users: data.users.length + 1, groups: data.groups.length + 1, students: data.students.length + 1, lessons: data.lessons.length + 1, attendances: data.attendances.length + 1, payments: data.payments.length + 1 }
     } catch { reset() }
-  } else {
-    reset()
-  }
+  } else { reset() }
 }
 
 function reset() {
   data = { users: [], groups: [], students: [], lessons: [], attendances: [], payments: [] }
   ids = { users: 1, groups: 1, students: 1, lessons: 1, attendances: 1, payments: 1 }
-  const hash = bcrypt.hashSync("admin123", 10)
-  data.users.push({ id: nextId("users"), name: "Admin", login: "admin", password: hash, role: "admin", createdAt: new Date().toISOString() })
+  const ah = bcrypt.hashSync("admin123", 10)
+  const sh = bcrypt.hashSync("4444", 10)
+  const gh = bcrypt.hashSync("4444", 10)
+  data.users.push({ id: nextId("users"), name: "Admin", login: "admin", password: ah, role: "admin", createdAt: new Date().toISOString() })
+  data.users.push({ id: nextId("users"), name: "Sardor", login: "sardor", password: sh, role: "teacher", createdAt: new Date().toISOString() })
+  data.users.push({ id: nextId("users"), name: "G'ayrat", login: "gayrat", password: gh, role: "teacher", createdAt: new Date().toISOString() })
+  data.users.push({ id: nextId("users"), name: "Shoxali", login: "shoxali", password: gh, role: "teacher", createdAt: new Date().toISOString() })
   save()
 }
 
 function nextId(table: keyof StoredData) { return ids[table]++ }
-
 function save() { fs.writeFileSync(dbPath, JSON.stringify({ data, ids }, null, 2)) }
 
 export async function getUsers() { return data.users.map(u => { const { password, ...rest } = u; return rest }) }
@@ -66,6 +68,8 @@ export async function deleteUser(id: number) {
   save()
   return true
 }
+
+// ─── Groups ─────────────────────────────────────────
 export async function getGroups() {
   return data.groups.map(g => ({ ...g, studentCount: data.students.filter(s => s.groupId === g.id).length }))
 }
@@ -74,16 +78,18 @@ export async function getGroup(id: number) {
   if (!g) return null
   return { ...g, studentCount: data.students.filter(s => s.groupId === g.id).length }
 }
-export async function createGroup(name: string, description: string, pricePerLesson: number, days?: string) {
-  const g = { id: nextId("groups"), name, description, pricePerLesson, days: days || "", createdAt: new Date().toISOString() }
+export async function createGroup(name: string, description: string, pricePerLesson: number, days?: string, subject = "", teacherId = 0) {
+  const g = { id: nextId("groups"), name, description, pricePerLesson, days: days || "", subject, teacherId, createdAt: new Date().toISOString() }
   data.groups.push(g); save()
   return g
 }
-export async function updateGroup(id: number, name: string, description: string, pricePerLesson: number, days?: string) {
+export async function updateGroup(id: number, name: string, description: string, pricePerLesson: number, days?: string, subject?: string, teacherId?: number) {
   const g = data.groups.find(x => x.id === id)
   if (!g) return null
   g.name = name; g.description = description; g.pricePerLesson = pricePerLesson
   if (days !== undefined) g.days = days
+  if (subject !== undefined) g.subject = subject
+  if (teacherId !== undefined) g.teacherId = teacherId
   save()
   return g
 }
@@ -92,13 +98,15 @@ export async function deleteGroup(id: number) {
   data.students = data.students.filter(s => s.groupId !== id)
   save()
 }
+
+// ─── Students ───────────────────────────────────────
 export async function getStudents(groupId?: number) {
   let rows = data.students.map(s => ({ ...s, groupName: data.groups.find(g => g.id === s.groupId)?.name || "" }))
   if (groupId) rows = rows.filter(s => s.groupId === groupId)
   return rows
 }
-export async function createStudent(name: string, phone: string, groupId: number) {
-  const s = { id: nextId("students"), name, phone, groupId, balance: 0, createdAt: new Date().toISOString() }
+export async function createStudent(name: string, phone: string, groupId: number, startDate = "") {
+  const s = { id: nextId("students"), name, phone, groupId, balance: 0, startDate: startDate || new Date().toISOString().split("T")[0], createdAt: new Date().toISOString() }
   data.students.push(s); save()
   return s
 }
@@ -109,6 +117,8 @@ export async function deleteStudent(id: number) {
   save()
 }
 export async function getStudent(id: number) { return data.students.find(s => s.id === id) }
+
+// ─── Lessons ────────────────────────────────────────
 export async function getLessons() {
   return data.lessons.map(l => {
     const g = data.groups.find(gr => gr.id === l.groupId)
@@ -124,14 +134,12 @@ export async function createLesson(groupId: number, date: string, topic: string)
 export async function findLessonByGroupAndDate(groupId: number, date: string) {
   return data.lessons.find(l => l.groupId === groupId && l.date === date) || null
 }
-
 export async function getTodayAttendance(groupId: number) {
   const today = new Date().toISOString().split("T")[0]
   const lesson = data.lessons.find(l => l.groupId === groupId && l.date === today)
   if (!lesson) return null
   return data.attendances.filter(a => a.lessonId === lesson.id).map(a => ({ ...a, lessonDate: today }))
 }
-
 export async function getMonthAttendances(month: string) {
   const monthLessons = data.lessons.filter(l => l.date?.startsWith(month))
   return data.attendances.filter(a => monthLessons.some(l => l.id === a.lessonId))
@@ -140,7 +148,6 @@ export async function getMonthAttendances(month: string) {
       return { id: a.id, studentId: a.studentId, lessonId: a.lessonId, status: a.status, date: l?.date || "", createdAt: a.createdAt }
     })
 }
-
 export async function getStudentMonthAttendances(studentId: number, month: string) {
   const monthLessons = data.lessons.filter(l => l.date?.startsWith(month))
   return data.attendances.filter(a => a.studentId === studentId && monthLessons.some(l => l.id === a.lessonId))
@@ -149,18 +156,17 @@ export async function getStudentMonthAttendances(studentId: number, month: strin
       return { ...a, date: l?.date || "", lessonNumber: monthLessons.filter(ml => ml.id <= a.lessonId).length }
     })
 }
-
 export async function setAttendance(studentId: number, lessonId: number, status: string) {
   const existing = data.attendances.find(a => a.studentId === studentId && a.lessonId === lessonId)
   if (existing) existing.status = status
   else data.attendances.push({ id: nextId("attendances"), studentId, lessonId, status, createdAt: new Date().toISOString() })
-  if (status === "present") {
+  if (status === "present" || status === "late") {
     const student = data.students.find(s => s.id === studentId)
     const group = data.groups.find(g => g.id === student?.groupId)
     if (student && group && group.pricePerLesson > 0) {
       student.balance -= group.pricePerLesson
       const lesson = data.lessons.find(l => l.id === lessonId)
-      data.payments.push({ id: nextId("payments"), studentId, amount: -group.pricePerLesson, type: "expense", note: `Dars kelgan: ${lesson?.date || ""}`, date: lesson?.date || "", createdAt: new Date().toISOString() })
+      data.payments.push({ id: nextId("payments"), studentId, amount: -group.pricePerLesson, type: "expense", note: `Dars: ${lesson?.date || ""}`, date: lesson?.date || "", createdAt: new Date().toISOString() })
     }
   }
   save()
