@@ -1,8 +1,5 @@
 "use client"
-import { useEffect, useState, useCallback } from "react"
-
-const STAT_LABELS: Record<string, string> = { present: "Keldi", late: "Kechikdi", absent: "Kelmadi" }
-const STAT_ICONS: Record<string, string> = { present: "fa-check-circle", late: "fa-clock", absent: "fa-times-circle" }
+import { useEffect, useState } from "react"
 
 function calcMonths(startDate: string): number {
   if (!startDate) return 0
@@ -24,20 +21,20 @@ export default function StudentsPage() {
   const [attMap, setAttMap] = useState<Record<string, string>>({})
   const [showForm, setShowForm] = useState(false)
   const [name, setName] = useState("")
-  const [phone, setPhone] = useState("")
+  const [phone, setPhone] = useState("+998")
   const [groupId, setGroupId] = useState("")
   const [startDate, setStartDate] = useState(new Date().toISOString().split("T")[0])
   const [search, setSearch] = useState("")
   const [user, setUser] = useState<any>(null)
+  const [err, setErr] = useState("")
 
   const month = new Date().toISOString().substring(0, 7)
-  const today = new Date().toISOString().split("T")[0]
 
   useEffect(() => {
     try { setUser(JSON.parse(atob(localStorage.getItem("token") || ""))) } catch {}
   }, [])
 
-  async function loadAll() {
+  async function loadData() {
     if (!user) return
     const params = user.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""
     const [s, g, l] = await Promise.all([
@@ -56,25 +53,31 @@ export default function StudentsPage() {
       setAttMap(atts)
     }
   }
-  const load = useCallback(loadAll, [month, user])
-  useEffect(() => { load() }, [load])
+  useEffect(() => { loadData() }, [user])
+
+  function handlePhone(val: string) {
+    if (!val.startsWith("+998")) val = "+998" + val.replace(/[^0-9]/g, "").slice(0, 9)
+    const digits = val.replace(/[^0-9]/g, "").slice(0, 12)
+    setPhone("+" + digits)
+  }
 
   async function create(e: React.FormEvent) {
-    e.preventDefault()
-    await fetch("/api/students", {
+    e.preventDefault(); setErr("")
+    if (!name.trim()) { setErr("Ism kiritilmagan"); return }
+    const gid = groupId || (groups.length > 0 ? groups[0].id.toString() : "")
+    if (!gid) { setErr("Guruh topilmadi"); return }
+    const res = await fetch("/api/students", {
       method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, phone, groupId: parseInt(groupId), startDate }),
+      body: JSON.stringify({ name, phone, groupId: parseInt(gid), startDate }),
     })
-    setName(""); setPhone(""); setGroupId(""); setStartDate(new Date().toISOString().split("T")[0]); setShowForm(false); load()
+    if (!res.ok) { const d = await res.json(); setErr(d.error || "Xatolik"); return }
+    setName(""); setPhone("+998"); setGroupId(""); setStartDate(new Date().toISOString().split("T")[0]); setShowForm(false); loadData()
   }
 
   async function del(id: number) {
     if (!confirm("O'chirasizmi?")) return
-    await fetch(`/api/students?id=${id}`, { method: "DELETE" }); load()
+    await fetch(`/api/students?id=${id}`, { method: "DELETE" }); loadData()
   }
-
-  const todayLessonMap: Record<number, any> = {}
-  lessons.forEach(l => { if (l.date === today) todayLessonMap[l.groupId] = l })
 
   const filtered = students.filter(s => s.name.toLowerCase().includes(search.toLowerCase()) || s.phone?.includes(search))
 
@@ -100,13 +103,14 @@ export default function StudentsPage() {
 
       {showForm && (
         <form onSubmit={create} className="bg-white p-4 lg:p-5 rounded-2xl shadow-sm border border-gray-100 mb-6 flex flex-col sm:flex-row gap-3 items-end animate-slideIn">
+          {err && <div className="w-full p-3 bg-red-50 text-red-600 rounded-xl text-sm"><i className="fas fa-exclamation-circle mr-1" />{err}</div>}
           <div className="w-full sm:flex-1">
             <label className="text-xs text-gray-400 block mb-1 font-medium">Ism</label>
             <input value={name} onChange={e => setName(e.target.value)} className="input-field" required />
           </div>
-          <div className="w-full sm:w-40">
+          <div className="w-full sm:w-44">
             <label className="text-xs text-gray-400 block mb-1 font-medium">Telefon</label>
-            <input value={phone} onChange={e => setPhone(e.target.value)} className="input-field" />
+            <input value={phone} onChange={e => handlePhone(e.target.value)} className="input-field" />
           </div>
           <div className="w-full sm:w-40">
             <label className="text-xs text-gray-400 block mb-1 font-medium">Boshlagan sana</label>
@@ -135,7 +139,6 @@ export default function StudentsPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {filtered.map(s => {
           const group = groups.find(g => g.id === s.groupId)
-          const todayLesson = todayLessonMap[s.groupId]
           const daysCount = group?.days ? group.days.split(",").filter(Boolean).length : 0
           const monthlyFee = calcMonthlyFee(s.startDate, group?.pricePerLesson || 0, daysCount)
           const monthsCount = calcMonths(s.startDate)
@@ -192,9 +195,7 @@ export default function StudentsPage() {
                         : "bg-red-500 text-white"
                       return (
                         <div key={i} className="flex flex-col items-center">
-                          <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold ${color}`}>
-                            {i + 1}
-                          </div>
+                          <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold ${color}`}>{i + 1}</div>
                           <span className="text-[9px] text-gray-400 mt-0.5">{ma.lesson.date?.slice(8, 10)}</span>
                         </div>
                       )
