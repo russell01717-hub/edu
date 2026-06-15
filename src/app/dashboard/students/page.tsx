@@ -18,6 +18,16 @@ function getTokenUser(): any {
   try { return JSON.parse(atob(localStorage.getItem("token") || "")) } catch { return null }
 }
 
+function pad2(n: number): string { return n < 10 ? "0" + n : "" + n }
+
+function formatStamp(d: string): string {
+  if (!d) return ""
+  const dt = new Date(d)
+  return dt.getFullYear() + "/" + pad2(dt.getMonth() + 1) + "/" + pad2(dt.getDate())
+}
+
+const MONTH_NAMES = ["Yanvar","Fevral","Mart","Aprel","May","Iyun","Iyul","Avgust","Sentabr","Oktabr","Noyabr","Dekabr"]
+
 export default function StudentsPage() {
   const [students, setStudents] = useState<any[]>([])
   const [groups, setGroups] = useState<any[]>([])
@@ -32,11 +42,13 @@ export default function StudentsPage() {
   const [err, setErr] = useState("")
 
   const user = getTokenUser()
-  const month = new Date().toISOString().substring(0, 7)
+
+  function getMonth() { return new Date().toISOString().substring(0, 7) }
 
   async function loadData() {
     const u = getTokenUser()
     if (!u) return
+    const month = getMonth()
     const params = u.role === "teacher" ? `?role=teacher&teacherId=${u.id}&_=${Date.now()}` : `?_=${Date.now()}`
     const [s, g, l] = await Promise.all([
       fetch(`/api/students${params}`).then(r => r.json()),
@@ -54,7 +66,15 @@ export default function StudentsPage() {
       setAttMap(atts)
     }
   }
-  useEffect(() => { loadData() }, [])
+  useEffect(() => {
+    loadData()
+    const iv = setInterval(() => {
+      if (getMonth() !== new Date().toISOString().substring(0, 7)) loadData()
+    }, 60000)
+    const onVis = () => { if (document.visibilityState === "visible") loadData() }
+    document.addEventListener("visibilitychange", onVis)
+    return () => { clearInterval(iv); document.removeEventListener("visibilitychange", onVis) }
+  }, [])
 
   function handlePhone(val: string) {
     if (!val.startsWith("+998")) val = "+998" + val.replace(/[^0-9]/g, "").slice(0, 9)
@@ -158,6 +178,15 @@ export default function StudentsPage() {
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                 style={{ background: "linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.4) 50%, transparent 60%)", transform: "translateX(100%)", transition: "all 0.6s" }} />
 
+              {s.startDate && (
+                <div className="absolute -top-1 -right-1 w-16 h-16 overflow-hidden pointer-events-none">
+                  <div className="absolute top-1 right-1 w-14 h-14 flex items-center justify-center border-2 border-orange-400 text-orange-500 font-bold text-[10px] leading-tight text-center rotate-12 rounded-lg bg-orange-50/80 opacity-70"
+                    style={{ transform: "rotate(15deg)" }}>
+                    {formatStamp(s.startDate)}
+                  </div>
+                </div>
+              )}
+
               <div className="flex justify-between items-start mb-2">
                 <div>
                   <h3 className="font-bold text-gray-900 text-lg">{s.name}</h3>
@@ -193,15 +222,15 @@ export default function StudentsPage() {
                 <p className="text-xs text-gray-400 mb-1.5 font-medium"><i className="fas fa-calendar-alt mr-1" />Oy davomida</p>
                 {monthAtts.length > 0 ? (
                   <div className="flex flex-wrap gap-1.5">
-                    {monthAtts.map((ma, i) => {
+                    {monthAtts.filter(ma => ma.lesson.date).map((ma, i) => {
+                      const day = ma.lesson.date.slice(8, 10)
                       const color = !ma.status ? "bg-gray-200 text-gray-500"
                         : ma.status === "present" ? "bg-green-500 text-white"
                         : ma.status === "late" ? "bg-yellow-500 text-white"
                         : "bg-red-500 text-white"
                       return (
                         <div key={i} className="flex flex-col items-center">
-                          <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold ${color}`}>{i + 1}</div>
-                          <span className="text-[9px] text-gray-400 mt-0.5">{ma.lesson.date?.slice(8, 10)}</span>
+                          <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold ${color}`}>{day}</div>
                         </div>
                       )
                     })}
