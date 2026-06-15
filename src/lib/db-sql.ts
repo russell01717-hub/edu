@@ -9,11 +9,16 @@ const sql = postgres(process.env.DATABASE_URL!, {
 })
 
 ;(async () => {
+  try { await sql`CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, name TEXT NOT NULL, login TEXT UNIQUE NOT NULL, password TEXT NOT NULL, role TEXT DEFAULT 'admin', created_at TIMESTAMP DEFAULT NOW())` } catch {}
+  try { await sql`CREATE TABLE IF NOT EXISTS groups (id SERIAL PRIMARY KEY, name TEXT NOT NULL, description TEXT DEFAULT '', price_per_lesson INT DEFAULT 0, days TEXT DEFAULT '', subject TEXT DEFAULT '', teacher_id INT DEFAULT 0, created_at TIMESTAMP DEFAULT NOW())` } catch {}
+  try { await sql`CREATE TABLE IF NOT EXISTS students (id SERIAL PRIMARY KEY, name TEXT NOT NULL, phone TEXT DEFAULT '', group_id INT REFERENCES groups(id) ON DELETE CASCADE, balance INT DEFAULT 0, start_date TEXT DEFAULT '', created_at TIMESTAMP DEFAULT NOW())` } catch {}
+  try { await sql`CREATE TABLE IF NOT EXISTS lessons (id SERIAL PRIMARY KEY, group_id INT REFERENCES groups(id) ON DELETE CASCADE, date TEXT NOT NULL, topic TEXT DEFAULT '', created_at TIMESTAMP DEFAULT NOW())` } catch {}
+  try { await sql`CREATE TABLE IF NOT EXISTS attendances (id SERIAL PRIMARY KEY, student_id INT REFERENCES students(id) ON DELETE CASCADE, lesson_id INT REFERENCES lessons(id) ON DELETE CASCADE, status TEXT NOT NULL, created_at TIMESTAMP DEFAULT NOW())` } catch {}
+  try { await sql`CREATE TABLE IF NOT EXISTS payments (id SERIAL PRIMARY KEY, student_id INT REFERENCES students(id) ON DELETE CASCADE, amount INT NOT NULL, type TEXT NOT NULL, note TEXT DEFAULT '', date TEXT NOT NULL, created_at TIMESTAMP DEFAULT NOW())` } catch {}
   try { await sql`ALTER TABLE groups ADD COLUMN IF NOT EXISTS days TEXT DEFAULT ''` } catch {}
   try { await sql`ALTER TABLE groups ADD COLUMN IF NOT EXISTS subject TEXT DEFAULT ''` } catch {}
   try { await sql`ALTER TABLE groups ADD COLUMN IF NOT EXISTS teacher_id INT DEFAULT 0` } catch {}
   try { await sql`ALTER TABLE students ADD COLUMN IF NOT EXISTS start_date TEXT DEFAULT ''` } catch {}
-  // Seed default users if table is empty
   try {
     const [cnt] = await sql`SELECT COUNT(*)::int as c FROM users`
     if (cnt.c === 0) {
