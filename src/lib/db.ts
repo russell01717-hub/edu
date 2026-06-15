@@ -10,9 +10,15 @@ function loadImpl(): typeof jsonDb {
 }
 
 const impl = loadImpl()
+const jsonImpl = impl === jsonDb ? null : jsonDb
+
+async function fallbackGetUserByLogin(login: string) {
+  try { return await impl.getUserByLogin(login) }
+  catch { return jsonImpl?.getUserByLogin(login) || null }
+}
 
 export const getUsers = impl.getUsers
-export const getUserByLogin = impl.getUserByLogin
+export const getUserByLogin = fallbackGetUserByLogin
 export const getUserById = impl.getUserById
 export const createUser = impl.createUser
 export const updateUser = impl.updateUser
