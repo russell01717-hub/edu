@@ -8,6 +8,18 @@ const sql = postgres(process.env.DATABASE_URL!)
   try { await sql`ALTER TABLE groups ADD COLUMN IF NOT EXISTS subject TEXT DEFAULT ''` } catch {}
   try { await sql`ALTER TABLE groups ADD COLUMN IF NOT EXISTS teacher_id INT DEFAULT 0` } catch {}
   try { await sql`ALTER TABLE students ADD COLUMN IF NOT EXISTS start_date TEXT DEFAULT ''` } catch {}
+  // Seed default users if table is empty
+  try {
+    const [cnt] = await sql`SELECT COUNT(*)::int as c FROM users`
+    if (cnt.c === 0) {
+      const ah = bcrypt.hashSync("admin123", 10)
+      const fh = bcrypt.hashSync("4444", 10)
+      await sql`INSERT INTO users (name, login, password, role) VALUES ('Admin', 'admin', ${ah}, 'admin')`
+      await sql`INSERT INTO users (name, login, password, role) VALUES ('Sardor', 'sardor', ${fh}, 'teacher')`
+      await sql`INSERT INTO users (name, login, password, role) VALUES (${"G'ayrat"}, 'gayrat', ${fh}, 'teacher')`
+      await sql`INSERT INTO users (name, login, password, role) VALUES ('Shoxali', 'shoxali', ${fh}, 'teacher')`
+    }
+  } catch {}
 })()
 
 export async function getUsers() {
