@@ -1,6 +1,10 @@
 "use client"
 import { useEffect, useState } from "react"
 
+function getTokenUser(): any {
+  try { return JSON.parse(atob(localStorage.getItem("token") || "")) } catch { return null }
+}
+
 const DAYS_UZ = ["Yak", "Du", "Se", "Chor", "Pay", "Jum", "Shan"]
 const DAYS_FULL = ["Yakshanba", "Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma", "Shanba"]
 const SUBJECTS = [
@@ -22,27 +26,25 @@ export default function GroupsPage() {
   const [teacherId, setTeacherId] = useState("")
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState("")
-  const [user, setUser] = useState<any>(null)
 
-  useEffect(() => {
-    try { setUser(JSON.parse(atob(localStorage.getItem("token") || ""))) } catch {}
-  }, [])
+  const user = getTokenUser()
 
   function toggleDay(d: string) {
     setDays(prev => prev.includes(d) ? prev.filter(x => x !== d) : [...prev, d].sort())
   }
 
-  useEffect(() => {
-    if (!user) return
-    const params = user.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""
+  async function load() {
+    const u = getTokenUser()
+    if (!u) return
+    const params = u.role === "teacher" ? `?role=teacher&teacherId=${u.id}&_=${Date.now()}` : `?_=${Date.now()}`
     fetch(`/api/groups${params}`).then(r => r.json()).then(setGroups)
     fetch("/api/users").then(r => r.json()).then(setUsers)
-  }, [user])
+  }
+  useEffect(() => { load() }, [])
 
   function openCreate() {
     setEditId(null); setName(""); setDesc(""); setPrice(""); setDays([]); setSubject("")
     if (user?.role === "teacher") {
-      // Auto-set subject based on teacher login
       if (user.login === "sardor" || user.login === "shoxali") setSubject("arabic")
       else if (user.login === "gayrat") setSubject("english")
       setTeacherId(user.id.toString())
@@ -68,22 +70,14 @@ export default function GroupsPage() {
         const res = await fetch("/api/groups", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) })
         if (!res.ok) { const d = await res.json(); setError(d.error || "Xatolik"); setSaving(false); return }
       }
-      setName(""); setDesc(""); setPrice(""); setDays([]); setSubject(""); setTeacherId(""); setEditId(null); setShowForm(false)
-      if (user) {
-        const params = user.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""
-        fetch(`/api/groups${params}`).then(r => r.json()).then(setGroups)
-      }
+      setName(""); setDesc(""); setPrice(""); setDays([]); setSubject(""); setTeacherId(""); setEditId(null); setShowForm(false); load()
     } catch (e: any) { setError(e.message) }
     setSaving(false)
   }
 
   async function del(id: number) {
     if (!confirm("O'chirasizmi?")) return
-    await fetch(`/api/groups?id=${id}`, { method: "DELETE" })
-    if (user) {
-      const params = user.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""
-      fetch(`/api/groups${params}`).then(r => r.json()).then(setGroups)
-    }
+    await fetch(`/api/groups?id=${id}`, { method: "DELETE" }); load()
   }
 
   const teachers = users.filter(u => u.role === "teacher")

@@ -14,6 +14,10 @@ function calcMonthlyFee(startDate: string, pricePerLesson: number, daysCount: nu
   return pricePerLesson * daysCount * 4
 }
 
+function getTokenUser(): any {
+  try { return JSON.parse(atob(localStorage.getItem("token") || "")) } catch { return null }
+}
+
 export default function StudentsPage() {
   const [students, setStudents] = useState<any[]>([])
   const [groups, setGroups] = useState<any[]>([])
@@ -25,18 +29,15 @@ export default function StudentsPage() {
   const [groupId, setGroupId] = useState("")
   const [startDate, setStartDate] = useState(new Date().toISOString().split("T")[0])
   const [search, setSearch] = useState("")
-  const [user, setUser] = useState<any>(null)
   const [err, setErr] = useState("")
 
+  const user = getTokenUser()
   const month = new Date().toISOString().substring(0, 7)
 
-  useEffect(() => {
-    try { setUser(JSON.parse(atob(localStorage.getItem("token") || ""))) } catch {}
-  }, [])
-
   async function loadData() {
-    if (!user) return
-    const params = user.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""
+    const u = getTokenUser()
+    if (!u) return
+    const params = u.role === "teacher" ? `?role=teacher&teacherId=${u.id}&_=${Date.now()}` : `?_=${Date.now()}`
     const [s, g, l] = await Promise.all([
       fetch(`/api/students${params}`).then(r => r.json()),
       fetch(`/api/groups${params}`).then(r => r.json()),
@@ -45,7 +46,7 @@ export default function StudentsPage() {
     setStudents(s); setGroups(g)
     const monthLessons = l.filter((le: any) => le.date?.startsWith(month)).sort((a: any, b: any) => a.date?.localeCompare(b.date))
     setLessons(monthLessons)
-    const res = await fetch(`/api/attendance?month=${month}`)
+    const res = await fetch(`/api/attendance?month=${month}&_=${Date.now()}`)
     if (res.ok) {
       const allAtts = await res.json()
       const atts: Record<string, string> = {}
@@ -53,7 +54,7 @@ export default function StudentsPage() {
       setAttMap(atts)
     }
   }
-  useEffect(() => { loadData() }, [user])
+  useEffect(() => { loadData() }, [])
 
   function handlePhone(val: string) {
     if (!val.startsWith("+998")) val = "+998" + val.replace(/[^0-9]/g, "").slice(0, 9)

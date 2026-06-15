@@ -1,19 +1,21 @@
 "use client"
 import { useEffect, useState } from "react"
 
+function getTokenUser(): any {
+  try { return JSON.parse(atob(localStorage.getItem("token") || "")) } catch { return null }
+}
+
 export default function LessonsPage() {
   const [lessons, setLessons] = useState<any[]>([])
-  const [user, setUser] = useState<any>(null)
+
+  const user = getTokenUser()
 
   useEffect(() => {
-    try { setUser(JSON.parse(atob(localStorage.getItem("token") || ""))) } catch {}
-  }, [])
-
-  useEffect(() => {
-    if (!user) return
-    const params = user.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""
+    const u = getTokenUser()
+    if (!u) return
+    const params = u.role === "teacher" ? `?role=teacher&teacherId=${u.id}&_=${Date.now()}` : `?_=${Date.now()}`
     fetch(`/api/lessons${params}`).then(r => r.json()).then(setLessons)
-  }, [user])
+  }, [])
 
   async function del(id: number) {
     if (!confirm("Darsni o'chirasizmi?")) return

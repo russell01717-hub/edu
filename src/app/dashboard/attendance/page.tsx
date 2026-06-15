@@ -1,6 +1,10 @@
 "use client"
 import { useEffect, useState } from "react"
 
+function getTokenUser(): any {
+  try { return JSON.parse(atob(localStorage.getItem("token") || "")) } catch { return null }
+}
+
 const STATUS_CYCLE = ["present", "absent", "late"] as const
 
 export default function AttendancePage() {
@@ -14,20 +18,18 @@ export default function AttendancePage() {
   const [currentLessonId, setCurrentLessonId] = useState<number | null>(null)
   const [msg, setMsg] = useState("")
   const [lessonNumber, setLessonNumber] = useState(0)
-  const [user, setUser] = useState<any>(null)
+
+  const user = getTokenUser()
 
   useEffect(() => {
-    try { setUser(JSON.parse(atob(localStorage.getItem("token") || ""))) } catch {}
-  }, [])
-
-  useEffect(() => {
-    if (!user) return
-    const params = user.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""
+    const u = getTokenUser()
+    if (!u) return
+    const params = u.role === "teacher" ? `?role=teacher&teacherId=${u.id}&_=${Date.now()}` : `?_=${Date.now()}`
     fetch(`/api/groups${params}`).then(r => r.json()).then(g => {
       setGroups(g)
-      if (user.role === "teacher" && g.length > 0 && !selectedGroup) setSelectedGroup(g[0].id.toString())
+      if (u.role === "teacher" && g.length > 0) setSelectedGroup(g[0].id.toString())
     })
-  }, [user])
+  }, [])
 
   const group = groups.find(g => g.id === parseInt(selectedGroup))
 
@@ -36,15 +38,16 @@ export default function AttendancePage() {
     const res = await fetch("/api/lessons", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ groupId: parseInt(selectedGroup), date, topic }) })
     const lesson = await res.json()
     setCurrentLessonId(lesson.id)
-    const res2 = await fetch(`/api/students?groupId=${selectedGroup}`)
+    const res2 = await fetch(`/api/students?groupId=${selectedGroup}&_=${Date.now()}`)
     const sts = await res2.json()
     setStudents(sts)
     const att: Record<number, string> = {}
     sts.forEach((s: any) => { att[s.id] = "present" })
     setAttendances(att); setStep("taking"); setMsg("")
-    // Lesson number
     const month = date.substring(0, 7)
-    const res3 = await fetch(`/api/lessons${user?.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""}`)
+    const u = getTokenUser()
+    const params = u?.role === "teacher" ? `?role=teacher&teacherId=${u.id}&_=${Date.now()}` : `?_=${Date.now()}`
+    const res3 = await fetch(`/api/lessons${params}`)
     const allLessons = await res3.json()
     const monthLessons = allLessons.filter((l: any) => l.groupId === parseInt(selectedGroup) && l.date?.startsWith(month))
     setLessonNumber(monthLessons.length)
@@ -88,9 +91,7 @@ export default function AttendancePage() {
                 <select value={selectedGroup} onChange={e => setSelectedGroup(e.target.value)} className="input-field">
                   <option value="">Tanlang</option>
                   {groups.map(g => (
-                    <option key={g.id} value={g.id}>
-                      {g.name}{g.days ? ` (${g.days})` : ""}
-                    </option>
+                    <option key={g.id} value={g.id}>{g.name}{g.days ? ` (${g.days})` : ""}</option>
                   ))}
                 </select>
               ) : (

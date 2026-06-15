@@ -1,19 +1,22 @@
 "use client"
 import { useEffect, useState } from "react"
 
+function getTokenUser(): any {
+  try { return JSON.parse(atob(localStorage.getItem("token") || "")) } catch { return null }
+}
+
 export default function DashboardPage() {
   const [data, setData] = useState({ students: 0, groups: 0, lessons: 0, totalPayments: 0, recentAttendance: [] as any[] })
-  const [user, setUser] = useState<any>(null)
+
+  const user = getTokenUser()
+  const isTeacher = user?.role === "teacher"
 
   useEffect(() => {
-    try { setUser(JSON.parse(atob(localStorage.getItem("token") || ""))) } catch {}
-  }, [])
-
-  useEffect(() => {
-    if (!user) return
-    const params = user.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""
+    const u = getTokenUser()
+    if (!u) return
+    const params = u.role === "teacher" ? `?role=teacher&teacherId=${u.id}&_=${Date.now()}` : `?_=${Date.now()}`
     fetch(`/api/stats${params}`).then(r => r.json()).then(setData)
-  }, [user])
+  }, [])
 
   const statusLabel: Record<string, string> = { present: "Keldi", late: "Kechikdi", absent: "Kelmadi" }
   const statusStyle: Record<string, string> = { present: "bg-green-100 text-green-700", late: "bg-yellow-100 text-yellow-700", absent: "bg-red-100 text-red-700" }
@@ -47,7 +50,7 @@ export default function DashboardPage() {
         ))}
       </div>
 
-      {user?.role === "admin" && <div className="bg-white rounded-2xl p-4 lg:p-6 shadow-sm border border-gray-100 animate-slideUp">
+      {!isTeacher && <div className="bg-white rounded-2xl p-4 lg:p-6 shadow-sm border border-gray-100 animate-slideUp">
         <h2 className="text-lg font-semibold text-gray-900 mb-4"><i className="fas fa-clipboard-list mr-2" style={{ color: "var(--theme-primary)" }} />Oxirgi davomat</h2>
         {data.recentAttendance.length === 0 ? (
           <div className="text-center py-12 text-gray-400 animate-fadeIn">
