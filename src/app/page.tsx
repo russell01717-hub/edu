@@ -119,14 +119,14 @@ export default function LoginPage() {
           <i className="fas fa-exclamation-circle mr-1" />{error}</div>}
 
         <div className="relative mb-4">
-          <i className="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+          <i className="fas fa-user absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 z-10" />
           <input type="text" placeholder="Login" value={login} onChange={e => setLogin(e.target.value)}
-            className="input-field pl-10" required />
+            className="input-field !pl-10" required />
         </div>
         <div className="relative mb-6">
           <i className="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
           <input type="password" placeholder="Parol" value={password} onChange={e => setPassword(e.target.value)}
-            className="input-field pl-10" required />
+            className="input-field !pl-10" required />
         </div>
         <button type="submit" disabled={loading}
           className="w-full py-3.5 rounded-xl font-semibold text-white transition-all cursor-pointer flex items-center justify-center gap-2 relative overflow-hidden group btn-primary">

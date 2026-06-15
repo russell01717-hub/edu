@@ -97,7 +97,7 @@ export default function StudentsPage() {
 
       <div className="relative mb-4 max-w-md">
         <i className="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-        <input value={search} onChange={e => setSearch(e.target.value)} placeholder="O'quvchi qidirish..." className="input-field pl-10" />
+        <input value={search} onChange={e => setSearch(e.target.value)} placeholder="O'quvchi qidirish..." className="input-field !pl-10" />
       </div>
 
       {showForm && (

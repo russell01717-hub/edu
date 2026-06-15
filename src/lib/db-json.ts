@@ -24,6 +24,22 @@ function load() {
       ids = raw.ids || { users: data.users.length + 1, groups: data.groups.length + 1, students: data.students.length + 1, lessons: data.lessons.length + 1, attendances: data.attendances.length + 1, payments: data.payments.length + 1 }
     } catch { reset() }
   } else { reset() }
+  migrate()
+}
+
+function migrate() {
+  const teachers = [
+    { name: "Sardor", login: "sardor" },
+    { name: "G'ayrat", login: "gayrat" },
+    { name: "Shoxali", login: "shoxali" },
+  ]
+  for (const t of teachers) {
+    if (!data.users.find(u => u.login === t.login)) {
+      const hash = bcrypt.hashSync("4444", 10)
+      data.users.push({ id: nextId("users"), name: t.name, login: t.login, password: hash, role: "teacher", createdAt: new Date().toISOString() })
+    }
+  }
+  save()
 }
 
 function reset() {
