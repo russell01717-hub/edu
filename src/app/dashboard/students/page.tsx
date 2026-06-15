@@ -85,7 +85,10 @@ export default function StudentsPage() {
           <h1 className="text-2xl font-bold text-gray-900">O'quvchilar</h1>
           <p className="text-sm text-gray-400"><i className="fas fa-user-graduate mr-1" style={{ color: "var(--theme-primary)" }} />{user?.role === "teacher" ? "Sizning o'quvchilaringiz" : "Barcha o'quvchilar"}</p>
         </div>
-        <button onClick={() => setShowForm(!showForm)} className="btn-primary flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm cursor-pointer w-full sm:w-auto justify-center">
+        <button onClick={() => {
+          setShowForm(!showForm)
+          if (!showForm && user?.role === "teacher" && groups.length > 0) setGroupId(groups[0].id.toString())
+        }} className="btn-primary flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm cursor-pointer w-full sm:w-auto justify-center">
           <i className="fas fa-plus" /> Yangi o'quvchi
         </button>
       </div>
@@ -117,9 +120,10 @@ export default function StudentsPage() {
                 {groups.map(g => <option key={g.id} value={g.id}>{g.name}{g.subject ? ` (${g.subject === "arabic" ? "Arab tili" : g.subject === "english" ? "Ingliz tili" : g.subject})` : ""}</option>)}
               </select>
             ) : (
-              <select value={groupId} onChange={e => setGroupId(e.target.value)} className="input-field" required>
-                {groups.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
-              </select>
+              <div className="input-field bg-gray-100 text-gray-500 flex items-center gap-2">
+                <i className="fas fa-lock text-xs" />
+                {groups.find(g => g.id.toString() === groupId)?.name || groups[0]?.name || "Guruh"}
+              </div>
             )}
           </div>
           <button type="submit" className="btn-primary px-5 py-2.5 rounded-xl font-semibold text-sm cursor-pointer w-full sm:w-auto flex items-center gap-2" style={{ marginTop: "22px" }}>
