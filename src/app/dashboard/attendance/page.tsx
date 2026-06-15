@@ -94,6 +94,12 @@ export default function AttendancePage() {
                     <option key={g.id} value={g.id}>{g.name}{g.days ? ` (${g.days})` : ""}</option>
                   ))}
                 </select>
+              ) : groups.length > 1 ? (
+                <select value={selectedGroup} onChange={e => setSelectedGroup(e.target.value)} className="input-field">
+                  {groups.map(g => (
+                    <option key={g.id} value={g.id}>{g.name}{g.days ? ` (${g.days})` : ""}</option>
+                  ))}
+                </select>
               ) : (
                 <div className="input-field bg-gray-100 text-gray-500 flex items-center gap-2">
                   <i className="fas fa-lock text-xs" />

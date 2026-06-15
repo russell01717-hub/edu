@@ -124,6 +124,10 @@ export default function StudentsPage() {
                 <option value="">Tanlang</option>
                 {groups.map(g => <option key={g.id} value={g.id}>{g.name}{g.subject ? ` (${g.subject === "arabic" ? "Arab tili" : g.subject === "english" ? "Ingliz tili" : g.subject})` : ""}</option>)}
               </select>
+            ) : groups.length > 1 ? (
+              <select value={groupId} onChange={e => setGroupId(e.target.value)} className="input-field" required>
+                {groups.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
+              </select>
             ) : (
               <div className="input-field bg-gray-100 text-gray-500 flex items-center gap-2">
                 <i className="fas fa-lock text-xs" />
