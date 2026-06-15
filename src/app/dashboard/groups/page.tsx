@@ -32,14 +32,16 @@ export default function GroupsPage() {
     setDays(prev => prev.includes(d) ? prev.filter(x => x !== d) : [...prev, d].sort())
   }
 
+  const teacherParams = user?.role === "teacher" ? `?role=teacher&teacherId=${user.id}` : ""
+
   function load() {
-    fetch("/api/groups").then(r => r.json()).then(setGroups)
+    fetch(`/api/groups${teacherParams}`).then(r => r.json()).then(setGroups)
     fetch("/api/users").then(r => r.json()).then(setUsers)
   }
-  useEffect(load, [])
+  useEffect(load, [teacherParams])
 
   function openCreate() {
-    setEditId(null); setName(""); setDesc(""); setPrice(""); setDays([]); setSubject(""); setTeacherId(""); setShowForm(true); setError("")
+    setEditId(null); setName(""); setDesc(""); setPrice(""); setDays([]); setSubject(""); setTeacherId(user?.role === "teacher" ? user.id.toString() : ""); setShowForm(true); setError("")
   }
 
   function openEdit(g: any) {
@@ -77,9 +79,9 @@ export default function GroupsPage() {
           <h1 className="text-2xl font-bold text-gray-900">Guruhlar</h1>
           <p className="text-sm text-gray-400"><i className="fas fa-users mr-1" style={{ color: "var(--theme-primary)" }} />{user?.role === "admin" ? "Barcha guruhlar" : "Sizning guruhlaringiz"}</p>
         </div>
-        {user?.role === "admin" && <button onClick={openCreate} className="btn-primary flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm cursor-pointer w-full sm:w-auto justify-center">
+        <button onClick={openCreate} className="btn-primary flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm cursor-pointer w-full sm:w-auto justify-center">
           <i className="fas fa-plus" /> Yangi guruh
-        </button>}
+        </button>
       </div>
       {showForm && (
         <form onSubmit={save} className="bg-white p-4 lg:p-5 rounded-2xl shadow-sm border border-gray-100 mb-6 animate-slideIn">
@@ -103,13 +105,13 @@ export default function GroupsPage() {
                 {SUBJECTS.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
               </select>
             </div>
-            <div>
+            {user?.role === "admin" && <div>
               <label className="text-xs text-gray-400 block mb-1 font-medium">O'qituvchi</label>
               <select value={teacherId} onChange={e => setTeacherId(e.target.value)} className="input-field">
                 <option value="">Tanlanmagan</option>
                 {teachers.map(t => <option key={t.id} value={t.id}>{t.name} ({t.login})</option>)}
               </select>
-            </div>
+            </div>}
           </div>
           <div className="mb-4">
             <label className="text-xs text-gray-400 block mb-2 font-medium">Hafta kunlari</label>
@@ -159,7 +161,7 @@ export default function GroupsPage() {
                       </span>}
                     </div>
                   </div>
-                  {user?.role === "admin" && <div className="flex gap-1">
+                  {(user?.role === "admin" || user?.id === g.teacherId) && <div className="flex gap-1">
                     <button onClick={() => openEdit(g)} className="p-1.5 rounded-lg text-xs hover:bg-orange-50 transition cursor-pointer" style={{ color: "var(--theme-primary)" }}>
                       <i className="fas fa-pen-to-square" />
                     </button>

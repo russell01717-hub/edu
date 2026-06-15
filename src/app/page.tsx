@@ -14,6 +14,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
+  const [selected, setSelected] = useState("")
   const router = useRouter()
 
   async function handleSubmit(e: React.FormEvent) {
@@ -41,13 +42,12 @@ export default function LoginPage() {
     setLoading(false)
   }
 
-  function fill(l: string, p: string) {
-    setLogin(l); setPassword(p); setError("")
+  function selectAccount(label: string) {
+    setSelected(selected === label ? "" : label)
   }
 
   return (
     <div className="min-h-screen flex items-center justify-center relative bg-gradient-to-br from-gray-900 via-gray-800 to-black p-4">
-      {/* 3D floating shapes */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ perspective: "1200px" }}>
         <div className="absolute top-[15%] left-[10%] w-20 h-20 border-2 border-orange-500/20 rounded-2xl animate-float" style={{ animationDelay: "0s", animationDuration: "6s", transform: "rotateX(45deg) rotateZ(15deg)" }} />
         <div className="absolute top-[60%] right-[12%] w-28 h-28 border-2 border-orange-500/15 rounded-full animate-float" style={{ animationDelay: "1.5s", animationDuration: "8s", transform: "rotateY(30deg)" }} />
@@ -88,16 +88,23 @@ export default function LoginPage() {
         </form>
 
         <div className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl border border-white/30 animate-slideIn">
-          <p className="text-center text-xs text-gray-400 mb-3"><i className="fas fa-users mr-1" />Tezkor kirish</p>
+          <p className="text-center text-xs text-gray-400 mb-3"><i className="fas fa-users mr-1" />Mavjud akkauntlar</p>
           <div className="grid grid-cols-2 gap-2">
-            {ACCOUNTS.map(a => (
-              <button key={a.login} onClick={() => fill(a.login, a.pass)}
-                className="p-2.5 rounded-xl text-center transition-all cursor-pointer hover:scale-105 border border-gray-100 bg-white"
-                style={a.role === "admin" ? { borderColor: "var(--theme-primary)" } : {}}>
-                <p className="text-sm font-bold text-gray-900">{a.label}</p>
-                <p className="text-[10px] text-gray-400">{a.desc}</p>
-              </button>
-            ))}
+            {ACCOUNTS.map(a => {
+              const isSel = selected === a.label
+              return (
+                <div key={a.login} onClick={() => selectAccount(a.label)}
+                  className="p-2.5 rounded-xl text-center transition-all cursor-pointer border relative overflow-hidden"
+                  style={{
+                    background: isSel ? `linear-gradient(135deg, ${a.role === "admin" ? "#f97316" : a.label === "G'ayrat" ? "#3b82f6" : "#f97316"}, ${a.role === "admin" ? "#ea580c" : a.label === "G'ayrat" ? "#2563eb" : "#ea580c"})` : "white",
+                    borderColor: isSel ? "transparent" : "#e5e7eb",
+                  }}>
+                  <p className={`text-sm font-bold ${isSel ? "text-white" : "text-gray-900"}`}>{a.label}</p>
+                  <p className={`text-[10px] ${isSel ? "text-white/80" : "text-gray-400"}`}>{a.desc}</p>
+                  {!isSel && <div className="absolute inset-0 hover:bg-orange-50 transition-colors" />}
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>

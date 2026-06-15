@@ -20,9 +20,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [newPass, setNewPass] = useState("")
   const [passMsg, setPassMsg] = useState("")
   const [showTheme, setShowTheme] = useState(false)
+  const [showHeaderTheme, setShowHeaderTheme] = useState(false)
   const [theme, setTheme] = useState(() => {
     if (typeof window !== "undefined") return localStorage.getItem("theme") || "Orange"
     return "Orange"
+  })
+  const [dark, setDark] = useState(() => {
+    if (typeof window !== "undefined") return localStorage.getItem("dark") === "true"
+    return false
   })
 
   useEffect(() => {
@@ -34,13 +39,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }, [theme])
 
   useEffect(() => {
+    localStorage.setItem("dark", dark.toString())
+    if (dark) document.documentElement.classList.add("dark")
+    else document.documentElement.classList.remove("dark")
+  }, [dark])
+
+  useEffect(() => {
     const token = localStorage.getItem("token")
     if (!token) { router.push("/"); return }
     try {
       const u = JSON.parse(atob(token))
       setUser(u)
       if (u.role === "teacher") {
-        // Teacher can't access admin pages
         const adminPaths = ["/dashboard/users", "/dashboard/payments"]
         if (adminPaths.includes(pathname)) router.push("/dashboard")
       }
@@ -48,7 +58,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }, [])
 
   function changeTheme(name: string) {
-    setTheme(name); localStorage.setItem("theme", name); setShowTheme(false)
+    setTheme(name); localStorage.setItem("theme", name); setShowTheme(false); setShowHeaderTheme(false)
   }
 
   async function changePassword() {
@@ -80,9 +90,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const links = allLinks.filter(l => l.show)
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className={`flex h-screen ${dark ? "bg-gray-900" : "bg-gray-50"}`}>
       {sidebarOpen && <div className="fixed inset-0 bg-black/40 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />}
 
+      {/* Sidebar */}
       <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-64 flex flex-col p-6 text-white transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
         style={{ background: "linear-gradient(180deg, #0f0f0f 0%, #1a1a2e 100%)" }}>
         <div className="flex items-center gap-3 mb-8">
@@ -105,13 +116,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-all ${active ? "font-semibold" : "text-gray-400 hover:bg-white/5 hover:text-white hover:translate-x-1"}`}
                 style={active ? { background: `${THEMES.find(t => t.name === theme)?.primary}33`, color: THEMES.find(t => t.name === theme)?.primary } : {}}>
                 <i className={`fas ${l.icon} w-5 text-center`} /> {l.label}
-                {!l.show && isTeacher && <i className="fas fa-lock text-2xs ml-auto opacity-50" />}
               </Link>
             )
           })}
         </nav>
 
-        {/* Theme picker */}
+        {/* Sidebar Theme */}
         <div className="relative mb-2">
           <button onClick={() => setShowTheme(!showTheme)}
             className="flex items-center gap-2 w-full px-4 py-2 rounded-xl text-xs text-gray-400 hover:bg-white/5 transition cursor-pointer">
@@ -157,19 +167,57 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </button>
       </aside>
 
+      {/* Main */}
       <main className="flex-1 overflow-y-auto w-full">
-        <div className="lg:hidden flex items-center justify-between p-4 bg-white border-b border-gray-100 sticky top-0 z-30">
-          <button onClick={() => setSidebarOpen(true)} className="text-xl cursor-pointer"><i className="fas fa-bars text-gray-700" /></button>
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs"
-              style={{ background: `linear-gradient(135deg, var(--theme-primary), var(--theme-secondary))` }}>
-              <i className="fas fa-graduation-cap" />
+        {/* Top header bar */}
+        <div className={`sticky top-0 z-30 border-b ${dark ? "bg-gray-800 border-gray-700" : "bg-white border-gray-100"}`}>
+          <div className="flex items-center justify-between px-4 h-14">
+            <div className="flex items-center gap-3">
+              <button onClick={() => setSidebarOpen(true)} className={`lg:hidden text-xl cursor-pointer ${dark ? "text-gray-300" : "text-gray-700"}`}>
+                <i className="fas fa-bars" />
+              </button>
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs"
+                  style={{ background: `linear-gradient(135deg, var(--theme-primary), var(--theme-secondary))` }}>
+                  <i className="fas fa-graduation-cap" />
+                </div>
+                <span className={`font-semibold text-sm ${dark ? "text-white" : "text-gray-900"}`}>Akademiya</span>
+                <span className={`text-xs ml-2 hidden sm:inline ${dark ? "text-gray-400" : "text-gray-400"}`}>
+                  {user?.name} {user?.role === "teacher" ? `(${user?.login === "sardor" || user?.login === "shoxali" ? "Arab tili" : user?.login === "gayrat" ? "Ingliz tili" : ""})` : ""}
+                </span>
+              </div>
             </div>
-            <span className="font-semibold text-sm">Akademiya</span>
+            <div className="flex items-center gap-2">
+              {/* Theme picker */}
+              <div className="relative">
+                <button onClick={() => setShowHeaderTheme(!showHeaderTheme)}
+                  className={`w-9 h-9 rounded-xl flex items-center justify-center cursor-pointer transition-all ${dark ? "hover:bg-gray-700 text-gray-300" : "hover:bg-gray-100 text-gray-500"}`}
+                  title="Rang">
+                  <i className="fas fa-palette" />
+                </button>
+                {showHeaderTheme && (
+                  <div className={`absolute right-0 top-full mt-1 rounded-xl p-2 animate-slideIn shadow-xl border z-50 ${dark ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"}`}>
+                    <div className="flex gap-1.5">
+                      {THEMES.map(t => (
+                        <button key={t.name} onClick={() => changeTheme(t.name)}
+                          className={`w-7 h-7 rounded-full transition-all cursor-pointer ${theme === t.name ? "ring-2 ring-white scale-110" : "hover:scale-110"}`}
+                          style={{ background: `linear-gradient(135deg, ${t.primary}, ${t.secondary})` }}
+                          title={t.name} />
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+              {/* Dark mode toggle */}
+              <button onClick={() => setDark(!dark)}
+                className={`w-9 h-9 rounded-xl flex items-center justify-center cursor-pointer transition-all ${dark ? "hover:bg-gray-700 text-yellow-400" : "hover:bg-gray-100 text-gray-500"}`}
+                title={dark ? "Kun rejimi" : "Tun rejimi"}>
+                <i className={`fas ${dark ? "fa-sun" : "fa-moon"}`} />
+              </button>
+            </div>
           </div>
-          <div className="w-8" />
         </div>
-        <div className="p-4 lg:p-8">{children}</div>
+        <div className={`p-4 lg:p-8 ${dark ? "text-gray-200" : ""}`}>{children}</div>
       </main>
     </div>
   )

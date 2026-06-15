@@ -64,3 +64,24 @@
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: #f1f5f9; }
 ::-webkit-scrollbar-thumb { background: var(--theme-primary); border-radius: 3px; }
+
+/* Dark mode overrides */
+.dark .input-field {
+  background: #1f2937;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+.dark .input-field:focus {
+  background: #111827;
+  border-color: var(--theme-primary);
+}
+.dark .bg-white { background-color: #1f2937 !important; }
+.dark .border-gray-100 { border-color: #374151 !important; }
+.dark .text-gray-900 { color: #f3f4f6 !important; }
+.dark .text-gray-700 { color: #d1d5db !important; }
+.dark .text-gray-500 { color: #9ca3af !important; }
+.dark .text-gray-400 { color: #9ca3af !important; }
+.dark .text-gray-300 { color: #d1d5db !important; }
+.dark .hover\:bg-gray-50:hover { background-color: #374151 !important; }
+.dark .hover\:bg-red-50:hover { background-color: #7f1d1d !important; }
+.dark .hover\:bg-orange-50:hover { background-color: #431407 !important; }
