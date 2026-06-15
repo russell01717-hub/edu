@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G'o's Akademiyasi | 3D Ta'lim Platformasi</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="canvas-container"></div>
+
+    <header>
+        <h1>G'o's Akademiyasi</h1>
+        <p class="subtitle">Kelajak kasblarini biz bilan o'rganing. Arab, Ingliz va Rus tillari.</p>
+        <a href="#courses" class="btn">Kurslarni Ko'rish</a>
+    </header>
+
+    <section id="courses">
+        <div class="glass-card">
+            <h2>Bizning Kurslar</h2>
+            <div class="courses-grid">
+                <!-- Arab Tili -->
+                <div class="course-item">
+                    <h3>Arab Tili</h3>
+                    <p>O'qituvchi: <span class="highlight">Elmurodov Sardor Ibodulla o'g'li</span></p>
+                    <p>Mukammal tajvid va grammatika.</p>
+                    <p>Narxi: <span class="highlight">300,000 so'm/oy</span></p>
+                </div>
+
+                <!-- Ingliz Tili (General) -->
+                <div class="course-item">
+                    <h3>General English</h3>
+                    <p>Boshlang'ich darajadan yuqoriga.</p>
+                    <p>Narxi: <span class="highlight">Telefonda gaplashiladi</span></p>
+                </div>
+
+                <!-- CEFR -->
+                <div class="course-item">
+                    <h3>CEFR</h3>
+                    <p>Milliy sertifikat (B1, B2, C1)</p>
+                    <p>Narxi: <span class="highlight">Telefonda gaplashiladi</span></p>
+                </div>
+
+                <!-- IELTS -->
+                <div class="course-item">
+                    <h3>IELTS</h3>
+                    <p>Xalqaro sertifikat (5.5 - 8.0+)</p>
+                    <p>Narxi: <span class="highlight">Telefonda gaplashiladi</span></p>
+                </div>
+
+                <!-- Rus Tili -->
+                <div class="course-item">
+                    <h3>Rus Tili</h3>
+                    <p>So'zlashuv va Grammatika</p>
+                    <p>Erkin muloqotga chiqish kafolati.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="registration">
+        <div class="glass-card" style="text-align: center;">
+            <h2>Ro'yxatdan O'tish</h2>
+            <p style="margin-bottom: 30px;">Darslarimizga yoziling va kelajagingizni quring!</p>
+
+            <p style="margin-top: 20px;">Ma'lumot uchun: <a href="tel:+998905151540"
+                    style="color: var(--primary); text-decoration: none;">+998 90 515 15 40</a></p>
+
+            <form id="regForm">
+                <input type="text" id="name" placeholder="Ismingiz va Familiyangiz" required>
+                <input type="tel" id="phone" placeholder="Telefon Raqamingiz" required>
+                <select id="course" required>
+                    <option value="">Kursni Tanlang</option>
+                    <option value="arab">Arab Tili</option>
+                    <option value="cefr">CEFR</option>
+                    <option value="ielts">IELTS</option>
+                    <option value="russian">Rus Tili</option>
+                </select>
+                <button type="submit" class="btn">Xabar Yuborish</button>
+            </form>
+
+            <div class="price-tag" id="price-display">
+                Kurs narxi tanlanganda chiqadi
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div id="modal">
+        <div class="modal-content">
+            <div class="success-icon">✓</div>
+            <h3>Muvaffaqiyatli Ro'yxatdan O'tdingiz!</h3>
+            <p id="modal-msg"></p>
+            <p style="margin-top: 15px; color: #aaa;">Adminlar siz bilan tez orada bog'lanishadi.</p>
+            <button class="btn" style="margin-top: 20px;" onclick="closeModal()">Yopish</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

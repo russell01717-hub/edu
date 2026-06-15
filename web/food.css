@@ -1,0 +1,179 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+header {
+  width: 100%;
+  height: 40px;
+  background-color: gray;
+}
+
+.f1 {
+  position: absolute;
+  left: 10vh;
+  top: 1vh;
+  display: flex;
+  gap: 1vh;
+  color: white;
+}
+
+.f2 {
+  position: absolute;
+  left: 30vh;
+  top: 1vh;
+  display: flex;
+  gap: 1vh;
+  color: white;
+}
+
+.f4 {
+  position: absolute;
+  left: 170vh;
+  top: 1vh;
+  display: flex;
+  gap: 2vh;
+  font-size: 20px;
+  color: white;
+}
+
+.f5 {
+  width: 55px;
+  height: 55px;
+}
+
+.f8 {
+  position: absolute;
+  left: 10vh;
+  top: 3vh;
+  display: flex;
+  gap: 1vh;
+  color: gray;
+  font-style: italic;
+  font-family: "Pacifico", cursive;
+  font-weight: 400;
+}
+
+section {
+  width: 100%;
+  height: 100px;
+  color: white;
+  position: sticky;
+}
+
+.f15 {
+  width: 100%;
+  height: 100vh;
+}
+
+.f7 {
+  position: absolute;
+  top: 5vh;
+  left: 90vh;
+  display: flex;
+  gap: 2vh;
+}
+
+.f9, .f13, .f12, .f11, .f10 {
+  width: 10vh;
+  height: 4vh;
+  background-color: white;
+  border-radius: 15px;
+  border: none;
+  transition: 0.5s;
+}
+
+.f9:hover, .f13:hover, .f12:hover, .f11:hover, .f10:hover {
+  width: 10vh;
+  height: 4vh;
+  background-color: #DBDFD0;
+  border-radius: 15px;
+  border: none;
+  font-weight: bold;
+}
+
+.f14 {
+  width: 15vh;
+  height: 5vh;
+  background-color: white;
+  border-radius: 15px;
+  position: absolute;
+  top: 4vh;
+  left: 170vh;
+  transition: 0.5s;
+}
+
+.f14:hover {
+  width: 15vh;
+  height: 5vh;
+  background-color: white;
+  border-radius: 15px;
+  border: none;
+  font-weight: bold;
+  transform: translateY(-10px);
+}
+
+.f16 {
+  position: absolute;
+  top: 50%;
+  left: 35%;
+  text-align: center;
+}
+
+.f17 {
+  text-transform: uppercase;
+  font-size: 50px;
+  font-weight: bold;
+  color: gray;
+  font-family: "Pacifico", cursive;
+  font-weight: 400;
+}
+
+.f18 {
+  font-size: 20px;
+  font-weight: bold;
+  color: gray;
+  font-family: "Pacifico", cursive;
+  font-weight: 400;
+}
+
+.f19, .f20 {
+  width: 20vh;
+  height: 5vh;
+  background-color: red;
+  border-radius: 15px;
+  position: relative;
+  top: 4vh;
+  transition: 0.5s;
+  color: white;
+  border: none;
+}
+
+.f19:hover, .f20:hover {
+  width: 20vh;
+  height: 5vh;
+  background-color: yellow;
+  border-radius: 15px;
+  border: none;
+  font-weight: bold;
+  transform: translateY(-10px);
+  color: red;
+  left: 0vh;
+}
+
+.f20 {
+  background-color: white;
+  border: solid 2px black;
+  color: black;
+  width: 18vh;
+}
+
+.f21 {
+  display: flex;
+  gap: 3vh;
+  position: relative;
+  left: 10vh;
+}
+
+/*# sourceMappingURL=food.css.map */

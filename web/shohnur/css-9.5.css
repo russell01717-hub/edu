@@ -1,0 +1,215 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.po{
+position: relative;
+bottom: 3vh;
+left: 13vh;
+width: 12vh;
+height: 12vh;
+}
+
+.p1{
+    position: relative;
+    bottom: 11vh;
+    left: 22vh;
+
+}
+
+.p2{
+    position: absolute;
+    bottom: 91vh;
+    left: 85vh;
+}
+
+.p3{
+    position: absolute;
+    bottom: 91vh;
+    left: 100vh;
+}
+
+.p4{
+    position: absolute;
+    bottom: 91vh;
+    left: 120vh;
+}
+
+.p5{
+    position: absolute;
+    bottom: 91vh;
+    left: 145vh;
+}
+
+
+.p6{
+position: absolute;
+bottom: 91vh;
+left: 160vh;
+}
+
+.p7{
+    position: absolute;
+    bottom: 90vh;
+    left: 180vh;
+    width: 20vh;
+    height: 5vh;
+    background-color:rgb(28, 220, 28);
+}
+
+.p100{
+    position: absolute;
+    left: 140vh;
+}
+
+
+.p17{
+    position: absolute;
+    left: 15vh;
+    font-size: 80px;
+     bottom: 50vh;
+     width: 300vh;
+     height: 20vh;
+}
+
+.p18{
+    position: absolute;
+    color:rgb(28, 220, 28);
+    left: 15vh;
+    font-size: 80px;
+    bottom: 47vh;
+}
+
+.p8{
+    position: absolute;
+    left: 15vh;
+    top: 50vh;
+}
+.tugma{
+    position: absolute;
+    background-color: rgb(28, 220, 28);
+    left: 15vh;
+    top: 55vh;
+    width: 10vh;
+    height: 4vh;
+}
+
+.p9{
+    position: absolute;
+    left: 80vh;
+    top: 70vh;
+    font-size: 7vh;
+}
+    
+.p10{
+    position: absolute;
+    left: 75vh;
+    top: 78vh;
+}
+
+.rasm{
+    position: absolute;
+    top: 80vh;
+}
+
+.r7{
+    position: relative;
+    left: 35vh;
+}
+
+.r6{
+    position: relative;
+    left: 25vh;
+}
+
+.r5{
+    position: relative;
+    left: 25vh;
+}
+
+.r4{
+    position: relative;
+    left: 25vh;
+}
+
+.r3{
+    position: relative;
+    left: 20vh;
+}
+
+.r2{
+    position: relative;
+    left: 10vh;
+}
+
+.p11{
+    position: relative;
+    top: 80vh;
+    left: 60vh;
+    font-size: 6vh;
+}
+
+
+.p12{
+    position: relative;
+top: 78vh;
+left: 73vh;
+font-size: 6vh;
+}
+
+.p19{
+    position: relative;
+    top: 55vh;
+    left: 80vh;
+
+}
+
+.rrr{
+    position: relative;
+    top: 45vh;
+}
+
+.rrr1{
+    position: relative;
+    left: 20vh;
+}
+
+.rrr2{
+    position: relative;
+    left: 50vh;
+}
+
+.rrr3{
+    position: relative;
+    left: 110vh;
+}
+
+.p14{
+    position: relative;
+    top: 100vh;
+    left: 25vh;
+}
+
+.p15{
+    position: relative;
+    top: 93vh;
+    left: 95vh;
+}
+
+.p16{
+    position: relative;
+    top: 90vh;
+    left: 185vh;
+}
+
+
+
+
+
+
+
+
+
+

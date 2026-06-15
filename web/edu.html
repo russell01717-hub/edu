@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Policy Module | Admin Dashboard</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="edu.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class='bx bxs-graduation'></i>
+                <span>EduAdmin</span>
+            </div>
+            <ul class="nav">
+                <li><a href="#"><i class='bx bxs-dashboard'></i> <span data-i18n="nav_dash">Dashboard</span></a></li>
+                <li><a href="#"><i class='bx bxs-group'></i> <span data-i18n="nav_groups">Groups</span></a></li>
+                <li><a href="#"><i class='bx bxs-user-detail'></i> <span data-i18n="nav_students">Students</span></a></li>
+                <li class="active"><a href="#"><i class='bx bxs-wallet'></i> <span data-i18n="nav_policy">Payment Policy</span></a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header>
+                <div>
+                    <h1 data-i18n="page_title">Payment Policy</h1>
+                    <p data-i18n="page_desc">Manage tuition structures and financial reporting</p>
+                </div>
+                <div class="header-actions">
+                    <div class="admin-toggle">
+                        <label class="switch small-switch">
+                            <input type="checkbox" id="adminRoleToggle">
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="admin-label" id="adminLabel" data-i18n="admin_mode">Enable Admin Mode</span>
+                    </div>
+
+                    <select id="langSelect" class="lang-select">
+                        <option value="en">English</option>
+                        <option value="uz">O'zbek</option>
+                        <option value="ru">Русский</option>
+                    </select>
+                    <button class="icon-btn" id="themeToggle"><i class='bx bx-sun'></i></button>
+                    <div class="user-profile">
+                        <img src="https://ui-avatars.com/api/?name=Admin+User&background=3b82f6&color=fff" alt="Admin">
+                    </div>
+                </div>
+            </header>
+
+            <div class="grid-container">
+                <!-- Settings Panel -->
+                <div class="card glass-card settings-card">
+                    <div class="card-header">
+                        <h2 data-i18n="global_mode">Global Payment Mode</h2>
+                        <span class="badge" id="modeBadge" data-i18n="fixed_monthly">Fixed Monthly</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="description" data-i18n="mode_desc">Select the default payment mode for the academy. Changes apply to future billing cycles.</p>
+                        
+                        <div class="toggle-container">
+                            <span class="toggle-label" data-i18n="per_attendance">Per Attendance</span>
+                            <label class="switch">
+                                <input type="checkbox" id="paymentModeToggle" checked>
+                                <span class="slider round"></span>
+                            </label>
+                            <span class="toggle-label active" data-i18n="fixed_monthly">Fixed Monthly</span>
+                        </div>
+
+                        <div class="mode-info">
+                            <div class="info-item">
+                                <i class='bx bx-coin-stack'></i>
+                                <div>
+                                    <h4 data-i18n="default_fee">Default Monthly Fee</h4>
+                                    <p>300,000 UZS</p>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <i class='bx bx-calculator'></i>
+                                <div>
+                                    <h4 data-i18n="calc_lesson">Calculated Per Lesson</h4>
+                                    <p>25,000 UZS <small data-i18n="based_12">(based on 12 lessons)</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Financial Stats -->
+                <div class="card glass-card stat-card">
+                    <div class="card-header">
+                        <h2 data-i18n="income_sim">Income Simulation (Current Month)</h2>
+                    </div>
+                    <div class="card-body stats-body">
+                        <div class="stat-box">
+                            <i class='bx bx-trending-up'></i>
+                            <div class="stat-content">
+                                <h3 data-i18n="expected">Expected Income</h3>
+                                <p class="amount" id="expectedIncome">0 UZS</p>
+                                <span class="subtitle" data-i18n="if_100">If 100% Fixed Mode</span>
+                            </div>
+                        </div>
+
+                        <div class="vs-divider">VS</div>
+
+                        <div class="stat-box actual">
+                            <i class='bx bx-wallet'></i>
+                            <div class="stat-content">
+                                <h3 data-i18n="actual">Actual Income</h3>
+                                <p class="amount" id="actualIncome">0 UZS</p>
+                                <span class="subtitle" id="actualSubtitle" data-i18n="based_active">Based on active mode</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="variance-alert" id="varianceAlert">
+                        <span data-i18n="diff">Difference: </span> <b id="varianceAmount">0 UZS</b>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Student Roster Simulator / Magazine -->
+            <div class="card glass-card roster-card">
+                <div class="card-header flex-between flex-wrap">
+                    <div>
+                        <h2 data-i18n="roster_title">Class Journal (Magazine)</h2>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 5px;" data-i18n="roster_desc">Viewing 50 random students. Search and Payments are Admin-only.</p>
+                    </div>
+                    <div class="journal-actions">
+                        <div class="search-bar" id="searchBarContainer">
+                            <i class='bx bx-search'></i>
+                            <input type="text" id="searchInput" data-i18n-ph="search_ph" placeholder="Search student...">
+                        </div>
+                        <button class="btn btn-primary" id="resetBtn"><i class='bx bx-refresh'></i> <span data-i18n="reset">Reset Data</span></button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="roster-table">
+                        <thead>
+                            <tr>
+                                <th data-i18n="col_student">Student</th>
+                                <th data-i18n="col_group">Group</th>
+                                <th data-i18n="col_att">Attendance (12 max)</th>
+                                <th data-i18n="col_status">Status</th>
+                                <th class="text-right" data-i18n="col_fee">Calculated Fee</th>
+                                <th class="text-right" data-i18n="col_balance">Account Balance</th>
+                                <th class="text-center" data-i18n="col_action">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentTableBody">
+                            <!-- Injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for Warning -->
+    <div class="modal" id="warningModal">
+        <div class="modal-content glass-card">
+            <h2 class="text-warning"><i class='bx bx-error-circle'></i> <span data-i18n="mod_warn">Confirm Change</span></h2>
+            <p><span data-i18n="mod_p1">You are about to switch the global payment model to </span><b id="modalNewMode">...</b>.</p>
+            <p class="modal-subtext" data-i18n="mod_p2">This will ONLY affect future calculations. Previous payments and historic records will remain intact.</p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancelModeBtn" data-i18n="btn_cancel">Cancel</button>
+                <button class="btn btn-warning" id="confirmModeBtn" data-i18n="btn_confirm">Confirm Change</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Virtual Assistant -->
+    <div class="assistant-widget" id="assistantWidget">
+        <div class="assistant-bubble glass-card" id="assistantBubble">
+            <div class="assistant-header">
+                <span><i class='bx bx-bot'></i> EduBot</span>
+                <button id="closeAssistant"><i class='bx bx-x'></i></button>
+            </div>
+            <div class="assistant-body" id="astChatBody">
+                <div class="chat-message bot-msg">
+                    <p id="assistantMessage" data-i18n="ast_intro">Hello! I am your AI assistant. I can help you understand the payment models.</p>
+                </div>
+            </div>
+            <div class="assistant-actions" id="astQuickActions">
+                <button class="ast-chip" id="astBtnExplain" data-i18n="ast_btn_explain">Explain modes</button>
+                <button class="ast-chip" id="astBtnStats" data-i18n="ast_btn_stats">Analyze income</button>
+            </div>
+            <div class="assistant-input-area">
+                <input type="text" id="astInput" data-i18n-ph="ast_ph" placeholder="Ask a question...">
+                <button id="astSendBtn"><i class='bx bx-send'></i></button>
+            </div>
+        </div>
+        <div class="assistant-avatar" id="assistantAvatar" title="Need help?">
+            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Edu" alt="Assistant">
+            <span class="notification-dot" id="astNotif"></span>
+        </div>
+    </div>
+
+    <script src="edu.js"></script>
+</body>
+</html>

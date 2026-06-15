@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstroClip - Ultimate Cinema</title>
+    <link rel="stylesheet" href="hol.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+
+<body>
+    <!-- Starfield entrance background -->
+    <canvas id="starfield"></canvas>
+
+    <header class="header" id="mainHeader">
+        <div class="logo">
+            <i class="ph-fill ph-film-strip"></i> <span>AstroClip</span>
+        </div>
+
+        <div class="search-bar">
+            <i class="ph ph-magnifying-glass"></i>
+            <input type="text" id="searchInput" placeholder="Search movies, genres...">
+        </div>
+
+        <div class="header-actions">
+            <!-- Language Selector -->
+            <div class="lang-selector">
+                <i class="ph ph-globe"></i>
+                <select id="langSelect">
+                    <option value="en">EN</option>
+                    <option value="uz">UZ</option>
+                    <option value="ru">RU</option>
+                </select>
+            </div>
+
+            <button class="icon-btn theme-toggle"><i class="ph ph-moon"></i></button>
+            <button class="hamburger-btn"><i class="ph ph-list"></i></button>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero parallax-container">
+            <div class="hero-overlay" style="background:transparent;"></div>
+            <div class="hero-content">
+                <h1 class="hero-title reveal-slide" id="t-hero-title">The Cosmic Frontier</h1>
+                <p class="hero-desc reveal-slide delay-1" id="t-hero-desc">Experience the greatest journey into the
+                    unknown. Explore distant galaxies and uncover the truth.</p>
+                <div class="hero-buttons reveal-slide delay-2">
+                    <button class="btn btn-primary cinematic-btn"><i class="ph-fill ph-play"></i> <span
+                            id="t-watch-trailer">Watch Trailer</span></button>
+                    <button class="btn btn-icon cinematic-btn"><i class="ph ph-plus"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Genre Nav -->
+        <nav class="genre-nav reveal-fade" id="genreNav">
+            <button class="genre-pill active" data-filter="all" id="t-genre-all">All Genres</button>
+            <button class="genre-pill" data-filter="Action" id="t-genre-action">Action</button>
+            <button class="genre-pill" data-filter="Sci-Fi" id="t-genre-scifi">Sci-Fi</button>
+            <button class="genre-pill" data-filter="Drama" id="t-genre-drama">Drama</button>
+            <button class="genre-pill" data-filter="Horror" id="t-genre-horror">Horror</button>
+            <button class="genre-pill" data-filter="Comedy" id="t-genre-comedy">Comedy</button>
+            <button class="genre-pill" data-filter="Thriller" id="t-genre-thriller">Thriller</button>
+            <button class="genre-pill" data-filter="Documentary" id="t-genre-doc">Documentary</button>
+        </nav>
+
+        <!-- Dynamic Container for Sections -->
+        <div id="mainContentContainer"></div>
+
+    </main>
+
+    <footer class="footer">
+        <p>Creator: Shohnur --- f.i.sh.i. (shohnur Rajabov Rustam o'g'li) <br>boshqa malumotlar ochiqlanmagan! <br>Astro Clip — Kinoni his qil! 🍿
+Har kuni yangi filmlar va kliplar.
+© 2026 Astro Clip <br>(barcha huquqlar himoyalangan!)</p>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Video Player Modal -->
+    <div id="videoModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="close-modal-btn" id="closeModal"><i class="ph-bold ph-x"></i></button>
+            <div class="video-container">
+                <video id="modalVideoPlayer" controls playsinline preload="metadata"></video>
+            </div>
+            <div class="modal-info">
+                <h2 id="modalTitle">Movie Title</h2>
+                <p id="modalDesc">Detailed description about this movie goes here.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="hol.js"></script>
+</body>
+
+</html>

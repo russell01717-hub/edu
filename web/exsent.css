@@ -1,0 +1,23 @@
+.f1, .f2 {
+  width: 400px;
+  height: 400px;
+  background: red;
+}
+.f1 h1, .f2 h1 {
+  color: yellow;
+  font-size: 100px;
+}
+.f1 h1 span, .f2 h1 span {
+  color: green;
+  font-size: 50px;
+}
+
+.f2 {
+  background: blue;
+  border-radius: 50%;
+  position: relative;
+  top: 100px;
+  left: 100px;
+}
+
+/*# sourceMappingURL=exsent.css.map */

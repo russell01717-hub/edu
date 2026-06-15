@@ -1,0 +1,22 @@
+$range-color: red;
+$kattaligi: 50px;
+
+@mixin nom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+h1{
+    color: $range-color;
+    font-size: $kattaligi;
+}
+
+body{
+    width: 100%;
+    height: 100vh;
+    background-color: $range-color;
+    @include nom;
+    justify-content: center;
+    align-items: center;
+}

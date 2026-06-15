@@ -1,0 +1,96 @@
+.o1{
+    width: 150px;
+    height: 200px;
+    background-color: white;
+    position: absolute;
+    left: 20vh;
+    top: 10vh;
+    border: solid 2px cornflowerblue;
+}
+
+body{
+    background-color: aliceblue;
+}
+
+.o2{
+    width: 150px;
+    height: 200px;
+    background-color: white;
+    overflow: hidden;
+    position: absolute;
+    left: 50vh;
+    top: 10vh;
+    border: solid 2px cornflowerblue;
+}
+
+.o3{
+    width: 150px;
+    height: 200px;
+    background-color: white;
+    overflow: scroll;
+    position: absolute;
+    left: 80vh;
+    top: 10vh;
+    border: solid 2px cornflowerblue;
+}
+
+.o4{
+    width: 150px;
+    height: 200px;
+    background-color: white;
+    overflow: auto;
+    position: absolute;
+    left: 120vh;
+    top: 10vh;
+    border: solid 2px cornflowerblue;
+}
+
+.o5{
+    width: 150px;
+    height: 200px;
+    background-color: white;
+    position: absolute;
+    left: 50vh;
+    top: 60vh;
+}
+
+.o6{
+    width: 150px;
+    height: 200px;
+    background-color: white;
+    position: absolute;
+    overflow: hidden;
+    left: 80vh;
+    top: 60vh;
+}
+
+.o7{
+    width: 150px;
+    height: 200px;
+    background-color: white;
+    position: absolute;
+    overflow: scroll;
+    left: 120vh;
+    top: 60vh;
+}
+
+.o8{
+    width: 150px;
+    height: 200px;
+    background-color: white;
+    position: absolute;
+    overflow: auto;
+    left: 160vh;
+    top: 60vh;
+}
+
+.o9{
+    width: 500px;
+    height: 100px;
+    background-color: yellowgreen;
+    overflow: visible;
+    border: solid 2px color black;
+    position: absolute;
+    left: 50vh;
+    top: 150vh;
+}

@@ -1,0 +1,34 @@
+*{
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+/* * = html'dagi barcha elementlar */
+
+.box1 {
+    width: 200px;
+    height: 200px;
+    background-color: red;
+    /* position: static; */
+    position: relative;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.box2 {
+    width: 200px;
+    height: 200px;
+    background-color: blue;
+    position: sticky;
+    top: 40%;
+    left: 40%;
+}
+
+/* relative - position relative berilgan element o‘z ustidan boshqa elementlarni joylashtirishga va o‘z ustida harakatlantirishga ruxsat beradi. */
+
+/* absolute - position absolute berilgan element relative berilgan element ustida joylashish uchun yoki ekranning xohlagan qismiga harakatlanishi mumkin bo‘ladi. */
+
+/* fixed - position fixed berilgan element ekranga qotib turadi */
+
+/* sticky - u ham elementni ekranga qotiradi lekin boshida o‘zini joyida keyin ekranga ustiga kelgan vaqtda qotadi. */

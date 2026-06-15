@@ -1,0 +1,451 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.f{
+    width: 70%;
+    height: 60vh;
+    background-color: #2A2B2D;
+    position: absolute;
+    left: 30vh;
+    top: 20vh;
+    border-radius: 25px;
+}
+
+body{
+    background-color: black;
+}
+
+.f1{
+    position: absolute;
+    left: 5vh;
+    top: 7vh;
+    color: white;
+}
+
+.f2{
+    font-size: 60px;
+}
+
+.f3{
+    font-size: 60px;
+    position: absolute;
+    left: 25vh;
+    top: 9.5vh;
+}
+
+.f3-3{
+    font-size: 60px;
+    color: blueviolet;
+}
+
+.f4{
+    position: relative;
+    top: 2vh;
+
+}
+
+.f5{
+    position: absolute;
+    top: 36vh;
+    left: 5vh;
+}
+.f6{
+    width: 20vh;
+    height: 5vh;
+    border-radius: 10px;
+    color: white;
+    background-color: blueviolet;
+    border: none;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+    transition-delay: 0; 
+}
+
+.f6:hover{
+    transform: translateY(40px);
+}
+
+.f7{
+    width: 20vh;
+    height: 5vh;
+    border-radius: 10px;
+    backdrop-filter: blur(15px);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: none;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+    transition-delay: 0; 
+}
+
+.f7:hover{
+    transform: translateY(-40px);
+}
+
+.f8{
+   position: absolute;
+   left: 35vh;
+   top: 120vh;
+   color: white;
+}
+
+.f9{
+    font-size: 60px;
+    
+}
+
+.f10{
+    color: blueviolet;
+    font-size: 60px;
+    position: absolute;
+    left: 44vh;
+    bottom: 5vh;
+}
+
+.f11{
+    position: relative;
+    top: 2vh;
+}
+
+.f12{
+    width: 400px;
+    height: 240px;
+    background-color: #2A2B2D;
+    position: relative;
+    top: 150vh;
+    left: 30vh;
+    border-radius: 15px;
+    color: white;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+    transition-delay: 0; 
+}
+
+.f12:hover{
+    transform: translateY(-50px) scale(1.1);
+}
+
+.f14{
+    position: absolute;
+    left: 5vh;
+    top: 15vh;
+    font-size: 30px;
+}
+
+.f15{
+    position: absolute;
+    left: 5vh;
+    top: 22vh;
+    font-size: 20px;
+    opacity: 0.5;
+}
+
+
+.f16{
+    width: 400px;
+    height: 240px;
+    background-color: #2A2B2D;
+    position: relative;
+    top: 117.5vh;
+    left: 87vh;
+    border-radius: 15px;
+    color: white;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+    transition-delay: 0; 
+}
+
+.f16:hover{
+    transform: translateY(-50px) scale(1.1);
+}
+
+.f17{
+    position: absolute;
+    left: 5vh;
+    top: 15vh;
+    font-size: 30px;
+}
+
+.f18{
+    position: absolute;
+    left: 5vh;
+    top: 22vh;
+    font-size: 20px;
+    opacity: 0.5;
+}
+
+
+.f19{
+    width: 400px;
+    height: 240px;
+    background-color: #2A2B2D;
+    position: relative;
+    top: 85vh;
+    left: 144vh;
+    border-radius: 15px;
+    color: white;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+    transition-delay: 0;
+}
+
+.f19:hover{
+    transform: translateY(-50px) scale(1.1);
+}
+
+.f20{
+    position: absolute;
+    left: 5vh;
+    top: 15vh;
+    font-size: 30px;
+}
+
+.f21{
+    position: absolute;
+    left: 5vh;
+    top: 22vh;
+    font-size: 20px;
+    opacity: 0.5;
+}
+
+.f22{
+    position: relative;
+    right: 10vh;
+}
+
+.f26{
+    position: relative;
+    left: 30vh;
+    top: 130vh;
+    color: white;
+   
+}
+
+.f23{
+    font-size: 60px;
+}
+
+.f24{
+    position: relative;
+    top: 2vh;
+}
+
+.f25{
+    width: 20vh;
+    height: 5vh;
+    border-radius: 5px;
+    color: white;
+    background-color: blueviolet;
+    border: none;
+    position: relative;
+    top: 5vh;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+    transition-delay: 0;
+}
+
+.f25:hover{
+    transform: translateX(30px);
+}
+
+.f30{
+    position: relative;
+    left: 50%;
+    top: 120vh;
+    color: white;
+   
+}
+
+.f27{
+    font-size: 60px;
+}
+
+.f28{
+    position: relative;
+    top: 2vh;
+}
+
+.f29{
+    width: 20vh;
+    height: 5vh;
+    border-radius: 5px;
+    color: white;
+    background-color: blueviolet;
+    border: none;
+    position: relative;
+    top: 5vh;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+    transition-delay: 0;
+}
+
+.f29:hover{
+    transform: translateX(30px);
+}
+
+.p1{
+    position: relative;
+    left: 60vh;
+    bottom: 5vh;
+    animation-name: box;
+    animation-duration: 250s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+}
+
+@keyframes box{
+       from{
+        transform: rotate(0deg);
+       }
+     
+to{
+    transform: rotate(30060deg);
+}
+
+
+}
+
+.img1{
+    width: 350px;
+    height: 600px;
+    position: relative;
+    top: 70vh;
+    left: 60%;
+    border-radius: 35px;
+    border: solid 2px red;
+        animation-name: idd;
+    animation-duration: 2s;
+    animation-timing-function: 100s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    
+}
+
+@keyframes idd {
+    from{
+        transform: translateY(100px);
+        
+    }    
+
+    to{
+        transform: translateY(-30px);
+        
+        
+    }
+
+    
+}
+
+.img2{
+    width: 350px;
+    height: 600px;
+    position: relative;
+    top: 70vh;
+    left: 10%;
+    border-radius: 35px;
+    border: solid 2px red;
+    animation-name: id;
+    animation-duration: 2s;
+    animation-timing-function: 100s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    
+}
+
+@keyframes id {
+    from{
+        transform: translateY(100px);
+        
+    }    
+
+    to{
+        transform: translateY(-30px);
+        
+        
+    }
+
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

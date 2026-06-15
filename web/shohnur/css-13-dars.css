@@ -1,0 +1,65 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.b1{
+padding: 12px 24px;
+background-color: red;
+color: white;
+border-top: 100px;
+border-left: 100px;
+}
+
+.b2{
+padding: 12px 24px;
+background-color: blue;
+color: white;
+border-top: 100px;
+border-left: 100px;
+}
+
+.b3{
+padding: 12px 24px;
+background-color: greenyellow;
+color: white;
+border-top: 100px;
+border-left: 100px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.b1:hover {
+    border-radius: 100px;
+    background-color: black;
+    border: none;
+}
+
+.b2:active {
+    border: none;
+    border-radius: 100px;
+    background-color: black;
+}
+
+.b3:focus {
+    border: none;
+    border-radius: 100px;
+    background-color: black;
+}
+
+/* hover - qachonchi belgilangan element ustiga sichqoncha olib borilsa biz kiritgan o'zgarishlar sodir bo'ladi. */
+/* active - qachonki belgilangan element ustiga bosib turilgan vaqtda biz kiritgan o'zgarishlar sodir bo'ladi. */
+/* focus - element ustiga bitta bosilsa biz kirigan elementlar sodir bo'ladi. */
+
+/* Bular 3tasi Pseudo elementlar */

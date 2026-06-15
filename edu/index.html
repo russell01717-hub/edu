@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="uz" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduPlatform - Arab tili markazi</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f0f4f8; min-height: 100vh; color: #1e293b; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideIn { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+@keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes bounceIn { 0% { opacity: 0; transform: scale(0.3); } 50% { transform: scale(1.05); } 70% { transform: scale(0.9); } 100% { opacity: 1; transform: scale(1); } }
+
+.bg-grad { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+.card { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border: 1px solid #e2e8f0; transition: all 0.3s ease; }
+.card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.1); transform: translateY(-2px); }
+.btn { padding: 10px 20px; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; }
+.btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+.btn:active { transform: translateY(0); }
+.btn-primary { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; }
+.btn-success { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+.btn-danger { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
+.btn-warning { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
+.input { width: 100%; padding: 10px 14px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 14px; transition: all 0.3s ease; background: #f8fafc; }
+.input:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.15); background: white; }
+.select { width: 100%; padding: 10px 14px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 14px; background: #f8fafc; cursor: pointer; transition: all 0.3s ease; }
+.select:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
+
+.login-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; position: relative; overflow: hidden; }
+.login-page::before { content: ''; position: absolute; width: 600px; height: 600px; background: rgba(255,255,255,0.05); border-radius: 50%; top: -200px; right: -200px; animation: float 6s ease-in-out infinite; }
+.login-page::after { content: ''; position: absolute; width: 400px; height: 400px; background: rgba(255,255,255,0.05); border-radius: 50%; bottom: -100px; left: -100px; animation: float 8s ease-in-out infinite reverse; }
+.login-box { background: white; padding: 40px; border-radius: 24px; width: 100%; max-width: 420px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); animation: scaleIn 0.6s ease-out; position: relative; z-index: 1; }
+.login-box h1 { font-size: 28px; text-align: center; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 4px; }
+.login-box p { text-align: center; color: #94a3b8; margin-bottom: 30px; font-size: 14px; }
+.login-box .input { margin-bottom: 16px; }
+
+.layout { display: flex; min-height: 100vh; }
+.sidebar { width: 260px; background: linear-gradient(180deg, #1e1b4b 0%, #312e81 100%); color: white; padding: 24px 16px; display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 100; transition: all 0.3s ease; animation: slideIn 0.4s ease-out; }
+.sidebar h2 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+.sidebar .subtitle { color: #a5b4fc; font-size: 13px; margin-bottom: 30px; }
+.sidebar nav { flex: 1; }
+.sidebar nav a { display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: #c7d2fe; text-decoration: none; border-radius: 12px; transition: all 0.3s ease; margin-bottom: 4px; cursor: pointer; font-size: 14px; }
+.sidebar nav a:hover { background: rgba(255,255,255,0.1); color: white; transform: translateX(4px); }
+.sidebar nav a.active { background: rgba(255,255,255,0.15); color: white; font-weight: 600; }
+.sidebar .logout-btn { margin-top: auto; padding: 12px 16px; color: #a5b4fc; cursor: pointer; border-radius: 12px; transition: all 0.3s ease; font-size: 14px; display: flex; align-items: center; gap: 12px; }
+.sidebar .logout-btn:hover { background: rgba(239,68,68,0.15); color: #fca5a5; }
+
+.content { margin-left: 260px; flex: 1; padding: 32px; animation: fadeIn 0.5s ease-out; }
+.content h1 { font-size: 26px; font-weight: 700; margin-bottom: 24px; color: #1e293b; }
+
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
+.stat-card { animation: scaleIn 0.5s ease-out; animation-fill-mode: both; }
+.stat-card:nth-child(1) { animation-delay: 0.1s; }
+.stat-card:nth-child(2) { animation-delay: 0.2s; }
+.stat-card:nth-child(3) { animation-delay: 0.3s; }
+.stat-card:nth-child(4) { animation-delay: 0.4s; }
+.stat-card .label { color: #94a3b8; font-size: 13px; margin-bottom: 4px; }
+.stat-card .value { font-size: 32px; font-weight: 700; }
+.stat-card .value.purple { color: #6366f1; }
+.stat-card .value.blue { color: #3b82f6; }
+.stat-card .value.green { color: #10b981; }
+.stat-card .value.emerald { color: #059669; }
+
+.form-panel { animation: slideIn 0.3s ease-out; margin-bottom: 24px; }
+.form-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: end; }
+.form-row > div { flex: 1; min-width: 150px; }
+.form-row label { display: block; font-size: 13px; color: #64748b; margin-bottom: 4px; font-weight: 500; }
+
+.table-wrap { background: white; border-radius: 16px; border: 1px solid #e2e8f0; overflow: hidden; animation: fadeIn 0.5s ease-out; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+thead { background: #f8fafc; }
+th { text-align: left; padding: 14px 16px; color: #64748b; font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+td { padding: 12px 16px; border-top: 1px solid #f1f5f9; }
+tr:hover td { background: #f8fafc; }
+tr { transition: background 0.2s; animation: fadeIn 0.3s ease-out; animation-fill-mode: both; }
+
+.badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+.badge-green { background: #d1fae5; color: #065f46; }
+.badge-yellow { background: #fef3c7; color: #92400e; }
+.badge-red { background: #fee2e2; color: #991b1b; }
+
+.attendance-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 8px; transition: all 0.3s ease; cursor: pointer; }
+.attendance-item:hover { background: #f8fafc; transform: translateX(4px); }
+.attendance-item .name { font-weight: 500; }
+.status-btn { padding: 8px 20px; border-radius: 10px; border: 2px solid; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-size: 13px; }
+.status-btn:hover { transform: scale(1.05); }
+
+.empty-state { text-align: center; padding: 48px 20px; color: #94a3b8; animation: fadeIn 0.5s ease-out; }
+.empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+
+@media (max-width: 768px) {
+  .sidebar { width: 220px; }
+  .content { margin-left: 220px; padding: 20px; }
+}
+
+.animate-bounce-in { animation: bounceIn 0.6s ease-out; }
+.animate-float { animation: float 3s ease-in-out infinite; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useCallback } = React
+
+// DB helpers
+function loadDB() {
+  try {
+    const raw = localStorage.getItem('edu_data')
+    if (raw) return JSON.parse(raw)
+  } catch {}
+  return { users: [], groups: [], students: [], lessons: [], attendances: [], payments: [], ids: { users: 1, groups: 1, students: 1, lessons: 1, attendances: 1, payments: 1 } }
+}
+
+function saveDB(db) { localStorage.setItem('edu_data', JSON.stringify(db)) }
+
+function initDB() {
+  let db = loadDB()
+  if (!db.users.find(u => u.login === 'admin')) {
+    const hash = btoa('admin123') // simple hash
+    db.users.push({ id: db.ids.users++, name: 'Admin', login: 'admin', password: hash, role: 'admin', createdAt: new Date().toISOString() })
+    saveDB(db)
+  }
+  return db
+}
+
+function nextId(db, table) { return db.ids[table]++ }
+
+// User helpers
+function getUsers(db) { return db.users.map(u => { const { password, ...rest } = u; return rest }) }
+function createUser(db, name, login, password) {
+  if (db.users.find(u => u.login === login)) return null
+  const u = { id: nextId(db, 'users'), name, login, password: btoa(password), role: 'admin', createdAt: new Date().toISOString() }
+  db.users.push(u)
+  saveDB(db)
+  const { password: _, ...rest } = u
+  return rest
+}
+function updateUser(db, id, name, password) {
+  const u = db.users.find(x => x.id === id)
+  if (!u) return null
+  if (name) u.name = name
+  if (password) u.password = btoa(password)
+  saveDB(db)
+  const { password: _, ...rest } = u
+  return rest
+}
+function deleteUser(db, id) {
+  if (id === 1) return false
+  db.users = db.users.filter(u => u.id !== id)
+  saveDB(db)
+  return true
+}
+
+// Icons
+const Icons = {
+  dashboard: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>,
+  groups: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
+  students: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>,
+  attendance: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>,
+  payments: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>,
+  lessons: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>,
+  users: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
+  logout: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>,
+  plus: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>,
+  check: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>,
+  trash: () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>,
+}
+
+// Login Page
+function LoginPage({ onLogin }) {
+  const [login, setLogin] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    setError('')
+    setLoading(true)
+    setTimeout(() => {
+      const db = loadDB()
+      const user = db.users.find(u => u.login === login)
+      if (!user || btoa(password) !== user.password) {
+        setError('Login yoki parol noto\'g\'ri')
+        setLoading(false)
+        return
+      }
+      localStorage.setItem('edu_user', JSON.stringify(user))
+      onLogin(user)
+    }, 800)
+  }
+
+  return (
+    <div className="login-page">
+      <div className="login-box">
+        <h1>EduPlatform</h1>
+        <p>Arab tili o'quv markazi</p>
+        {error && <div style={{background:'#fef2f2',color:'#991b1b',padding:'12px',borderRadius:'10px',fontSize:'14px',textAlign:'center',marginBottom:'16px',animation:'bounceIn 0.4s ease-out'}}>{error}</div>}
+        <form onSubmit={handleSubmit}>
+          <input className="input" type="text" placeholder="Login" value={login} onChange={e => setLogin(e.target.value)} required />
+          <input className="input" type="password" placeholder="Parol" value={password} onChange={e => setPassword(e.target.value)} required />
+          <button className="btn btn-primary" style={{width:'100%',justifyContent:'center',padding:'14px',fontSize:'16px'}} disabled={loading}>
+            {loading ? <span style={{display:'inline-block',width:'20px',height:'20px',border:'2px solid white',borderTopColor:'transparent',borderRadius:'50%',animation:'spin 0.8s linear infinite'}}></span> : 'Kirish'}
+          </button>
+        </form>
+        <p style={{marginTop:'20px',fontSize:'12px'}}>Admin: <strong>admin</strong> | Parol: <strong>admin123</strong></p>
+      </div>
+    </div>
+  )
+}
+
+// Sidebar
+function Sidebar({ page, setPage, user, onLogout }) {
+  const links = [
+    { key: 'dashboard', label: 'Dashboard', icon: Icons.dashboard },
+    { key: 'groups', label: 'Guruhlar', icon: Icons.groups },
+    { key: 'students', label: "O'quvchilar", icon: Icons.students },
+    { key: 'attendance', label: 'Davomat', icon: Icons.attendance },
+    { key: 'payments', label: "To'lovlar", icon: Icons.payments },
+    { key: 'lessons', label: 'Darslar', icon: Icons.lessons },
+    { key: 'users', label: 'Foydalanuvchilar', icon: Icons.users },
+  ]
+
+  return (
+    <div className="sidebar">
+      <h2>EduPlatform</h2>
+      <p className="subtitle">Arab tili markazi</p>
+      <nav>
+        {links.map(l => (
+          <a key={l.key} className={page === l.key ? 'active' : ''} onClick={() => setPage(l.key)}>
+            <l.icon /> {l.label}
+          </a>
+        ))}
+      </nav>
+      <div className="logout-btn" onClick={onLogout}>
+        <Icons.logout /> Chiqish
+      </div>
+    </div>
+  )
+}
+
+// Dashboard
+function Dashboard() {
+  const [data, setData] = useState({ students: 0, groups: 0, lessons: 0, totalPayments: 0, recent: [] })
+
+  useEffect(() => {
+    const db = loadDB()
+    const totalPayments = db.payments.filter(p => p.type === 'income').reduce((s, p) => s + p.amount, 0)
+    const recent = db.attendances.slice().reverse().slice(0, 10).map(a => {
+      const s = db.students.find(st => st.id === a.studentId)
+      const l = db.lessons.find(le => le.id === a.lessonId)
+      const g = l ? db.groups.find(gr => gr.id === l.groupId) : null
+      return { ...a, studentName: s?.name || '', groupName: g?.name || '', date: l?.date || '' }
+    })
+    setData({ students: db.students.length, groups: db.groups.length, lessons: db.lessons.length, totalPayments, recent })
+  }, [])
+
+  const statusLabel = { present: 'Keldi', late: 'Kechikdi', absent: 'Kelmadi' }
+  const statusClass = { present: 'badge badge-green', late: 'badge badge-yellow', absent: 'badge badge-red' }
+
+  return (
+    <div>
+      <h1>Dashboard</h1>
+      <div className="stats-grid">
+        <div className="card stat-card"><p className="label">O'quvchilar</p><p className="value purple">{data.students}</p></div>
+        <div className="card stat-card"><p className="label">Guruhlar</p><p className="value blue">{data.groups}</p></div>
+        <div className="card stat-card"><p className="label">Darslar</p><p className="value green">{data.lessons}</p></div>
+        <div className="card stat-card"><p className="label">To'lovlar (so'm)</p><p className="value emerald">{data.totalPayments.toLocaleString()}</p></div>
+      </div>
+      <div className="card">
+        <h2 style={{fontSize:'18px',marginBottom:'16px'}}>Oxirgi davomat</h2>
+        {data.recent.length === 0 ? (
+          <div className="empty-state"><div className="icon">📋</div><p>Hozircha ma'lumot yo'q</p></div>
+        ) : (
+          <div className="table-wrap">
+            <table>
+              <thead><tr><th>O'quvchi</th><th>Guruh</th><th>Sana</th><th>Holat</th></tr></thead>
+              <tbody>{data.recent.map(a => (
+                <tr key={a.id}><td>{a.studentName}</td><td>{a.groupName}</td><td>{a.date}</td><td><span className={statusClass[a.status]}>{statusLabel[a.status]}</span></td></tr>
+              ))}</tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+// Groups
+function Groups() {
+  const [groups, setGroups] = useState([])
+  const [showForm, setShowForm] = useState(false)
+  const [name, setName] = useState('')
+  const [desc, setDesc] = useState('')
+  const [price, setPrice] = useState('')
+
+  function load() {
+    const db = loadDB()
+    const data = db.groups.map(g => ({ ...g, studentCount: db.students.filter(s => s.groupId === g.id).length }))
+    setGroups(data)
+  }
+  useEffect(load, [])
+
+  function create(e) {
+    e.preventDefault()
+    const db = loadDB()
+    const g = { id: nextId(db, 'groups'), name, description: desc, pricePerLesson: parseInt(price) || 0, createdAt: new Date().toISOString() }
+    db.groups.push(g)
+    saveDB(db)
+    setName(''); setDesc(''); setPrice(''); setShowForm(false); load()
+  }
+
+  function del(id) {
+    if (!confirm("O'chirasizmi?")) return
+    const db = loadDB()
+    db.groups = db.groups.filter(g => g.id !== id)
+    db.students = db.students.filter(s => s.groupId !== id)
+    saveDB(db)
+    load()
+  }
+
+  return (
+    <div>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'24px'}}>
+        <h1>Guruhlar</h1>
+        <button className="btn btn-primary" onClick={() => setShowForm(!showForm)}><Icons.plus /> Yangi guruh</button>
+      </div>
+      {showForm && (
+        <form className="card form-panel" onSubmit={create}>
+          <div className="form-row">
+            <div><label>Nomi</label><input className="input" value={name} onChange={e => setName(e.target.value)} required /></div>
+            <div><label>Izoh</label><input className="input" value={desc} onChange={e => setDesc(e.target.value)} /></div>
+            <div style={{minWidth:'120px'}}><label>Dars narxi (so'm)</label><input className="input" type="number" value={price} onChange={e => setPrice(e.target.value)} /></div>
+            <div><button type="submit" className="btn btn-success" style={{marginTop:'22px'}}><Icons.check /> Saqlash</button></div>
+          </div>
+        </form>
+      )}
+      {groups.length === 0 ? (
+        <div className="empty-state"><div className="icon">📚</div><p>Guruhlar mavjud emas</p></div>
+      ) : (
+        <div className="table-wrap">
+          <table>
+            <thead><tr><th>Nomi</th><th>Izoh</th><th>Dars narxi</th><th>O'quvchilar</th><th></th></tr></thead>
+            <tbody>{groups.map(g => (
+              <tr key={g.id}><td style={{fontWeight:600}}>{g.name}</td><td style={{color:'#64748b'}}>{g.description || '-'}</td><td>{g.pricePerLesson.toLocaleString()} so'm</td><td>{g.studentCount}</td><td><button className="btn btn-danger" style={{padding:'6px 12px',fontSize:'12px'}} onClick={() => del(g.id)}><Icons.trash /></button></td></tr>
+            ))}</tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// Students
+function Students() {
+  const [students, setStudents] = useState([])
+  const [groups, setGroups] = useState([])
+  const [showForm, setShowForm] = useState(false)
+  const [name, setName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [groupId, setGroupId] = useState('')
+
+  function load() {
+    const db = loadDB()
+    setStudents(db.students.map(s => ({ ...s, groupName: db.groups.find(g => g.id === s.groupId)?.name || '' })))
+    setGroups(db.groups)
+  }
+  useEffect(load, [])
+
+  function create(e) {
+    e.preventDefault()
+    const db = loadDB()
+    const s = { id: nextId(db, 'students'), name, phone: phone || '', groupId: parseInt(groupId), balance: 0, createdAt: new Date().toISOString() }
+    db.students.push(s)
+    saveDB(db)
+    setName(''); setPhone(''); setGroupId(''); setShowForm(false); load()
+  }
+
+  function del(id) {
+    if (!confirm("O'chirasizmi?")) return
+    const db = loadDB()
+    db.students = db.students.filter(s => s.id !== id)
+    db.attendances = db.attendances.filter(a => a.studentId !== id)
+    db.payments = db.payments.filter(p => p.studentId !== id)
+    saveDB(db)
+    load()
+  }
+
+  return (
+    <div>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'24px'}}>
+        <h1>O'quvchilar</h1>
+        <button className="btn btn-primary" onClick={() => setShowForm(!showForm)}><Icons.plus /> Yangi o'quvchi</button>
+      </div>
+      {showForm && (
+        <form className="card form-panel" onSubmit={create}>
+          <div className="form-row">
+            <div><label>Ism</label><input className="input" value={name} onChange={e => setName(e.target.value)} required /></div>
+            <div style={{minWidth:'120px'}}><label>Telefon</label><input className="input" value={phone} onChange={e => setPhone(e.target.value)} /></div>
+            <div><label>Guruh</label><select className="select" value={groupId} onChange={e => setGroupId(e.target.value)} required>
+              <option value="">Tanlang</option>
+              {groups.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
+            </select></div>
+            <div><button type="submit" className="btn btn-success" style={{marginTop:'22px'}}><Icons.check /> Saqlash</button></div>
+          </div>
+        </form>
+      )}
+      {students.length === 0 ? (
+        <div className="empty-state"><div className="icon">👨‍🎓</div><p>O'quvchilar mavjud emas</p></div>
+      ) : (
+        <div className="table-wrap">
+          <table>
+            <thead><tr><th>Ism</th><th>Telefon</th><th>Guruh</th><th>Balans</th><th></th></tr></thead>
+            <tbody>{students.map(s => (
+              <tr key={s.id}>
+                <td style={{fontWeight:600}}>{s.name}</td>
+                <td style={{color:'#64748b'}}>{s.phone || '-'}</td>
+                <td>{s.groupName}</td>
+                <td style={{fontWeight:600,color:s.balance < 0 ? '#dc2626' : '#059669'}}>{s.balance.toLocaleString()}</td>
+                <td><button className="btn btn-danger" style={{padding:'6px 12px',fontSize:'12px'}} onClick={() => del(s.id)}><Icons.trash /></button></td>
+              </tr>
+            ))}</tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// Attendance
+function Attendance() {
+  const [groups, setGroups] = useState([])
+  const [selectedGroup, setSelectedGroup] = useState('')
+  const [date, setDate] = useState(new Date().toISOString().split('T')[0])
+  const [topic, setTopic] = useState('')
+  const [step, setStep] = useState('select') // select | taking
+  const [students, setStudents] = useState([])
+  const [attendances, setAttendances] = useState({})
+  const [currentLessonId, setCurrentLessonId] = useState(null)
+  const [msg, setMsg] = useState('')
+
+  useEffect(() => { const db = loadDB(); setGroups(db.groups) }, [])
+
+  function startLesson() {
+    if (!selectedGroup || !date) return
+    const db = loadDB()
+    const lesson = { id: nextId(db, 'lessons'), groupId: parseInt(selectedGroup), date, topic: topic || '', createdAt: new Date().toISOString() }
+    db.lessons.push(lesson)
+    saveDB(db)
+    setCurrentLessonId(lesson.id)
+    const sts = db.students.filter(s => s.groupId === parseInt(selectedGroup))
+    setStudents(sts)
+    const att = {}
+    sts.forEach(s => { att[s.id] = 'present' })
+    setAttendances(att)
+    setStep('taking')
+    setMsg('')
+  }
+
+  function toggleStatus(id) {
+    setAttendances(prev => {
+      const cur = prev[id]
+      const next = cur === 'present' ? 'absent' : cur === 'absent' ? 'late' : 'present'
+      return { ...prev, [id]: next }
+    })
+  }
+
+  function saveAttendance() {
+    if (!currentLessonId) return
+    const db = loadDB()
+    Object.entries(attendances).forEach(([sid, status]) => {
+      const existing = db.attendances.find(a => a.studentId === parseInt(sid) && a.lessonId === currentLessonId)
+      if (existing) existing.status = status
+      else db.attendances.push({ id: nextId(db, 'attendances'), studentId: parseInt(sid), lessonId: currentLessonId, status, createdAt: new Date().toISOString() })
+    })
+    // auto penalty for absent
+    Object.entries(attendances).forEach(([sid, status]) => {
+      if (status === 'absent') {
+        const student = db.students.find(s => s.id === parseInt(sid))
+        const group = db.groups.find(g => g.id === student?.groupId)
+        if (student && group && group.pricePerLesson > 0) {
+          student.balance -= group.pricePerLesson
+          db.payments.push({ id: nextId(db, 'payments'), studentId: student.id, amount: -group.pricePerLesson, type: 'expense', note: `Dars qoldirgan: ${date}`, date, createdAt: new Date().toISOString() })
+        }
+      }
+    })
+    saveDB(db)
+    setMsg('Davomat saqlandi!')
+    setTimeout(() => { setStep('select'); setMsg(''); setCurrentLessonId(null); setStudents([]) }, 1000)
+  }
+
+  const statusConfig = {
+    present: { label: 'Keldi', cls: 'badge-green', bg: '#d1fae5', border: '#6ee7b7', color: '#065f46' },
+    late: { label: 'Kechikdi', cls: 'badge-yellow', bg: '#fef3c7', border: '#fcd34d', color: '#92400e' },
+    absent: { label: 'Kelmadi', cls: 'badge-red', bg: '#fee2e2', border: '#fca5a5', color: '#991b1b' },
+  }
+
+  return (
+    <div>
+      <h1>Davomat</h1>
+      {step === 'select' ? (
+        <div className="card">
+          <div className="form-row">
+            <div><label>Guruh</label><select className="select" value={selectedGroup} onChange={e => setSelectedGroup(e.target.value)}>
+              <option value="">Tanlang</option>
+              {groups.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
+            </select></div>
+            <div style={{minWidth:'140px'}}><label>Sana</label><input className="input" type="date" value={date} onChange={e => setDate(e.target.value)} /></div>
+            <div><label>Mavzu</label><input className="input" value={topic} onChange={e => setTopic(e.target.value)} /></div>
+            <div><button className="btn btn-primary" style={{marginTop:'22px'}} onClick={startLesson}><Icons.check /> Darsni boshlash</button></div>
+          </div>
+        </div>
+      ) : (
+        <div>
+          <div className="card" style={{marginBottom:'16px'}}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+              <div>
+                <h2 style={{fontSize:'18px'}}>Davomat olish</h2>
+                <p style={{color:'#64748b',fontSize:'14px'}}>Sana: {date} {topic ? `| Mavzu: ${topic}` : ''}</p>
+              </div>
+              <button className="btn btn-success" onClick={saveAttendance}><Icons.check /> Saqlash</button>
+            </div>
+            {msg && <div style={{marginTop:'12px',padding:'12px',background:'#d1fae5',color:'#065f46',borderRadius:'10px',fontWeight:500,animation:'bounceIn 0.4s'}}>{msg}</div>}
+          </div>
+          {students.length === 0 ? (
+            <div className="empty-state"><div className="icon">👤</div><p>Bu guruhda o'quvchilar yo'q</p></div>
+          ) : (
+            students.map(s => {
+              const cfg = statusConfig[attendances[s.id]] || statusConfig.present
+              return (
+                <div key={s.id} className="attendance-item" onClick={() => toggleStatus(s.id)}>
+                  <span className="name">{s.name}</span>
+                  <button className="status-btn" style={{background:cfg.bg, borderColor:cfg.border, color:cfg.color}}>
+                    {cfg.label}
+                  </button>
+                </div>
+              )
+            })
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// Payments
+function Payments() {
+  const [payments, setPayments] = useState([])
+  const [students, setStudents] = useState([])
+  const [showForm, setShowForm] = useState(false)
+  const [studentId, setStudentId] = useState('')
+  const [amount, setAmount] = useState('')
+  const [note, setNote] = useState('')
+  const [pdate, setPdate] = useState(new Date().toISOString().split('T')[0])
+
+  function load() {
+    const db = loadDB()
+    setPayments(db.payments.slice().reverse().slice(0, 50).map(p => {
+      const s = db.students.find(st => st.id === p.studentId)
+      const g = s ? db.groups.find(gr => gr.id === s.groupId) : null
+      return { ...p, studentName: s?.name || '', groupName: g?.name || '' }
+    }))
+    setStudents(db.students)
+  }
+  useEffect(load, [])
+
+  function create(e) {
+    e.preventDefault()
+    const db = loadDB()
+    const amt = parseInt(amount)
+    const p = { id: nextId(db, 'payments'), studentId: parseInt(studentId), amount: amt, type: 'income', note: note || '', date: pdate, createdAt: new Date().toISOString() }
+    db.payments.push(p)
+    const student = db.students.find(s => s.id === parseInt(studentId))
+    if (student) student.balance += amt
+    saveDB(db)
+    setStudentId(''); setAmount(''); setNote(''); setShowForm(false); load()
+  }
+
+  return (
+    <div>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'24px'}}>
+        <h1>To'lovlar</h1>
+        <button className="btn btn-primary" onClick={() => setShowForm(!showForm)}><Icons.plus /> Yangi to'lov</button>
+      </div>
+      {showForm && (
+        <form className="card form-panel" onSubmit={create}>
+          <div className="form-row">
+            <div><label>O'quvchi</label><select className="select" value={studentId} onChange={e => setStudentId(e.target.value)} required>
+              <option value="">Tanlang</option>
+              {students.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
+            </select></div>
+            <div style={{minWidth:'120px'}}><label>Summa (so'm)</label><input className="input" type="number" value={amount} onChange={e => setAmount(e.target.value)} required /></div>
+            <div style={{minWidth:'140px'}}><label>Sana</label><input className="input" type="date" value={pdate} onChange={e => setPdate(e.target.value)} /></div>
+            <div><label>Izoh</label><input className="input" value={note} onChange={e => setNote(e.target.value)} /></div>
+            <div><button type="submit" className="btn btn-success" style={{marginTop:'22px'}}><Icons.check /> Saqlash</button></div>
+          </div>
+        </form>
+      )}
+      {payments.length === 0 ? (
+        <div className="empty-state"><div className="icon">💳</div><p>To'lovlar mavjud emas</p></div>
+      ) : (
+        <div className="table-wrap">
+          <table>
+            <thead><tr><th>O'quvchi</th><th>Guruh</th><th>Summa</th><th>Turi</th><th>Izoh</th><th>Sana</th></tr></thead>
+            <tbody>{payments.map(p => (
+              <tr key={p.id}>
+                <td style={{fontWeight:600}}>{p.studentName}</td>
+                <td>{p.groupName}</td>
+                <td style={{fontWeight:600,color:p.type === 'income' ? '#059669' : '#dc2626'}}>{p.type === 'income' ? '+' : '-'}{Math.abs(p.amount).toLocaleString()}</td>
+                <td>{p.type === 'income' ? "To'lov" : 'Chegirma'}</td>
+                <td style={{color:'#64748b'}}>{p.note || '-'}</td>
+                <td>{p.date}</td>
+              </tr>
+            ))}</tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// Lessons
+function Lessons() {
+  const [lessons, setLessons] = useState([])
+
+  useEffect(() => {
+    const db = loadDB()
+    const data = db.lessons.slice().reverse().map(l => {
+      const g = db.groups.find(gr => gr.id === l.groupId)
+      const atts = db.attendances.filter(a => a.lessonId === l.id)
+      return {
+        ...l,
+        groupName: g?.name || '',
+        presentCount: atts.filter(a => a.status === 'present').length,
+        absentCount: atts.filter(a => a.status === 'absent').length,
+        totalCount: atts.length,
+      }
+    })
+    setLessons(data)
+  }, [])
+
+  return (
+    <div>
+      <h1>Darslar tarixi</h1>
+      {lessons.length === 0 ? (
+        <div className="empty-state"><div className="icon">📖</div><p>Darslar mavjud emas</p></div>
+      ) : (
+        <div className="table-wrap">
+          <table>
+            <thead><tr><th>Sana</th><th>Guruh</th><th>Mavzu</th><th>Davomat</th></tr></thead>
+            <tbody>{lessons.map(l => (
+              <tr key={l.id}>
+                <td>{l.date}</td>
+                <td style={{fontWeight:600}}>{l.groupName}</td>
+                <td style={{color:'#64748b'}}>{l.topic || '-'}</td>
+                <td><span style={{color:'#059669',fontWeight:600}}>{l.presentCount}</span><span style={{color:'#94a3b8'}}>/{l.totalCount}</span> {l.absentCount > 0 && <span style={{color:'#dc2626',fontSize:'13px'}}>({l.absentCount} qoldirgan)</span>}</td>
+              </tr>
+            ))}</tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// Users
+function Users() {
+  const [users, setUsers] = useState([])
+  const [showForm, setShowForm] = useState(false)
+  const [editId, setEditId] = useState(null)
+  const [name, setName] = useState('')
+  const [login, setLogin] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+
+  const currentUser = JSON.parse(localStorage.getItem('edu_user') || '{}')
+
+  function load() { const db = loadDB(); setUsers(getUsers(db)) }
+  useEffect(load, [])
+
+  function resetForm() { setName(''); setLogin(''); setPassword(''); setEditId(null); setError('') }
+
+  function create(e) {
+    e.preventDefault()
+    const db = loadDB()
+    const user = createUser(db, name, login, password)
+    if (!user) { setError('Bu login band'); return }
+    resetForm(); setShowForm(false); load()
+  }
+
+  function update(e) {
+    e.preventDefault()
+    const db = loadDB()
+    const user = updateUser(db, editId, name, password || undefined)
+    if (!user) { setError('Topilmadi'); return }
+    resetForm(); setShowForm(false); load()
+  }
+
+  function startEdit(u) {
+    setEditId(u.id); setName(u.name); setLogin(u.login); setPassword(''); setShowForm(true)
+  }
+
+  function del(id) {
+    if (id === 1) { alert("Admin o'chirilmaydi"); return }
+    if (!confirm("O'chirasizmi?")) return
+    const db = loadDB()
+    deleteUser(db, id)
+    load()
+  }
+
+  return (
+    <div>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'24px'}}>
+        <h1>Foydalanuvchilar</h1>
+        <button className="btn btn-primary" onClick={() => { resetForm(); setShowForm(!showForm) }}><Icons.plus /> Yangi foydalanuvchi</button>
+      </div>
+      {showForm && (
+        <form className="card form-panel" onSubmit={editId ? update : create}>
+          <div className="form-row">
+            <div><label>Ism</label><input className="input" value={name} onChange={e => setName(e.target.value)} required /></div>
+            <div><label>Login</label><input className="input" value={login} onChange={e => setLogin(e.target.value)} required disabled={!!editId} /></div>
+            <div style={{minWidth:'140px'}}><label>Parol</label><input className="input" type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder={editId ? 'Yangi parol' : ''} required={!editId} /></div>
+            <div><button type="submit" className="btn btn-success" style={{marginTop:'22px'}}><Icons.check /> {editId ? 'Yangilash' : 'Saqlash'}</button></div>
+          </div>
+          {error && <div style={{color:'#dc2626',fontSize:'13px',marginTop:'8px'}}>{error}</div>}
+        </form>
+      )}
+      <div className="table-wrap">
+        <table>
+          <thead><tr><th>Ism</th><th>Login</th><th>Rol</th><th>Yaratilgan</th><th></th></tr></thead>
+          <tbody>{users.map(u => (
+            <tr key={u.id}>
+              <td style={{fontWeight:600}}>{u.name} {u.id === currentUser.id && <span style={{fontSize:'12px',color:'#6366f1'}}>(siz)</span>}</td>
+              <td>{u.login}</td>
+              <td>{u.role === 'admin' ? 'Admin' : "O'qituvchi"}</td>
+              <td style={{color:'#94a3b8',fontSize:'13px'}}>{new Date(u.createdAt).toLocaleDateString()}</td>
+              <td>
+                <button className="btn" style={{padding:'6px 12px',fontSize:'12px',background:'#eef2ff',color:'#6366f1'}} onClick={() => startEdit(u)}>Tahrirlash</button>
+                {u.id !== 1 && <button className="btn btn-danger" style={{padding:'6px 12px',fontSize:'12px',marginLeft:'8px'}} onClick={() => del(u.id)}><Icons.trash /></button>}
+              </td>
+            </tr>
+          ))}</tbody>
+        </table>
+      </div>
+    </div>
+  )
+}
+
+// Main App
+function App() {
+  const [user, setUser] = useState(null)
+  const [page, setPage] = useState('dashboard')
+
+  useEffect(() => {
+    const raw = localStorage.getItem('edu_user')
+    if (raw) {
+      try { setUser(JSON.parse(raw)) } catch { localStorage.removeItem('edu_user') }
+    }
+  }, [])
+
+  function handleLogin(u) { setUser(u) }
+
+  function handleLogout() {
+    localStorage.removeItem('edu_user')
+    setUser(null)
+  }
+
+  if (!user) return <LoginPage onLogin={handleLogin} />
+
+  const pages = { dashboard: Dashboard, groups: Groups, students: Students, attendance: Attendance, payments: Payments, lessons: Lessons, users: Users }
+  const Page = pages[page] || Dashboard
+
+  return (
+    <div className="layout">
+      <Sidebar page={page} setPage={setPage} user={user} onLogout={handleLogout} />
+      <div className="content"><Page /></div>
+    </div>
+  )
+}
+
+// Init DB on first load
+initDB()
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(<App />)
+</script>
+</body>
+</html>

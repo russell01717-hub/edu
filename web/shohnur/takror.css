@@ -1,0 +1,74 @@
+/* .rok{
+padding: 12px 45px;
+
+background-color: red;
+transition-property: all;
+transition-duration: 0.5s;
+transition-timing-function: ease;
+transition-delay: 0;
+position: absolute;
+top: 50%;
+left: 50%;
+
+} */
+
+
+
+
+
+
+
+    /* transform: scale(2); */
+    /* transform: translateX(-100px); */
+       /* transform: rotate(30deg); */
+       /* transform: translate(100px); */
+       /* transform: skew(390deg); */
+       /* transform: rotate(10000000000000000000000000000000000000000000000000000000000000000000deg); */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.head{
+    background-color: red;
+    width: 10%;
+    height: 50px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transition-property: all;
+    transition-duration: 2s;
+    transition-timing-function: ease;
+    
+}
+
+.head:hover{
+    transform: translateX(600px) rotate(1000deg) scale(100deg);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

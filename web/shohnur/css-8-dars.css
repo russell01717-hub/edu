@@ -1,0 +1,43 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.ota{
+    width: 200px;
+    height: 200px;
+    box-sizing: ;
+    background-color: red;
+    padding-top: 20px;
+}
+
+.bola{
+    width: 100px;
+    height: 100px;
+    background-color: blue;
+    
+}
+
+.P8{
+    position: relative;
+    width: 100px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

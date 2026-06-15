@@ -1,0 +1,81 @@
+/* .box{
+    justify-content: center;
+    width: 200px;
+    height: 200px;
+    background-color: red;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    animation-name: box;
+    animation-duration: 2s;
+    animation-timing-function: ease;
+    animation-delay: 0;
+     animation-iteration-count: 2; 
+    /* animation-fill-mode: forwards; */
+    /* animation-direction: alternate; */
+
+
+
+
+/* @keyframes box{
+    from{
+        background-color: blue;
+    }
+
+    to{
+        background-color: red;
+        transform: translateY(-100px) rotate(360deg);
+    }
+} */ 
+
+
+h1{
+    animation-name: id;
+    animation-duration: 1s;
+    animation-timing-function: 10s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+    position: absolute;
+    left: 30%;
+    top: 30%;
+
+}
+
+button{
+    animation-name: id;
+    animation-duration: 2s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+    position: absolute;
+    left: 30%;
+    top: 30%;
+}
+
+
+
+@keyframes id {
+    from{
+        transform: translateY(100px);
+        opacity: 0;
+    }    
+
+    to{
+        transform: translateY(-30px);
+        opacity: 1;
+    }
+
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+

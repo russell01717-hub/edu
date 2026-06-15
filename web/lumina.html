@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="lumina.css">
+    <title>Lumina Library</title>
+</head>
+
+<body>
+
+    <header class="c2">
+        <div class="logo-area">
+            <i class="fa-solid fa-rocket c11"></i>
+            <h1 class="f1">Lumina</h1>
+        </div>
+
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+        <label for="menu-toggle" class="menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+
+        <nav class="f2 main-nav">
+            <a class="f3" href="#asosiy">Asosiy</a>
+            <a class="f4" href="#kutubxona">Kutubxona</a>
+            <a class="f5" href="#loyiha">Loyiha haqida</a>
+        </nav>
+        <nav class="f6 user-actions">
+            <button class="f7 lang-btn">Uz</button>
+            <div class="search-box">
+                <label class="ff" for="text"></label>
+                <input id="text" class="f8" type="text" placeholder="kitob qidirish...">
+            </div>
+            <button class="f9 login-btn">Kirish</button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero-section" id="asosiy">
+            <button class="ll tag-btn">Kelajak Kutibxonasi</button>
+            <div class="f12 title-wrap">
+                <h1 class="pp">BILIMLAR </h1>
+                <h1 class="pp1">CHEGARASIZ</h1>
+            </div>
+            <div class="f10 blur-box">
+                <p class="f13 hero-text">Minglab qiziqarli kitoblar, audio ertaklar va ilmiy <br
+                        class="hide-mobile">kashfiyotlar olami <br class="hide-mobile">zerikishga o'rin yo'q!</p>
+            </div>
+            <div class="f14 call-to-actions">
+                <button class="f15 btn-primary">KUTUBXONA</button>
+                <button class="f16 btn-primary">BATAFSIL</button>
+            </div>
+        </section>
+
+        <section class="collections" id="kutubxona">
+            <div class="collection-header">
+                <div class="f17 title-group">
+                    <h1 class="f18">TOP TO'PLAMLAR</h1>
+                    <p class="f19">eng ko'p o'qilgan va reytingli baland asarlar</p>
+                </div>
+                <hr>
+                <nav class="f20 filter-nav">
+                    <button class="f21 active-filter">BARCHASI</button>
+                    <button class="f22 filter-btn">FANTASTIKA</button>
+                    <button class="f23 filter-btn">TARIX</button>
+                    <button class="f24 filter-btn">ILM-FAN</button>
+                </nav>
+            </div>
+
+            <div class="cards-grid wolk">
+                <div class="card f25">
+                    <div class="img-wrapper"><img class="card-img f26"
+                            src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2672&auto=format&fit=crop"
+                            alt=""></div>
+                    <div class="card-content">
+                        <p class="card-category f27">scensie</p>
+                        <h1 class="card-title f28">koinot sirlari</h1>
+                        <p class="card-author f29">Steohen Hawking</p>
+                        <button class="card-btn f30">O'qish</button>
+                    </div>
+                </div>
+                <div class="card f31">
+                    <div class="img-wrapper"><img class="card-img f32"
+                            src="https://images.unsplash.com/photo-1461360370896-922624d12aa1?q=80&w=2674&auto=format&fit=crop"
+                            alt=""></div>
+                    <div class="card-content">
+                        <p class="card-category f33">history</p>
+                        <h1 class="card-title f34">O'tmishdan Ertaklar</h1>
+                        <p class="card-author f35">Abdullo qodiriy</p>
+                        <button class="card-btn f36">O'QISH</button>
+                    </div>
+                </div>
+                <div class="card f37">
+                    <div class="img-wrapper"><img class="card-img f38"
+                            src="https://images.unsplash.com/photo-1515630278258-407f66498911?q=80&w=2698&auto=format&fit=crop"
+                            alt=""></div>
+                    <div class="card-content">
+                        <p class="card-category f39">SCI-FI</p>
+                        <h1 class="card-title f40">kiber olam 2077</h1>
+                        <p class="card-author f41">William Gibson</p>
+                        <button class="card-btn f42">O'QISH</button>
+                    </div>
+                </div>
+                <div class="card f43">
+                    <div class="img-wrapper"><img class="card-img f45"
+                            src="https://static.wixstatic.com/media/nsplsh_47463856764267634a346f~mv2_d_6320_4213_s_4_2.jpg/v1/fill/w_640,h_900,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/nsplsh_47463856764267634a346f~mv2_d_6320_4213_s_4_2.jpg"
+                            alt=""></div>
+                    <div class="card-content">
+                        <p class="card-category f46">HISTORY</p>
+                        <h1 class="card-title f47">Buyuk ipak yo'li</h1>
+                        <p class="card-author f48">tarixchi</p>
+                        <button class="card-btn f49">O'QISH</button>
+                    </div>
+                </div>
+                <div class="card f50">
+                    <div class="img-wrapper"><img class="card-img f51"
+                            src="https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=2574&auto=format&fit=crop"
+                            data-part="SCI-FI" alt=""></div>
+                    <div class="card-content">
+                        <p class="card-category f51-1">SCI-FI</p>
+                        <h1 class="card-title f52">Yulduzlar jangi</h1>
+                        <p class="card-author f53">Georg lucas</p>
+                        <button class="card-btn f54">O'QISH</button>
+                    </div>
+                </div>
+                <div class="card f55">
+                    <div class="img-wrapper"><img class="card-img f56"
+                            src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=2565&auto=format&fit=crop"
+                            alt=""></div>
+                    <div class="card-content">
+                        <p class="card-category f57">Science</p>
+                        <h1 class="card-title f58">Neyral Tarmoq</h1>
+                        <p class="card-author f59">AI Express</p>
+                        <button class="card-btn f60">O'QISH</button>
+                    </div>
+                </div>
+                <div class="card f61">
+                    <div class="img-wrapper"><img class="card-img f62"
+                            src="https://t3.ftcdn.net/jpg/05/66/96/58/360_F_566965895_VmOYvSowEwgu5IzPpIvSEqWR3QYddlDf.webp"
+                            alt=""></div>
+                    <div class="card-content">
+                        <p class="card-category f63">SCIENCE</p>
+                        <h1 class="card-title f64">Mars Kalonasi</h1>
+                        <p class="card-author f65">Elon Musk</p>
+                        <button class="card-btn f66">O'QISH</button>
+                    </div>
+                </div>
+                <div class="card f67">
+                    <div class="img-wrapper"><img class="card-img f68"
+                            src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=2694&auto=format&fit=crop"
+                            alt=""></div>
+                    <div class="card-content">
+                        <p class="card-category f69">HISTORY</p>
+                        <h1 class="card-title f70">Samarqand Registoni</h1>
+                        <p class="card-author f71">Tarixchi</p>
+                        <button class="card-btn f72">O'QISH</button>
+                    </div>
+                </div>
+                <div class="card f73">
+                    <div class="img-wrapper"><img class="card-img f74"
+                            src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2832&auto=format&fit=crop"
+                            alt=""></div>
+                    <div class="card-content">
+                        <p class="card-category f75">SCENCE</p>
+                        <h1 class="card-title f76">Suniy intelekt</h1>
+                        <p class="card-author f77">Open Ai</p>
+                        <button class="card-btn f78">O'QISH</button>
+                    </div>
+                </div>
+                <div class="card f79">
+                    <div class="img-wrapper"><img class="card-img f80"
+                            src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?q=80&w=2688&auto=format&fit=crop"
+                            alt=""></div>
+                    <div class="card-content">
+                        <p class="card-category f81">SCI-FI</p>
+                        <h1 class="card-title f82">Dune</h1>
+                        <p class="card-author f83">Frank Herbert</p>
+                        <button class="card-btn f84">O'QISH</button>
+                    </div>
+                </div>
+                <div class="card f85">
+                    <div class="img-wrapper"><img class="card-img f86"
+                            src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2670&auto=format&fit=crop"
+                            alt=""></div>
+                    <div class="card-content">
+                        <p class="card-category f87">HISTORY</p>
+                        <h1 class="card-title f88">Amir Temur</h1>
+                        <p class="card-author f88-1">tarixchi</p>
+                        <button class="card-btn f89">O'QISH</button>
+                    </div>
+                </div>
+                <div class="card f90">
+                    <div class="img-wrapper"><img class="card-img f91"
+                            src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=2670&auto=format&fit=crop"
+                            alt=""></div>
+                    <div class="card-content">
+                        <p class="card-category f92">SCINECE</p>
+                        <h1 class="card-title f93">Kvant Fizikasi</h1>
+                        <p class="card-author f94">Richard Feynman</p>
+                        <button class="card-btn f95">O'QISH</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="load-more-container">
+                <button class="f96 load-more-btn">Ko'proq yuklash</button>
+            </div>
+        </section>
+
+        <section class="bottom-banner" id="loyiha">
+            <div class="f98 banner-text">
+                <h1 class="f99">O'qishning <br class="hide-mobile"> Yangi Darajasi</h1>
+                <p class="f100">Biz faqat kitob beramiz, balki to'liq immersiv tajriba taqdim etamiz. Har bir <br
+                        class="hide-mobile"> sahifa har bir so'z- sa'nat asari. Audio formatlar, tungi rejim va
+                    mualliflar bilan <br class="hide-mobile"> jonli suxbatlar.</p>
+            </div>
+            <img class="f97 banner-img"
+                src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?q=80&w=2828&auto=format&fit=crop"
+                alt="">
+        </section>
+    </main>
+
+    <footer class="f104">
+        <h1 class="f105">LUMINA</h1>
+        <p class="f106">2026 lumina librayr. Barcha huquqlar himoyalangan</p>
+    </footer>
+
+    <img src="C:\Users\RZ\Desktop\shohnur\lumina.html" alt="" style="display: none;">
+
+</body>
+
+</html>

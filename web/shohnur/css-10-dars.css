@@ -1,0 +1,92 @@
+*{
+       margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+:root{
+    ---rang:red;
+}
+
+
+body{
+  background-color: black;
+}
+
+
+.card{
+    position: relative;
+    left: 10vh;
+    background: #d9f3f3;
+    padding: 20px;
+    width: 310px;
+    border-radius: 15px;
+    text-align: center;
+    top: 20vh;
+}
+
+.ptd{
+    background: black;
+    color: white;
+    border: none;
+    padding: 20px;
+    margin: 40px;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+
+.p1{
+    position: relative;
+    left: 20vh;
+    background: white;
+    padding: 20px;
+    width: 310px;
+    border-radius: 15px;
+    text-align: center;
+    bottom: 55vh;
+    left: 60vh;
+
+}
+
+.tug{
+    background: black;
+    color: white;
+    border: none;
+    padding: 20px;
+    margin: 40px;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+
+.t{
+    position: relative;
+    left: 40vh;
+    background: #d9f3f3;
+     padding: 20px;
+     width: 310px;
+     border-radius: 15px;
+     text-align: center;
+     bottom: 109vh;
+     left: 108vh;
+}
+
+.tu{
+    background: black;
+    color: white;
+    border: none;
+    padding: 20px;
+    margin: 40px;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.f1{
+    position: relative;
+    left: 25vh;
+}
+
+
+

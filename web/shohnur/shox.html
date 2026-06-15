@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shohnur Market</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif}
+body{background:#f6f7fb;color:#222}
+
+/* HEADER */
+header{
+background:#6a00ff;
+padding:15px 40px;
+display:flex;
+align-items:center;
+gap:20px;
+color:#fff;
+position:sticky;top:0;z-index:1000
+}
+.logo{font-size:22px;font-weight:600}
+.search{flex:1;position:relative}
+.search input{
+width:100%;padding:10px 40px 10px 15px;border:none;border-radius:8px
+}
+.header-btn{background:#fff;color:#6a00ff;font-weight:600}
+
+/* HERO */
+.hero{
+background:linear-gradient(135deg,#6a00ff,#9d4dff);
+color:#fff;
+padding:50px 40px;
+border-radius:0 0 30px 30px;
+margin-bottom:30px
+}
+.hero h1{font-size:32px;margin-bottom:10px}
+
+/* PRODUCTS */
+.products{
+padding:0 40px 40px;
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+gap:25px
+}
+.card{
+background:#fff;
+border-radius:15px;
+padding:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+transition:.2s
+}
+.card:hover{transform:translateY(-5px)}
+.card img{
+width:100%;height:160px;object-fit:cover;border-radius:10px
+}
+.price{color:#6a00ff;font-weight:600;margin:8px 0}
+button{
+width:100%;padding:9px;border:none;border-radius:8px;
+background:#6a00ff;color:#fff;font-weight:600
+}
+
+/* MODAL */
+.modal{
+position:fixed;inset:0;background:rgba(0,0,0,.5);
+display:none;justify-content:center;align-items:center
+}
+.modal-content{
+background:#fff;padding:20px;border-radius:12px;width:320px
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">🛒 Shohnur Market</div>
+<div class="search"><input id="search" placeholder="Mahsulot qidirish..."></div>
+<button class="header-btn" onclick="openCart()">Savatcha (<span id="cart-count">0</span>)</button>
+</header>
+
+<div class="hero">
+<h1>Katta chegirmalar! 🔥</h1>
+<p>Eng yaxshi mahsulotlar bir joyda</p>
+</div>
+
+<section class="products" id="products"></section>
+
+<div class="modal" id="cartModal">
+<div class="modal-content">
+<h3>Savatcha</h3>
+<ul id="cartItems"></ul>
+<button onclick="closeCart()">Yopish</button>
+</div>
+</div>
+
+<script>
+let products=[
+{id:1,name:"Smartfon",price:2500000,img:"https://picsum.photos/300?1"},
+{id:2,name:"Noutbuk",price:7800000,img:"https://picsum.photos/300?2"},
+{id:3,name:"Naushnik",price:300000,img:"https://picsum.photos/300?3"},
+{id:4,name:"Soat",price:450000,img:"https://picsum.photos/300?4"}
+];
+
+let cart=[];
+
+function renderProducts(list=products){
+const box=document.getElementById("products");
+box.innerHTML="";
+list.forEach(p=>{
+box.innerHTML+=`
+<div class="card">
+<img src="${p.img}">
+<h4>${p.name}</h4>
+<div class="price">${p.price.toLocaleString()} so'm</div>
+<button onclick="addToCart(${p.id})">Savatchaga</button>
+</div>`;
+});
+}
+
+function addToCart(id){
+cart.push(products.find(p=>p.id===id));
+cartCount.innerText=cart.length;
+}
+
+function openCart(){
+cartModal.style.display="flex";
+cartItems.innerHTML="";
+cart.forEach(i=>cartItems.innerHTML+=`<li>${i.name}</li>`);
+}
+function closeCart(){cartModal.style.display="none"}
+
+search.addEventListener("input",e=>{
+const q=e.target.value.toLowerCase();
+renderProducts(products.filter(p=>p.name.toLowerCase().includes(q)));
+});
+
+renderProducts();
+</script>
+
+</body>
+</html>

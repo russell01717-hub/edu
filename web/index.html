@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="uz" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>G'o's Akademiyasi</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+[data-theme=dark]{--bg:#0d0f14;--s:#161920;--s2:#1e2230;--bd:rgba(255,255,255,.07);--bd2:rgba(255,255,255,.14);--tx:#f0f2f7;--tx2:#9ca3af;--tx3:#6b7280;--ac:#4f8ef7;--acg:rgba(79,142,247,.28)}
+[data-theme=light]{--bg:#f0f3fa;--s:#fff;--s2:#e8ecf5;--bd:rgba(0,0,0,.07);--bd2:rgba(0,0,0,.14);--tx:#111827;--tx2:#4b5563;--tx3:#9ca3af;--ac:#2563eb;--acg:rgba(37,99,235,.18)}
+:root{--gr:#22c55e;--grb:rgba(34,197,94,.12);--grb2:rgba(34,197,94,.3);--yw:#f59e0b;--ywb:rgba(245,158,11,.12);--ywb2:rgba(245,158,11,.3);--rd:#ef4444;--rdb:rgba(239,68,68,.12);--rdb2:rgba(239,68,68,.3);--r:12px;--rs:8px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;min-height:100vh;transition:background .25s,color .25s}
+[data-theme=dark] body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(79,142,247,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(79,142,247,.03) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
+/* LOCK */
+.lock{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999}
+.lock.hide{display:none}
+.lbox{background:var(--s);border:1px solid var(--bd2);border-radius:var(--r);padding:30px 26px;width:310px;max-width:90vw;text-align:center;animation:su .4s cubic-bezier(.34,1.56,.64,1)}
+.lico{font-size:32px;margin-bottom:10px}
+.ltit{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;margin-bottom:3px}
+.lsub{font-size:11px;color:var(--tx3);margin-bottom:16px}
+.lpw{position:relative;margin-bottom:7px}
+.linp{width:100%;padding:9px 36px 9px 13px;background:var(--s2);border:1px solid var(--bd);border-radius:var(--rs);color:var(--tx);font-size:14px;font-family:'DM Sans',sans-serif;outline:none;letter-spacing:2px;transition:border-color .2s}
+.linp:focus{border-color:var(--ac)}
+.eye{position:absolute;right:9px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:15px;color:var(--tx3);padding:3px}
+.lerr{font-size:11px;color:var(--rd);height:13px;margin-bottom:7px}
+/* APP */
+.app{position:relative;z-index:1;max-width:1300px;margin:0 auto;padding:0 14px 60px;display:none}
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 0 11px;border-bottom:1px solid var(--bd);margin-bottom:14px;gap:8px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:9px}
+.lic{width:34px;height:34px;background:var(--ac);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 0 14px var(--acg);flex-shrink:0}
+.ltx{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;letter-spacing:-.3px;line-height:1.2}
+.lsu{font-size:9px;color:var(--tx3)}
+.hdr{display:flex;align-items:center;gap:5px}
+.ibtn{width:29px;height:29px;border-radius:var(--rs);border:1px solid var(--bd);background:var(--s);color:var(--tx);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:background .15s}
+.ibtn:hover{background:var(--s2)}
+/* TABS */
+.tabs{display:flex;gap:3px;background:var(--s);padding:3px;border-radius:var(--rs);margin-bottom:14px;border:1px solid var(--bd);overflow-x:auto;width:fit-content;max-width:100%}
+.tab{padding:6px 14px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--tx3);font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .2s}
+.tab.active{background:var(--s2);color:var(--tx);border:1px solid var(--bd2)}
+/* STATS */
+.sts{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:7px;margin-bottom:12px}
+.sc{background:var(--s);border:1px solid var(--bd);border-radius:var(--r);padding:10px 12px;animation:fu .4s ease both}
+.sn{font-family:'Syne',sans-serif;font-size:19px;font-weight:700;line-height:1}
+.sl{font-size:9px;color:var(--tx3);margin-top:2px;text-transform:uppercase;letter-spacing:.5px}
+.sg .sn{color:var(--gr)}.sy .sn{color:var(--yw)}.sr .sn{color:var(--rd)}.sd .sn{color:var(--ac)}
+/* TOOLBAR */
+.tb{display:flex;align-items:center;gap:7px;margin-bottom:10px;flex-wrap:wrap}
+.tt{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;flex:1}
+.btn{padding:6px 12px;border-radius:var(--rs);font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--bd);background:var(--s);color:var(--tx);font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .2s}
+.btn:hover{background:var(--s2);border-color:var(--bd2)}
+.bac{background:var(--ac)!important;border-color:var(--ac)!important;color:#fff!important}.bac:hover{opacity:.85!important}
+.bgr{background:var(--grb);border-color:var(--grb2);color:var(--gr)}.bgr:hover{background:rgba(34,197,94,.22)}
+.brd{background:var(--rdb);border-color:var(--rdb2);color:var(--rd)}.brd:hover{background:rgba(239,68,68,.22)}
+/* DAV TABLE */
+.dout{overflow-x:auto;overflow-y:auto;max-height:65vh;border:1px solid var(--bd);border-radius:var(--r);background:var(--s)}
+.dout::-webkit-scrollbar{width:5px;height:5px}.dout::-webkit-scrollbar-track{background:transparent}.dout::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:3px}
+.dt{border-collapse:collapse;font-size:12px;min-width:100%}
+.dt thead{position:sticky;top:0;z-index:10;background:var(--s2)}
+.dt th{padding:8px 6px;text-align:left;font-size:9px;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid var(--bd);border-right:1px solid var(--bd);white-space:nowrap}
+.dt th.stk{position:sticky;left:0;background:var(--s2);z-index:11}
+.dt td{padding:6px 6px;border-bottom:1px solid var(--bd);border-right:1px solid var(--bd);vertical-align:middle;white-space:nowrap}
+.dt tr:last-child td{border-bottom:none}
+.dt tr:hover td{background:rgba(128,128,128,.025)}
+.dt td.stk{position:sticky;left:0;background:var(--s);z-index:5}
+.dt tr:hover td.stk{background:var(--s2)}
+.snm{font-weight:500;font-size:12px;color:var(--tx)}
+.sph{font-size:10px;color:var(--tx2)}
+.gbg{font-size:10px;padding:2px 6px;border-radius:20px;white-space:nowrap;display:inline-block}
+.geng{background:rgba(34,197,94,.1);color:var(--gr);border:1px solid rgba(34,197,94,.2)}
+.garb{background:rgba(245,158,11,.1);color:var(--yw);border:1px solid rgba(245,158,11,.2)}
+.bch{display:inline-flex;font-size:10px;font-weight:600;padding:2px 6px;border-radius:20px;white-space:nowrap}
+.bok{background:var(--grb);color:var(--gr);border:1px solid var(--grb2)}
+.blow{background:var(--ywb);color:var(--yw);border:1px solid var(--ywb2)}
+.bneg{background:var(--rdb);color:var(--rd);border:1px solid var(--rdb2)}
+/* STATUS BTN */
+.dc{text-align:center;padding:3px 2px}
+.sb{width:25px;height:25px;border-radius:50%;border:1.5px solid var(--bd2);background:transparent;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:11px;transition:transform .12s,background .15s}
+.sb:hover{transform:scale(1.2)}.sb:active{transform:scale(.85)}
+.sb.green{background:var(--grb);border-color:var(--grb2);animation:pop .28s cubic-bezier(.34,1.56,.64,1)}
+.sb.yellow{background:var(--ywb);border-color:var(--ywb2);animation:pop .28s cubic-bezier(.34,1.56,.64,1)}
+.sb.red{background:var(--rdb);border-color:var(--rdb2);animation:pop .28s cubic-bezier(.34,1.56,.64,1)}
+.ci{font-size:11px;font-weight:700;display:block;line-height:1;color:var(--tx3)}
+.green .ci{color:var(--gr)}.yellow .ci{color:var(--yw)}.red .ci{color:var(--rd)}
+.tdc{background:rgba(79,142,247,.06)!important}
+.thd{background:rgba(79,142,247,.1)!important;color:var(--ac)!important}
+.tdot{display:inline-block;width:5px;height:5px;background:var(--ac);border-radius:50%;margin-left:2px;vertical-align:middle;animation:pulse 2s infinite}
+/* SCORE */
+.swp{display:flex;align-items:center;gap:4px}
+.sbar{flex:1;height:3px;background:rgba(128,128,128,.15);border-radius:2px;overflow:hidden;min-width:26px}
+.sbarfill{height:100%;border-radius:2px;transition:width .3s}
+.sinp{width:42px;padding:2px 4px;border-radius:5px;border:1px solid var(--bd);background:var(--s2);color:var(--tx);font-size:11px;font-family:'DM Sans',sans-serif;outline:none;text-align:center}
+.sinp:focus{border-color:var(--ac)}
+/* LEGEND */
+.leg{display:flex;gap:12px;margin-top:9px;flex-wrap:wrap}
+.li{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--tx3)}
+.ld{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+/* SEARCH */
+.sw{position:relative;margin-bottom:9px}
+.si{width:100%;padding:8px 12px 8px 31px;background:var(--s);border:1px solid var(--bd);border-radius:var(--r);color:var(--tx);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s}
+.si:focus{border-color:var(--ac)}
+.sico{position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none;color:var(--tx3)}
+.scnt{position:absolute;right:9px;top:50%;transform:translateY(-50%);font-size:10px;color:var(--tx3)}
+.tw{background:var(--s);border:1px solid var(--bd);border-radius:var(--r);overflow:hidden;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:500px}
+thead{background:var(--s2)}
+th{padding:9px 10px;text-align:left;font-size:9px;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--bd);white-space:nowrap}
+td{padding:8px 10px;border-bottom:1px solid var(--bd);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(128,128,128,.025)}
+/* FILTER */
+.fr{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:9px}
+.fb{padding:4px 10px;border-radius:20px;font-size:11px;cursor:pointer;border:1px solid var(--bd);background:transparent;color:var(--tx3);font-family:'DM Sans',sans-serif;transition:all .18s}
+.fb.act,.fb:hover{background:var(--s2);color:var(--tx);border-color:var(--bd2)}
+/* MODALS */
+.mbg{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;z-index:100;animation:fi .18s ease}
+.mbg.hide{display:none}
+.modal{background:var(--s);border:1px solid var(--bd2);border-radius:var(--r);padding:20px;width:340px;max-width:92vw;animation:su .28s cubic-bezier(.34,1.56,.64,1);max-height:90vh;overflow-y:auto}
+.modal h3{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:13px;color:var(--tx)}
+.fg{margin-bottom:9px}
+.fl{font-size:9px;color:var(--tx3);margin-bottom:4px;display:block;text-transform:uppercase;letter-spacing:.5px}
+.fi,.fsl{width:100%;padding:8px 10px;background:var(--s2);border:1px solid var(--bd);border-radius:var(--rs);color:var(--tx);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s}
+.fi:focus,.fsl:focus{border-color:rgba(79,142,247,.5)}
+.fsl option{background:var(--s)}
+.fpw{position:relative}.fi-pw{padding-right:34px!important}
+.peye{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:14px;color:var(--tx3);padding:2px}
+.mbtns{display:flex;gap:6px;margin-top:13px;justify-content:flex-end}
+.qa{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}
+/* DETAIL */
+.dhd{display:flex;align-items:center;gap:10px;margin-bottom:13px}
+.dav{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;flex-shrink:0}
+.dnm{font-size:14px;font-weight:600;color:var(--tx)}
+.dph{font-size:11px;color:var(--tx3);margin-top:1px}
+.drows{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:11px}
+.di{background:var(--s2);border-radius:var(--rs);padding:8px 10px}
+.dil{font-size:9px;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+.div{font-size:12px;font-weight:600;color:var(--tx)}
+/* PAG */
+.pag{display:flex;align-items:center;gap:4px;margin-top:9px;flex-wrap:wrap}
+.pp{padding:4px 8px;border-radius:var(--rs);border:1px solid var(--bd);background:var(--s);color:var(--tx3);cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;transition:all .15s}
+.pp:hover,.pp.act{background:var(--s2);color:var(--tx);border-color:var(--bd2)}
+.pp.act{font-weight:600;color:var(--ac)}
+/* LBANNER */
+.lbn{background:var(--s);border:1px solid var(--bd);border-radius:var(--r);padding:10px 13px;margin-bottom:11px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.lc{display:flex;align-items:center;gap:8px;flex:1;min-width:130px}
+.la{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:11px;flex-shrink:0}
+/* TOAST */
+.toast{position:fixed;bottom:16px;right:16px;background:var(--s2);border:1px solid var(--bd2);border-radius:var(--rs);padding:9px 13px;font-size:12px;color:var(--tx);z-index:300;animation:su .28s ease;max-width:270px;line-height:1.5}
+.pgs{display:none}.pgs.act{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+@keyframes su{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pop{0%{transform:scale(.4);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(79,142,247,.3)}50%{box-shadow:0 0 0 5px rgba(79,142,247,0)}}
+@keyframes shk{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+
+/* PRELOADER */
+.loader-wrapper { position: fixed; inset: 0; background: var(--bg); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.6s ease, visibility 0.6s ease; }
+.loader-wrapper.hide { opacity: 0; visibility: hidden; }
+.loader-icon { font-size: 60px; animation: bounce 1.2s infinite ease-in-out, fu 0.6s ease both; margin-bottom: 20px; text-shadow: 0 0 25px rgba(79,142,247,0.4); }
+.loader-text { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: var(--tx); animation: fu 0.6s ease both; animation-delay: 0.1s; text-align: center; }
+.loader-sub { font-size: 13px; color: var(--tx3); margin-top: 10px; animation: fu 0.6s ease both; animation-delay: 0.2s; font-family: 'DM Sans', sans-serif; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 500;}
+.loader-progress { width: 220px; height: 3px; background: var(--s2); border-radius: 2px; margin-top: 30px; overflow: hidden; position: relative; animation: fu 0.6s ease both; animation-delay: 0.3s; }
+.loader-progress::after { content: ''; position: absolute; top: 0; left: 0; height: 100%; background: linear-gradient(90deg, var(--ac), var(--gr)); border-radius: 2px; animation: load-bar 1.2s ease-in-out infinite; }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px) scale(1.05); } }
+@keyframes load-bar { 0% { transform: translateX(-100%); width: 20%; } 50% { width: 50%; } 100% { transform: translateX(250%); width: 20%; } }
+</style>
+</head>
+<body>
+
+<!-- PRELOADER -->
+<div class="loader-wrapper" id="preloader">
+  <div class="loader-icon">🎓</div>
+  <div class="loader-text">G'o's Akademiyasi</div>
+  <div class="loader-sub">Tizimga kirilmoqda...</div>
+  <div class="loader-progress"></div>
+</div>
+
+<!-- TAB LOCK MODAL -->
+<div class="mbg hide" id="mLock">
+  <div class="modal">
+    <h3 id="mLockT">🔐 Kirish</h3>
+    <div style="font-size:11px;color:var(--tx3);margin-bottom:12px" id="mLockSub"></div>
+    <div class="fg"><label class="fl">Parol</label>
+      <div class="fpw"><input class="fi fi-pw" type="password" id="tlInp" placeholder="••••••••" maxlength="40"/>
+      <button class="peye" onclick="eye('tlInp',this)" tabindex="-1">👁</button></div>
+    </div>
+    <div style="font-size:11px;color:var(--rd);height:13px;margin-bottom:7px" id="mLockErr"></div>
+    <div class="mbtns">
+      <button class="btn" onclick="closeM('mLock')">Bekor</button>
+      <button class="btn bac" onclick="tryTabLock()">Kirish →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD STUDENT -->
+<div class="mbg hide" id="mAdd">
+  <div class="modal">
+    <h3>Yangi o'quvchi</h3>
+    <div class="fg"><label class="fl">Ism Familiya</label><input class="fi" id="inN"/></div>
+    <div class="fg"><label class="fl">Telefon</label><input class="fi" id="inP" placeholder="+998 90 123 45 67"/></div>
+    <div class="fg"><label class="fl">Guruh</label>
+      <select class="fsl" id="inG"><option value="english">Ingliz tili</option><option value="arabic">Arab tili</option></select>
+    </div>
+    <div class="fg"><label class="fl">Boshlang'ich balans (so'm)</label><input class="fi" id="inB" type="number" value="0"/></div>
+    <div class="mbtns">
+      <button class="btn" onclick="closeM('mAdd')">Bekor</button>
+      <button class="btn bac" onclick="addStu()">Saqlash</button>
+    </div>
+  </div>
+</div>
+
+<!-- BALANCE -->
+<div class="mbg hide" id="mBal">
+  <div class="modal">
+    <h3>Balans to'ldirish</h3>
+    <div style="font-size:13px;font-weight:500;margin-bottom:3px;color:var(--tx)" id="bNm"></div>
+    <div style="font-size:11px;color:var(--tx3);margin-bottom:11px" id="bCur"></div>
+    <div class="fg"><label class="fl">Miqdor (so'm)</label><input class="fi" id="inAm" type="number"/></div>
+    <div class="qa">
+      <button class="btn" onclick="am(50000)">50 000</button>
+      <button class="btn" onclick="am(100000)">100 000</button>
+      <button class="btn" onclick="am(200000)">200 000</button>
+      <button class="btn" onclick="am(500000)">500 000</button>
+    </div>
+    <div class="mbtns">
+      <button class="btn" onclick="closeM('mBal')">Bekor</button>
+      <button class="btn bgr" onclick="addBal()">Qo'shish ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL -->
+<div class="mbg hide" id="mDet">
+  <div class="modal">
+    <div class="dhd">
+      <div class="dav" id="dAv"></div>
+      <div><div class="dnm" id="dNm"></div><div class="dph" id="dPh"></div></div>
+    </div>
+    <div class="drows" id="dRows"></div>
+    <div class="fg" id="dNmEd" style="display:none"><label class="fl">Ism</label><input class="fi" id="dNmI"/></div>
+    <div class="fg" id="dPhEd" style="display:none"><label class="fl">Telefon</label><input class="fi" id="dPhI"/></div>
+    <div style="display:flex;gap:5px;flex-wrap:wrap">
+      <button class="btn bgr" onclick="balFromDet()">+ Balans</button>
+      <button class="btn" onclick="togEdit()" id="dEditBtn">✏️ Tahrir</button>
+      <button class="btn bac" onclick="saveDet()" id="dSaveBtn" style="display:none">Saqlash</button>
+      <button class="btn brd" onclick="delFromDet()">O'chirish</button>
+      <button class="btn" onclick="closeM('mDet')">Yopish</button>
+    </div>
+  </div>
+</div>
+
+<!-- CHANGE PASSWORD -->
+<div class="mbg hide" id="mPw">
+  <div class="modal">
+    <h3>🔑 Parolni o'zgartirish</h3>
+    <div style="font-size:11px;color:var(--tx3);margin-bottom:12px" id="mPwFor"></div>
+    <div class="fg"><label class="fl">Joriy parol</label>
+      <div class="fpw"><input class="fi fi-pw" type="password" id="pwOld"/><button class="peye" onclick="eye('pwOld',this)" tabindex="-1">👁</button></div>
+    </div>
+    <div class="fg"><label class="fl">Yangi parol</label>
+      <div class="fpw"><input class="fi fi-pw" type="password" id="pwNew"/><button class="peye" onclick="eye('pwNew',this)" tabindex="-1">👁</button></div>
+    </div>
+    <div class="fg"><label class="fl">Tasdiqlash</label>
+      <div class="fpw"><input class="fi fi-pw" type="password" id="pwCf"/><button class="peye" onclick="eye('pwCf',this)" tabindex="-1">👁</button></div>
+    </div>
+    <div style="font-size:11px;color:var(--rd);height:13px;margin-bottom:7px" id="pwErr"></div>
+    <div class="mbtns">
+      <button class="btn" onclick="closeM('mPw')">Bekor</button>
+      <button class="btn bac" onclick="doPw()">O'zgartirish</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div class="app" id="app">
+<header>
+  <div class="logo">
+    <div class="lic">🎓</div>
+    <div><div class="ltx">G'o's <span style="color:var(--ac)">Akademiyasi</span></div><div class="lsu">O'quv Markazi</div></div>
+  </div>
+  <div class="hdr">
+    <button class="ibtn" onclick="togTh()" id="tbtn">🌙</button>
+  </div>
+</header>
+
+<div class="tabs" id="tabBar"></div>
+
+<!-- ASOSIY / BIZ HAQIMIZDA -->
+<div class="pgs act" id="tab-home" style="animation:su .4s ease; padding-bottom:30px">
+  
+  <!-- HERO QISMI (Sarlavha va asosiy qisqa matn) -->
+  <div style="background:var(--s);border:1px solid var(--bd);border-radius:var(--r);padding:40px 20px;text-align:center;margin-top:10px;margin-bottom:15px;box-shadow:0 10px 30px rgba(0,0,0,0.05);position:relative;overflow:hidden">
+    <!-- Orqa fondagi naqsh -->
+    <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg, var(--ac), var(--gr), var(--yw))"></div>
+    <div style="font-size:55px;margin-bottom:15px;animation:fu .6s ease both">🎓</div>
+    <h2 style="font-family:'Syne',sans-serif;font-size:28px;margin-bottom:12px;color:var(--tx);font-weight:800;animation:fu .6s ease both;animation-delay:0.1s">
+      G'o's Akademiyasiga Xush Kelibsiz!
+    </h2>
+    <div style="width:60px;height:4px;background:var(--ac);border-radius:2px;margin:0 auto 16px;animation:fu .6s ease both;animation-delay:0.2s"></div>
+    <p style="font-size:15px;color:var(--tx2);line-height:1.7;max-width:700px;margin:0 auto;font-family:'DM Sans',sans-serif;animation:fu .6s ease both;animation-delay:0.3s">
+      <!-- BU YERNI O'ZGARTIRISHINGIZ MUMKIN: Bosh sahifaning katta matni -->
+      Bizning maqsadimiz — sifatli ta'lim orqali kelajak yetakchilarini tayyorlash. Zamonaviy metodika, professional ustozlar va yuqori darajadagi sharoitlar bilan til o'rganish siz uchun nihoyatda oson va qiziqarli kechadi!
+    </p>
+  </div>
+
+  <!-- KURS VA O'QITUVCHILAR HAQIDA MA'LUMOT KARTACHALARI -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:15px;margin-bottom:15px">
+    
+    <!-- ARAB TILI VA SARDOR ELMURODOV -->
+    <div style="background:var(--s);border:1px solid var(--bd);border-radius:var(--r);padding:25px;animation:fu .6s ease both;animation-delay:0.4s;position:relative;overflow:hidden">
+      <!-- Kartacha orqa fonidagi xira logo -->
+      <div style="position:absolute;top:-20px;right:-20px;font-size:110px;opacity:0.03;pointer-events:none;filter:grayscale(1)">🕌</div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:20px;color:var(--tx);margin-bottom:8px">Arab Tili Kursi</h3>
+      <div style="font-size:12px;color:var(--yw);border:1px solid var(--ywb2);background:var(--ywb);display:inline-block;padding:3px 8px;border-radius:4px;font-weight:700;margin-bottom:15px;text-transform:uppercase;letter-spacing:1px">Ustoz: Sardor Elmurodov</div>
+      <p style="font-size:13px;color:var(--tx2);line-height:1.6;margin-bottom:15px;min-height:90px">
+        <!-- BU YERNI O'ZGARTIRISHINGIZ MUMKIN: Sardor Elmurodov haqida ma'lumot -->
+        Sardor Elmurodov — ko'p yillik tajribaga ega arab tili, xususan, Qur'on o'qish va Tajvid ilmi bo'yicha yuqori malakali mutaxassis. Individual yondashuv tufayli o'quvchilar nol noldan boshlab matnlarni to'g'ri o'qish imkoniyatiga ega bo'lishadi. <br> <br>Yanada ko'proq malumot olish uchun Tel: (+998 90 515 1540)
+      </p>
+      <div style="background:var(--s2);padding:10px 15px;border-radius:var(--rs);border:1px solid var(--bd);display:flex;align-items:center;gap:10px">
+        <span style="font-size:20px">📜</span>
+        <div><strong style="font-size:12px;color:var(--tx);display:block">Natija va Sertifikat:</strong>
+        <!-- BU YERDA SERTIFIKAT QACHON OLINISHI YOZILADI -->
+        <span style="font-size:11px;color:var(--tx3)">O'rtacha 6-8 oyda to'liq so'zlashuv va o'qish darajasi yakunlanadi. Maxsus guvohnoma beriladi.</span></div>
+      </div>
+    </div>
+
+    <!-- INGLIZ TILI VA G'AYRAT MAVLONOV -->
+    <div style="background:var(--s);border:1px solid var(--bd);border-radius:var(--r);padding:25px;animation:fu .6s ease both;animation-delay:0.5s;position:relative;overflow:hidden">
+      <!-- Kartacha orqa fonidagi xira logo -->
+      <div style="position:absolute;top:-20px;right:-20px;font-size:110px;opacity:0.03;pointer-events:none;filter:grayscale(1)">🇬🇧</div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:20px;color:var(--tx);margin-bottom:8px">Ingliz Tili (IELTS)</h3>
+      <div style="font-size:12px;color:var(--ac);border:1px solid rgba(79,142,247,.3);background:rgba(79,142,247,.1);display:inline-block;padding:3px 8px;border-radius:4px;font-weight:700;margin-bottom:15px;text-transform:uppercase;letter-spacing:1px">Ustoz: G'ayrat Mavlonov</div>
+      <p style="font-size:13px;color:var(--tx2);line-height:1.6;margin-bottom:15px;min-height:90px">
+        <!-- BU YERNI O'ZGARTIRISHINGIZ MUMKIN: G'ayrat Mavlonov haqida ma'lumot -->
+        G'ayrat Mavlonov — o'quvchilarni IELTS va CEFR imtihonlariga eng yuqori baholarga tayyorlab kelayotgan tajribali ustoz. Cambridge tizimidagi eksklyuziv metodlar bilan fikrlash va Speaking darajasi juda qisqa muddatda oshadi.
+      </p>
+      <div style="background:var(--s2);padding:10px 15px;border-radius:var(--rs);border:1px solid var(--bd);display:flex;align-items:center;gap:10px">
+        <span style="font-size:20px">🏅</span>
+        <div><strong style="font-size:12px;color:var(--tx);display:block">Natija va Sertifikat:</strong>
+        <!-- BU YERDA SERTIFIKAT QACHON OLINISHI YOZILADI -->
+        <span style="font-size:11px;color:var(--tx3)">O'rtacha 8-10 oylik intensiv darslar bilan IELTS 7.0+ va CEFR B2/C1 darajaga yetish kafolatlanadi.</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- UCHINCHI QISM: AFZALLIKLAR VA TIZIM -->
+  <!-- BU YERNI O'ZGARTIRISHINGIZ MUMKIN: Afzalliklar qismi -->
+  <div style="background:var(--s);border:1px solid var(--bd);border-radius:var(--r);padding:25px;animation:fu .6s ease both;animation-delay:0.6s">
+    <h3 style="font-family:'Syne',sans-serif;font-size:18px;color:var(--tx);margin-bottom:15px;display:flex;align-items:center;gap:8px">
+      💎 Bizning ustunliklarimiz
+    </h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px">
+      
+      <div style="padding:15px;background:var(--grb);border:1px solid var(--grb2);border-radius:var(--rs);color:var(--tx);font-size:13px">
+        <strong style="color:var(--gr);display:flex;align-items:center;gap:5px;margin-bottom:6px"><span style="font-size:15px">📈</span>Kafolatlangan Natija</strong>
+        O'quvchilar bilan muntazam qo'shimcha darslar olib boriladi, mock testlar bilan daraja har oyi orqali nazorat qilinadi.
+      </div>
+
+      <div style="padding:15px;background:var(--rdb);border:1px solid var(--rdb2);border-radius:var(--rs);color:var(--tx);font-size:13px">
+        <strong style="color:var(--rd);display:flex;align-items:center;gap:5px;margin-bottom:6px"><span style="font-size:15px">🛡️</span>Intizom va Davomat</strong>
+        Elektron jurnal va qat'iy nazorat tufayli talaba o'zlashtirishi tushib ketishiga yo'l qo'yilmaydi. Natija har bir talaba uchun individual ko'rib chiqiladi.
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+
+<!-- INGLIZ -->
+<div class="pgs" id="tab-english">
+  <div class="sts" id="sts-eng"></div>
+  <div class="tb">
+    <div class="tt">🇬🇧 Ingliz tili guruhi</div>
+    <button class="btn" style="font-size:11px;padding:4px 9px" onclick="openPw('english')">🔑 Parol</button>
+  </div>
+  <div class="dout" id="dout-eng"></div>
+  <div class="leg">
+    <div class="li"><div class="ld" style="background:var(--gr)"></div>Keldi</div>
+    <div class="li"><div class="ld" style="background:var(--yw)"></div>Kech</div>
+    <div class="li"><div class="ld" style="background:var(--rd)"></div>Kelmadi</div>
+    <div class="li" style="margin-left:auto;font-size:10px;color:var(--tx3)">💾 Saqlanadi</div>
+  </div>
+</div>
+
+<!-- ARAB -->
+<div class="pgs" id="tab-arabic">
+  <div class="sts" id="sts-arb"></div>
+  <div class="tb">
+    <div class="tt">🕌 Arab tili guruhi</div>
+    <button class="btn" style="font-size:11px;padding:4px 9px" onclick="openPw('arabic')">🔑 Parol</button>
+  </div>
+  <div class="dout" id="dout-arb"></div>
+  <div class="leg">
+    <div class="li"><div class="ld" style="background:var(--gr)"></div>Keldi</div>
+    <div class="li"><div class="ld" style="background:var(--yw)"></div>Kech</div>
+    <div class="li"><div class="ld" style="background:var(--rd)"></div>Kelmadi</div>
+    <div class="li" style="margin-left:auto;font-size:10px;color:var(--tx3)">💾 Saqlanadi</div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div class="pgs" id="tab-admin">
+  <div class="tb">
+    <div class="tt">🔐 Admin panel</div>
+    <button class="btn bac" onclick="openAdd()">+ Qo'shish</button>
+    <button class="btn" style="font-size:11px;padding:4px 9px" onclick="openPw('admin')">🔑 Parol</button>
+  </div>
+  <div class="sw">
+    <span class="sico">🔍</span>
+    <input class="si" id="sInp" placeholder="Ism yoki telefon..." oninput="doSearch()"/>
+    <span class="scnt" id="sCnt"></span>
+  </div>
+  <div class="fr" id="admFlt"></div>
+  <div class="tw"><table><thead><tr id="admH"></tr></thead><tbody id="admB"></tbody></table></div>
+  <div class="pag" id="admP"></div>
+</div>
+</div>
+
+<script>
+const KEY='gosv6';
+const DAY_FEE=25000;
+const PKEY={english:'gpw_eng',arabic:'gpw_arb',admin:'gpw_adm'};
+const DPAS={english:"g'ayrat1200",arabic:'sardor2001',admin:'122233_max'};
+const PER=20;
+const ST=[null,'green','yellow','red'];
+const IC={null:'',green:'\u2713',yellow:'\u26a0',red:'\u2717'};
+const WK=['Yak','Du','Se','Ch','Pa','Ju','Sh'];
+function gp(r){return localStorage.getItem(PKEY[r])||DPAS[r];}
+function sp(r,v){localStorage.setItem(PKEY[r],v);}
+const INIT=[{"id": 1, "name": "Nafisa Rajabova", "group": "english", "balance": 50000, "phone": "+998 97 524 34 59", "score": 0}, {"id": 2, "name": "Vohid Razzaqov", "group": "english", "balance": 150000, "phone": "+998 95 611 31 99", "score": 0}, {"id": 3, "name": "Lobar Hamidova", "group": "english", "balance": 100000, "phone": "+998 90 730 49 49", "score": 0}, {"id": 4, "name": "Laziz Fayzullayev", "group": "english", "balance": 100000, "phone": "+998 95 998 29 82", "score": 0}, {"id": 5, "name": "Parizod Eshmatova", "group": "english", "balance": 100000, "phone": "+998 98 289 60 64", "score": 0}, {"id": 6, "name": "Komil Razzaqov", "group": "english", "balance": 150000, "phone": "+998 97 497 59 73", "score": 0}, {"id": 7, "name": "Davron Sultonov", "group": "english", "balance": 100000, "phone": "+998 93 394 58 82", "score": 0}, {"id": 8, "name": "Tarana Sultonova", "group": "english", "balance": 300000, "phone": "+998 94 315 87 90", "score": 0}, {"id": 9, "name": "Murod Usmonov", "group": "english", "balance": 100000, "phone": "+998 97 975 74 31", "score": 0}, {"id": 10, "name": "Rohila Tursunova", "group": "english", "balance": 300000, "phone": "+998 90 198 23 66", "score": 0}, {"id": 11, "name": "Alisher Botirov", "group": "english", "balance": 0, "phone": "+998 97 622 85 42", "score": 0}, {"id": 12, "name": "Iroda Ismoilova", "group": "english", "balance": 500000, "phone": "+998 93 673 79 65", "score": 0}, {"id": 13, "name": "Otabek Tursunov", "group": "english", "balance": 100000, "phone": "+998 90 136 69 34", "score": 0}, {"id": 14, "name": "Sanjar Nishonov", "group": "english", "balance": 400000, "phone": "+998 97 718 21 61", "score": 0}, {"id": 15, "name": "Lochin Eshmatov", "group": "english", "balance": 150000, "phone": "+998 94 605 70 75", "score": 0}, {"id": 16, "name": "Erkin Zokirov", "group": "english", "balance": 500000, "phone": "+998 94 169 84 35", "score": 0}, {"id": 17, "name": "Nilufar Matchonova", "group": "english", "balance": 0, "phone": "+998 97 431 77 45", "score": 0}, {"id": 18, "name": "Timur Ortiqov", "group": "english", "balance": 300000, "phone": "+998 97 743 28 17", "score": 0}, {"id": 19, "name": "Gavhar Jorayova", "group": "english", "balance": 200000, "phone": "+998 90 693 60 70", "score": 0}, {"id": 20, "name": "Jasur Ismoilov", "group": "english", "balance": 200000, "phone": "+998 98 848 18 68", "score": 0}, {"id": 21, "name": "Tohir Valiyev", "group": "english", "balance": 50000, "phone": "+998 97 711 56 79", "score": 0}, {"id": 22, "name": "Alisher Mirzayev", "group": "english", "balance": 300000, "phone": "+998 99 989 53 79", "score": 0}, {"id": 23, "name": "Vohid Nishonov", "group": "english", "balance": 200000, "phone": "+998 90 797 35 78", "score": 0}, {"id": 24, "name": "Umid Toshmatov", "group": "english", "balance": 200000, "phone": "+998 97 877 51 96", "score": 0}, {"id": 25, "name": "Kamola Haydarova", "group": "english", "balance": 50000, "phone": "+998 99 845 60 17", "score": 0}, {"id": 26, "name": "Ibrohim Toshmatov", "group": "english", "balance": 400000, "phone": "+998 98 937 31 17", "score": 0}, {"id": 27, "name": "Rustam Ergashev", "group": "english", "balance": 200000, "phone": "+998 97 588 48 73", "score": 0}, {"id": 28, "name": "Zulfiya Rajabova", "group": "english", "balance": 100000, "phone": "+998 94 428 13 88", "score": 0}, {"id": 29, "name": "Ulugbek Eshmatov", "group": "english", "balance": 50000, "phone": "+998 90 479 93 41", "score": 0}, {"id": 30, "name": "Suxrob Ashrapov", "group": "english", "balance": 400000, "phone": "+998 97 711 17 92", "score": 0}, {"id": 31, "name": "Sarvinoz Ismoilova", "group": "english", "balance": 500000, "phone": "+998 95 980 20 43", "score": 0}, {"id": 32, "name": "Oybek Razzaqov", "group": "english", "balance": 150000, "phone": "+998 90 911 62 26", "score": 0}, {"id": 33, "name": "Islom Yusupov", "group": "english", "balance": 100000, "phone": "+998 98 546 20 91", "score": 0}, {"id": 34, "name": "Nurbek Valiyev", "group": "english", "balance": 150000, "phone": "+998 99 899 37 79", "score": 0}, {"id": 35, "name": "Hulkar Tillayova", "group": "english", "balance": 300000, "phone": "+998 99 220 24 47", "score": 0}, {"id": 36, "name": "Islom Haydarov", "group": "english", "balance": 150000, "phone": "+998 91 523 55 38", "score": 0}, {"id": 37, "name": "Sabohat Baxtiyorova", "group": "english", "balance": 300000, "phone": "+998 93 309 72 33", "score": 0}, {"id": 38, "name": "Xurmo Latipova", "group": "english", "balance": 0, "phone": "+998 90 759 74 62", "score": 0}, {"id": 39, "name": "Nodir Mirzayev", "group": "english", "balance": 400000, "phone": "+998 95 486 88 47", "score": 0}, {"id": 40, "name": "Jasur Qodirov", "group": "english", "balance": 150000, "phone": "+998 97 845 52 19", "score": 0}, {"id": 41, "name": "Sitora Qodirova", "group": "english", "balance": 150000, "phone": "+998 90 437 18 49", "score": 0}, {"id": 42, "name": "Zafar Pulatov", "group": "english", "balance": 50000, "phone": "+998 94 796 43 71", "score": 0}, {"id": 43, "name": "Rayhona Valiyova", "group": "english", "balance": 300000, "phone": "+998 94 472 82 15", "score": 0}, {"id": 44, "name": "Iroda Nishonova", "group": "english", "balance": 100000, "phone": "+998 90 992 75 11", "score": 0}, {"id": 45, "name": "Nodir Ganiyev", "group": "english", "balance": 100000, "phone": "+998 91 183 12 36", "score": 0}, {"id": 46, "name": "Parvin Botirova", "group": "english", "balance": 500000, "phone": "+998 91 363 41 13", "score": 0}, {"id": 47, "name": "Dilorom Ergashova", "group": "english", "balance": 150000, "phone": "+998 98 513 54 91", "score": 0}, {"id": 48, "name": "Murod Nishonov", "group": "english", "balance": 50000, "phone": "+998 90 405 79 30", "score": 0}, {"id": 49, "name": "Malika Xolmatova", "group": "english", "balance": 400000, "phone": "+998 91 629 74 61", "score": 0}, {"id": 50, "name": "Ravshan Xasanov", "group": "english", "balance": 50000, "phone": "+998 98 498 13 40", "score": 0}, {"id": 51, "name": "Barno Ortiqova", "group": "arabic", "balance": 50000, "phone": "+998 95 446 48 99", "score": 0}, {"id": 52, "name": "Murod Karimov", "group": "arabic", "balance": 400000, "phone": "+998 90 732 72 40", "score": 0}, {"id": 53, "name": "Mirzo Abdullayev", "group": "arabic", "balance": 200000, "phone": "+998 99 579 38 98", "score": 0}, {"id": 54, "name": "Kamola Mamatova", "group": "arabic", "balance": 200000, "phone": "+998 90 902 61 52", "score": 0}, {"id": 55, "name": "Bekzod Davlatov", "group": "arabic", "balance": 0, "phone": "+998 91 621 61 83", "score": 0}, {"id": 56, "name": "Dilshod Rajabov", "group": "arabic", "balance": 100000, "phone": "+998 93 937 49 30", "score": 0}, {"id": 57, "name": "Sherzod Toshmatov", "group": "arabic", "balance": 300000, "phone": "+998 97 802 86 14", "score": 0}, {"id": 58, "name": "Iroda Latipova", "group": "arabic", "balance": 150000, "phone": "+998 91 104 85 28", "score": 0}, {"id": 59, "name": "Feruza Fayzullayova", "group": "arabic", "balance": 300000, "phone": "+998 93 544 93 98", "score": 0}, {"id": 60, "name": "Zafar Mamatov", "group": "arabic", "balance": 200000, "phone": "+998 97 411 87 59", "score": 0}, {"id": 61, "name": "Malika Choriyova", "group": "arabic", "balance": 150000, "phone": "+998 93 771 12 72", "score": 0}, {"id": 62, "name": "Rustam Razzaqov", "group": "arabic", "balance": 100000, "phone": "+998 97 909 72 58", "score": 0}, {"id": 63, "name": "Mirzo Ganiyev", "group": "arabic", "balance": 150000, "phone": "+998 97 423 75 30", "score": 0}, {"id": 64, "name": "Firdavs Raximov", "group": "arabic", "balance": 100000, "phone": "+998 95 872 56 75", "score": 0}, {"id": 65, "name": "Sanjar Nazarov", "group": "arabic", "balance": 100000, "phone": "+998 98 615 80 95", "score": 0}, {"id": 66, "name": "Munira Ismoilova", "group": "arabic", "balance": 50000, "phone": "+998 90 434 19 42", "score": 0}, {"id": 67, "name": "Xurshid Baxtiyorov", "group": "arabic", "balance": 400000, "phone": "+998 94 131 26 11", "score": 0}, {"id": 68, "name": "Malika Rajabova", "group": "arabic", "balance": 500000, "phone": "+998 94 994 81 33", "score": 0}, {"id": 69, "name": "Oydin Botirova", "group": "arabic", "balance": 300000, "phone": "+998 93 348 57 45", "score": 0}, {"id": 70, "name": "Husan Normatov", "group": "arabic", "balance": 0, "phone": "+998 97 225 80 41", "score": 0}, {"id": 71, "name": "Umida Rajabova", "group": "arabic", "balance": 300000, "phone": "+998 94 893 99 47", "score": 0}, {"id": 72, "name": "Hilola Yoldoshova", "group": "arabic", "balance": 500000, "phone": "+998 99 880 90 61", "score": 0}, {"id": 73, "name": "Gavhar Umarova", "group": "arabic", "balance": 300000, "phone": "+998 98 737 39 13", "score": 0}, {"id": 74, "name": "Sarvinoz Jurayova", "group": "arabic", "balance": 0, "phone": "+998 99 547 75 14", "score": 0}, {"id": 75, "name": "Suxrob Yoldoshev", "group": "arabic", "balance": 50000, "phone": "+998 91 745 84 78", "score": 0}, {"id": 76, "name": "Ulugbek Matchonov", "group": "arabic", "balance": 150000, "phone": "+998 94 664 75 67", "score": 0}, {"id": 77, "name": "Madina Mirzayova", "group": "arabic", "balance": 500000, "phone": "+998 90 704 58 98", "score": 0}, {"id": 78, "name": "Odil Nazarov", "group": "arabic", "balance": 150000, "phone": "+998 91 785 18 48", "score": 0}, {"id": 79, "name": "Yulduz Tursunova", "group": "arabic", "balance": 200000, "phone": "+998 95 100 39 72", "score": 0}, {"id": 80, "name": "Farzona Mamatova", "group": "arabic", "balance": 300000, "phone": "+998 93 319 43 30", "score": 0}, {"id": 81, "name": "Umid Inomov", "group": "arabic", "balance": 200000, "phone": "+998 90 177 47 95", "score": 0}, {"id": 82, "name": "Toxir Tillayev", "group": "arabic", "balance": 400000, "phone": "+998 98 388 23 19", "score": 0}, {"id": 83, "name": "Davron Latipov", "group": "arabic", "balance": 150000, "phone": "+998 91 129 46 41", "score": 0}, {"id": 84, "name": "Nurbek Nabiyev", "group": "arabic", "balance": 0, "phone": "+998 98 848 91 11", "score": 0}, {"id": 85, "name": "Mohira Botirova", "group": "arabic", "balance": 50000, "phone": "+998 98 760 65 74", "score": 0}, {"id": 86, "name": "Ravshan Raximov", "group": "arabic", "balance": 150000, "phone": "+998 93 798 98 43", "score": 0}, {"id": 87, "name": "Maftuna Rahimova", "group": "arabic", "balance": 100000, "phone": "+998 98 408 75 45", "score": 0}, {"id": 88, "name": "Sabohat Choriyova", "group": "arabic", "balance": 50000, "phone": "+998 95 311 48 78", "score": 0}, {"id": 89, "name": "Charos Jorayova", "group": "arabic", "balance": 400000, "phone": "+998 90 932 35 67", "score": 0}, {"id": 90, "name": "Dilorom Karimova", "group": "arabic", "balance": 150000, "phone": "+998 95 522 66 82", "score": 0}, {"id": 91, "name": "Ziyoda Karimova", "group": "arabic", "balance": 200000, "phone": "+998 90 643 88 54", "score": 0}, {"id": 92, "name": "Aziza Rajabova", "group": "arabic", "balance": 200000, "phone": "+998 90 509 24 72", "score": 0}, {"id": 93, "name": "Murod Zokirov", "group": "arabic", "balance": 300000, "phone": "+998 95 224 85 93", "score": 0}, {"id": 94, "name": "Tohir Usmonov", "group": "arabic", "balance": 400000, "phone": "+998 97 635 53 92", "score": 0}, {"id": 95, "name": "Nafisa Choriyova", "group": "arabic", "balance": 500000, "phone": "+998 90 514 62 84", "score": 0}, {"id": 96, "name": "Shahnoza Ortiqova", "group": "arabic", "balance": 100000, "phone": "+998 91 177 43 91", "score": 0}, {"id": 97, "name": "Malika Ganiyova", "group": "arabic", "balance": 500000, "phone": "+998 99 387 36 93", "score": 0}, {"id": 98, "name": "Javlon Mamatov", "group": "arabic", "balance": 200000, "phone": "+998 94 911 28 60", "score": 0}, {"id": 99, "name": "Adolat Xasanova", "group": "arabic", "balance": 150000, "phone": "+998 91 776 61 41", "score": 0}, {"id": 100, "name": "Oybek Qodirov", "group": "arabic", "balance": 100000, "phone": "+998 93 612 38 52", "score": 0}];
+let D=loadD(),theme=localStorage.getItem('gos_th')||'dark';
+let pendTab=null,pendEl=null,pwRole=null,balId=null,detId=null;
+let admGrp='all',admPg=1,srchQ='';
+function loadD(){try{const s=localStorage.getItem(KEY);if(s){const d=JSON.parse(s);if(d&&d.stu&&d.stu.length>0)return d;}}catch(e){}return mkDef();}
+function saveD(){try{localStorage.setItem(KEY,JSON.stringify(D));}catch(e){}}
+function mkDef(){const att={};INIT.forEach(s=>{att[s.id]={};});return {stu:JSON.parse(JSON.stringify(INIT)),att,nid:INIT.length+1};}
+function togTh(){theme=theme==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',theme);localStorage.setItem('gos_th',theme);document.getElementById('tbtn').textContent=theme==='dark'?'\u{1F319}':'\u2600\uFE0F';}
+function eye(id,btn){const e=document.getElementById(id);if(!e)return;e.type=e.type==='password'?'text':'password';btn.textContent=e.type==='password'?'\u{1F441}':'\u{1F648}';}
+function days(){const r=[],now=new Date();for(let i=29;i>=0;i--){const d=new Date(now);d.setDate(now.getDate()-i);if(d.getDay()!==0)r.push(d);}return r;}
+function fmt(d){return d.toISOString().split('T')[0];}
+function isToday(d){return fmt(d)===fmt(new Date());}
+function init(){
+  document.documentElement.setAttribute('data-theme',theme);
+  document.getElementById('tbtn').textContent=theme==='dark'?'\u{1F319}':'\u2600\uFE0F';
+  document.getElementById('tabBar').innerHTML=[['home','\u{1F3E0} Asosiy'],['english','\u{1F1EC}\u{1F1E7} Ingliz tili'],['arabic','\u{1F54C} Arab tili'],['admin','\u{1F510} Admin']].map((x,i)=>`<button class="tab${i===0?' active':''}" onclick="swTab('${x[0]}',this)">${x[1]}</button>`).join('');
+  
+  // Loading animatsiyasi
+  setTimeout(() => {
+    document.getElementById('preloader').classList.add('hide');
+    setTimeout(() => {
+      document.getElementById('preloader').style.display = 'none';
+      document.getElementById('app').style.display='block';
+    }, 600); // animatsiya tugashini kutish
+  }, 2300); // 2.3 soniya loader ekranda turadi
+}
+function swTab(name,el){
+  if(name==='home'){actTab(name,el);return;}
+  pendTab=name;pendEl=el;
+  const lbl={english:'Ingliz tili guruhiga kirish',arabic:'Arab tili guruhiga kirish',admin:'Admin paneliga kirish'};
+  document.getElementById('mLockT').textContent='\u{1F510} Kirish';
+  document.getElementById('mLockSub').textContent=lbl[name]||'';
+  document.getElementById('tlInp').value='';
+  document.getElementById('mLockErr').textContent='';
+  document.getElementById('mLock').classList.remove('hide');
+  setTimeout(()=>document.getElementById('tlInp').focus(),80);
+}
+function tryTabLock(){
+  const v=document.getElementById('tlInp').value;
+  if(v===gp(pendTab)){closeM('mLock');actTab(pendTab,pendEl);}
+  else{document.getElementById('mLockErr').textContent="Noto'g'ri parol!";shk('tlInp');document.getElementById('tlInp').value='';}
+}
+function actTab(name,el){
+  document.querySelectorAll('.pgs').forEach(x=>x.classList.remove('act'));
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('act');
+  if(el)el.classList.add('active');
+  if(name==='english')renderEng();
+  else if(name==='arabic')renderArb();
+  else if(name==='admin')renderAdm();
+}
+function renderSts(grp,elId){
+  const dd=days().map(fmt);let g=0,y=0,r=0,tot=0;
+  const flt=D.stu.filter(s=>s.group===grp);
+  flt.forEach(s=>dd.forEach(d=>{const st=D.att[s.id]?.[d];if(st){tot++;if(st==='green')g++;else if(st==='yellow')y++;else r++;}}));
+  const pct=tot>0?Math.round(g/tot*100):0;
+  const el=document.getElementById(elId);if(!el)return;
+  el.innerHTML='<div class="sc" style="animation-delay:.03s"><div class="sn">'+flt.length+'</div><div class="sl">Oquvchi</div></div>'
+    +'<div class="sc sg" style="animation-delay:.06s"><div class="sn">'+g+'</div><div class="sl">Keldi</div></div>'
+    +'<div class="sc sy" style="animation-delay:.09s"><div class="sn">'+y+'</div><div class="sl">Kech</div></div>'
+    +'<div class="sc sr" style="animation-delay:.12s"><div class="sn">'+r+'</div><div class="sl">Kelmadi</div></div>'
+    +'<div class="sc sd" style="animation-delay:.15s"><div class="sn">'+pct+'%</div><div class="sl">Davomat</div></div>';
+}
+function buildDav(grp,outId){
+  const dd=days(),flt=D.stu.filter(s=>s.group===grp);
+  let h='<table class="dt"><thead><tr><th class="stk" style="min-width:155px">Ism</th><th style="min-width:70px">Balans</th><th style="min-width:48px">Baho</th>';
+  dd.forEach(d=>{
+    const tod=isToday(d);
+    h+='<th class="'+(tod?'thd':'')+'" style="min-width:26px;text-align:center">'+d.getDate()+'<span style="display:block;font-size:7px;font-weight:400">'+WK[d.getDay()]+'</span>'+(tod?'<span class="tdot"></span>':'')+'</th>';
+  });
+  h+='</tr></thead><tbody>';
+  flt.forEach(s=>{
+    const bal=s.balance||0,bc=bal>100000?'bok':bal>0?'blow':'bneg';
+    const sc=s.score??0,scC=sc>=80?'var(--gr)':sc>=50?'var(--yw)':'var(--rd)';
+    h+='<tr><td class="stk"><div class="snm">'+s.name+'</div><div class="sph">'+(s.phone||'')+'</div></td>'
+      +'<td><span class="bch '+bc+'">'+bal.toLocaleString()+'</span></td>'
+      +'<td><div class="swp"><input class="sinp" type="number" min="0" max="100" value="'+sc+'" onchange="setSc('+s.id+',this.value)" onclick="this.select()" style="color:'+scC+'"><div class="sbar"><div class="sbarfill" style="width:'+sc+'%;background:'+scC+'"></div></div></div></td>';
+    dd.forEach(d=>{
+      const dk=fmt(d),st=(D.att[s.id]&&D.att[s.id][dk])||null,tod=isToday(d);
+      h+='<td class="dc'+(tod?' tdc':'')+'"><button class="sb '+(st||'')+'" onclick="tog('+s.id+',\''+dk+'\',\''+outId+'\')"><span class="ci">'+(IC[st]||'')+'</span></button></td>';
+    });
+    h+='</tr>';
+  });
+  h+='</tbody></table>';
+  const out=document.getElementById(outId);out.innerHTML=h;out.scrollLeft=out.scrollWidth;
+}
+function renderEng(){renderSts('english','sts-eng');buildDav('english','dout-eng');}
+function renderArb(){renderSts('arabic','sts-arb');buildDav('arabic','dout-arb');}
+function tog(id,day,outId){
+  if(!D.att[id])D.att[id]={};
+  const cur=(D.att[id]&&D.att[id][day])||null;
+  const nxt=ST[(ST.indexOf(cur)+1)%ST.length];
+  const s=D.stu.find(x=>x.id===id);
+  if(s){if(nxt==='green')s.balance=(s.balance||0)-DAY_FEE;else if(cur==='green')s.balance=(s.balance||0)+DAY_FEE;}
+  D.att[id][day]=nxt;saveD();
+  if(outId==='dout-eng')renderEng();else renderArb();
+}
+function setSc(id,v){const s=D.stu.find(x=>x.id===id);if(!s)return;s.score=Math.max(0,Math.min(100,parseInt(v)||0));saveD();}
+function doSearch(){srchQ=document.getElementById('sInp').value.toLowerCase();admPg=1;renderAdm();}
+function admFl(g){admGrp=g;admPg=1;renderAdm();}
+function renderAdm(){
+  const opts=[{id:'all',l:'Barchasi'},{id:'english',l:'Ingliz'},{id:'arabic',l:'Arab'}];
+  document.getElementById('admFlt').innerHTML=opts.map(o=>'<button class="fb'+(o.id===admGrp?' act':'')+'" onclick="admFl(\''+o.id+'\')">'+o.l+'</button>').join('');
+  let flt=admGrp==='all'?D.stu:D.stu.filter(s=>s.group===admGrp);
+  if(srchQ)flt=flt.filter(s=>s.name.toLowerCase().includes(srchQ)||(s.phone&&s.phone.includes(srchQ)));
+  document.getElementById('sCnt').textContent=flt.length+' ta';
+  const pages=Math.ceil(flt.length/PER)||1;
+  if(admPg>pages)admPg=1;
+  const sl=flt.slice((admPg-1)*PER,admPg*PER);
+  document.getElementById('admH').innerHTML='<th>ID</th><th>Ism</th><th>Telefon</th><th>Guruh</th><th>Balans</th><th>Baho</th><th></th>';
+  const tb=document.getElementById('admB');
+  if(!sl.length){tb.innerHTML='<tr><td colspan="7" style="padding:26px;text-align:center;color:var(--tx3)">\u2014</td></tr>';document.getElementById('admP').innerHTML='';return;}
+  tb.innerHTML=sl.map(function(s,i){
+    const bal=s.balance||0,bc=bal>100000?'bok':bal>0?'blow':'bneg';
+    const sc=s.score??0,scC=sc>=80?'var(--gr)':sc>=50?'var(--yw)':'var(--rd)';
+    const gc=s.group==='english'?'geng':'garb',gl=s.group==='english'?'Ingliz':'Arab';
+    return '<tr style="animation-delay:'+(i*0.022)+'s">'
+      +'<td style="color:var(--tx3);font-size:10px">#'+String(s.id).padStart(3,'0')+'</td>'
+      +'<td><div class="snm">'+s.name+'</div></td>'
+      +'<td style="color:var(--tx2);font-size:11px">'+(s.phone||'\u2014')+'</td>'
+      +'<td><span class="gbg '+gc+'">'+gl+'</span></td>'
+      +'<td><span class="bch '+bc+'">'+bal.toLocaleString()+' som</span></td>'
+      +'<td style="color:'+scC+';font-weight:600;font-size:12px">'+sc+'</td>'
+      +'<td><div style="display:flex;gap:4px">'
+      +'<button class="btn" style="padding:3px 7px;font-size:11px" onclick="openDet('+s.id+')">Korish</button>'
+      +'<button class="btn bgr" style="padding:3px 7px;font-size:11px" onclick="openBal('+s.id+')">+</button>'
+      +'</div></td></tr>';
+  }).join('');
+  let pg='';
+  if(pages>1){
+    if(admPg>1)pg+='<button class="pp" onclick="goPg('+(admPg-1)+')">&#8592;</button>';
+    for(let p=1;p<=pages;p++){
+      if(p===1||p===pages||Math.abs(p-admPg)<=1)pg+='<button class="pp'+(p===admPg?' act':'')+'" onclick="goPg('+p+')">'+p+'</button>';
+      else if(Math.abs(p-admPg)===2)pg+='<span style="color:var(--tx3);padding:0 2px;font-size:11px">\u2026</span>';
+    }
+    if(admPg<pages)pg+='<button class="pp" onclick="goPg('+(admPg+1)+')">&#8594;</button>';
+  }
+  document.getElementById('admP').innerHTML=pg;
+}
+function goPg(p){admPg=p;renderAdm();}
+function openAdd(){document.getElementById('inN').value='';document.getElementById('inP').value='';document.getElementById('inB').value='0';document.getElementById('mAdd').classList.remove('hide');setTimeout(()=>document.getElementById('inN').focus(),80);}
+function addStu(){
+  const nm=document.getElementById('inN').value.trim();if(!nm){document.getElementById('inN').focus();return;}
+  const ph=document.getElementById('inP').value.trim(),grp=document.getElementById('inG').value,bal=parseInt(document.getElementById('inB').value)||0,id=D.nid++;
+  D.stu.push({id,name:nm,group:grp,balance:bal,phone:ph,score:0});D.att[id]={};saveD();closeM('mAdd');renderAdm();
+  if(grp==='english'&&document.getElementById('tab-english').classList.contains('act'))renderEng();
+  if(grp==='arabic'&&document.getElementById('tab-arabic').classList.contains('act'))renderArb();
+  toast(nm+" qo'shildi \u2713");
+}
+function openBal(id){
+  balId=id;const s=D.stu.find(x=>x.id===id);if(!s)return;
+  document.getElementById('bNm').textContent=s.name;
+  document.getElementById('bCur').textContent='Balans: '+(s.balance||0).toLocaleString()+" so'm";
+  document.getElementById('inAm').value='';document.getElementById('mBal').classList.remove('hide');
+  setTimeout(()=>document.getElementById('inAm').focus(),80);
+}
+function balFromDet(){closeM('mDet');openBal(detId);}
+function am(v){document.getElementById('inAm').value=v;}
+function addBal(){
+  const v=parseInt(document.getElementById('inAm').value)||0;if(!v||v<=0){document.getElementById('inAm').focus();return;}
+  const s=D.stu.find(x=>x.id===balId);if(!s)return;
+  s.balance=(s.balance||0)+v;saveD();closeM('mBal');
+  toast('\u2705 '+v.toLocaleString()+" so'm to'lovi qabul qilindi: "+s.name+' ('+(s.phone||'\u2014')+')');
+  if(document.getElementById('tab-admin').classList.contains('act'))renderAdm();
+  if(document.getElementById('tab-english').classList.contains('act'))renderEng();
+  if(document.getElementById('tab-arabic').classList.contains('act'))renderArb();
+}
+function openDet(id){
+  detId=id;const s=D.stu.find(x=>x.id===id);if(!s)return;
+  const ini=s.name.split(' ').map(w=>w[0]||'').slice(0,2).join('').toUpperCase();
+  const av=document.getElementById('dAv');
+  av.textContent=ini;av.style.background=s.group==='english'?'rgba(34,197,94,.22)':'rgba(245,158,11,.22)';av.style.color=s.group==='english'?'var(--gr)':'var(--yw)';
+  document.getElementById('dNm').textContent=s.name;document.getElementById('dPh').textContent=s.phone||'\u2014';
+  document.getElementById('dNmI').value=s.name;document.getElementById('dPhI').value=s.phone||'';
+  document.getElementById('dNmEd').style.display='none';document.getElementById('dPhEd').style.display='none';document.getElementById('dSaveBtn').style.display='none';
+  const dd=days().map(fmt);let g=0,tot=0;
+  dd.forEach(d=>{const st=D.att[s.id]&&D.att[s.id][d];if(st){tot++;if(st==='green')g++;}});
+  const pct=tot>0?Math.round(g/tot*100):0,bal=s.balance||0,bc=bal>100000?'bok':bal>0?'blow':'bneg';
+  const sc=s.score??0,scC=sc>=80?'var(--gr)':sc>=50?'var(--yw)':'var(--rd)';
+  document.getElementById('dRows').innerHTML='<div class="di"><div class="dil">Guruh</div><div class="div">'+(s.group==='english'?'Ingliz':'Arab')+' tili</div></div>'
+    +'<div class="di"><div class="dil">Balans</div><div class="div"><span class="bch '+bc+'" style="font-size:11px">'+bal.toLocaleString()+" so'm</span></div></div>"
+    +'<div class="di"><div class="dil">Davomat</div><div class="div" style="color:'+(pct>=80?'var(--gr)':pct>=50?'var(--yw)':'var(--rd)')+'">'+pct+'% ('+g+' kun)</div></div>'
+    +'<div class="di"><div class="dil">Baho</div><div class="div" style="color:'+scC+'">'+sc+'/100</div></div>'
+    +'<div class="di"><div class="dil">Telefon</div><div class="div" style="font-size:11px">'+(s.phone||'\u2014')+'</div></div>';
+  document.getElementById('mDet').classList.remove('hide');
+}
+function togEdit(){
+  const show=document.getElementById('dNmEd').style.display==='none';
+  ['dNmEd','dPhEd'].forEach(id=>document.getElementById(id).style.display=show?'block':'none');
+  document.getElementById('dSaveBtn').style.display=show?'inline-flex':'none';
+}
+function saveDet(){
+  const s=D.stu.find(x=>x.id===detId);if(!s)return;
+  const nm=document.getElementById('dNmI').value.trim(),ph=document.getElementById('dPhI').value.trim();
+  if(nm)s.name=nm;if(ph)s.phone=ph;
+  saveD();closeM('mDet');renderAdm();toast(s.name+' yangilandi \u2713');
+}
+function delFromDet(){
+  if(!confirm("O'chirishni tasdiqlaysizmi?"))return;
+  const s=D.stu.find(x=>x.id===detId);
+  D.stu=D.stu.filter(x=>x.id!==detId);delete D.att[detId];
+  saveD();closeM('mDet');renderAdm();toast((s?s.name:'')+" o'chirildi");
+}
+function openPw(role){
+  pwRole=role;
+  const lbl={english:'Ingliz tili guruh paroli',arabic:'Arab tili guruh paroli',admin:'Admin paroli'};
+  document.getElementById('mPwFor').textContent=lbl[role]||role;
+  ['pwOld','pwNew','pwCf'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('pwErr').textContent='';
+  document.getElementById('mPw').classList.remove('hide');
+  setTimeout(()=>document.getElementById('pwOld').focus(),80);
+}
+function doPw(){
+  const old=document.getElementById('pwOld').value,nw=document.getElementById('pwNew').value,cf=document.getElementById('pwCf').value;
+  if(old!==gp(pwRole)){document.getElementById('pwErr').textContent="Joriy parol noto'g'ri!";shk('pwOld');return;}
+  if(!nw||nw.length<4){document.getElementById('pwErr').textContent='Kamida 4 ta belgi!';return;}
+  if(nw!==cf){document.getElementById('pwErr').textContent='Parollar mos emas!';shk('pwCf');return;}
+  sp(pwRole,nw);closeM('mPw');toast("Parol o'zgartirildi \u2713");
+}
+function closeM(id){document.getElementById(id).classList.add('hide');}
+function shk(id){const e=document.getElementById(id);if(!e)return;e.style.animation='shk .35s ease';setTimeout(()=>{e.style.animation='';},400);}
+function toast(msg){
+  const e=document.createElement('div');e.className='toast';e.textContent=msg;document.body.appendChild(e);
+  setTimeout(()=>{e.style.opacity='0';e.style.transition='opacity .3s';setTimeout(()=>e.remove(),300);},3500);
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')['mLock','mAdd','mBal','mDet','mPw'].forEach(closeM);
+  if(e.key==='Enter'&&!document.getElementById('mLock').classList.contains('hide'))tryTabLock();
+});
+['mLock','mAdd','mBal','mDet','mPw'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el)el.addEventListener('click',function(e){if(e.target===this)closeM(id);});
+});
+init();
+</script>
+</body>
+</html>

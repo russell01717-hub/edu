@@ -1,0 +1,22 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "5.3",
+	"Category": "Games",
+	"Description": "Real Racing 3-style racing game",
+	"Modules": [
+		{
+			"Name": "RacingGame",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "ChaosVehicles",
+			"Enabled": true
+		}
+	]
+}

@@ -1,0 +1,921 @@
+// ...existing code... (Style section remains the same until login section)
+
+        .admin-dashboard {
+            display: none;
+        }
+
+        .admin-dashboard.active {
+            display: block;
+        }
+
+        .admin-content {
+            padding: 3rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b35, #ff0000);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.3);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-label {
+            color: #999;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ff6b35;
+        }
+
+        .admin-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .admin-table-header {
+            background: linear-gradient(135deg, #ff6b35, #ff0000);
+            color: white;
+            padding: 1.5rem;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-edit, .btn-delete, .btn-add {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .btn-add {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .btn-add:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-edit {
+            background: #2196F3;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: #0b7dda;
+            transform: scale(1.05);
+        }
+
+        .btn-delete {
+            background: #f44336;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #da190b;
+            transform: scale(1.05);
+        }
+
+        .modal-form {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .form-group-modal {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group-modal label {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group-modal input, .form-group-modal select {
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group-modal input:focus, .form-group-modal select:focus {
+            outline: none;
+            border-color: #ff6b35;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-submit, .btn-cancel {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #ff6b35, #ff0000);
+            color: white;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 0, 0, 0.4);
+        }
+
+        .btn-cancel {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-cancel:hover {
+            background: #d0d0d0;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- ===== LOGIN PAGE ===== -->
+    <div class="login-container" id="loginPage">
+        <div class="login-box">
+            <div class="login-header">
+                <div class="login-logo">
+                    <span>X</span><span>sure</span>
+                </div>
+                <h1 class="login-h1">Academy</h1>
+                <p class="login-subtitle">Premium Learning Platform</p>
+            </div>
+
+            <div class="role-selector">
+                <button class="role-btn active" data-role="student">
+                    <i class="fas fa-graduation-cap"></i> Student
+                </button>
+                <button class="role-btn" data-role="teacher">
+                    <i class="fas fa-chalkboard-user"></i> Teacher
+                </button>
+                <button class="role-btn" data-role="admin">
+                    <i class="fas fa-cogs"></i> Admin
+                </button>
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Enter your username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </form>
+
+            <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e0e0e0; text-align: center; font-size: 0.85rem; color: #999;">
+                <p>Admin Login: <strong>login-russel</strong> / <strong>parol-12russell</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ADMIN DASHBOARD ===== -->
+    <div class="dashboard" id="adminDashboard">
+        <div class="navbar-dashboard">
+            <div class="navbar-logo"><span>X</span><span>sure</span> <span style="color: #4CAF50; margin-left: 0.5rem;">ADMIN</span></div>
+            <div class="user-info">
+                <div class="user-name">
+                    <i class="fas fa-user-shield"></i> <span id="adminName"></span>
+                </div>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <div class="admin-content">
+            <div class="welcome-section">
+                <div class="welcome-text">
+                    <h2>Admin Panel 🛡️</h2>
+                    <p>Manage the entire academy system</p>
+                </div>
+            </div>
+
+            <!-- Statistics -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-label">Total Students</div>
+                    <div class="stat-number" id="totalStudents">3</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👨‍🏫</div>
+                    <div class="stat-label">Total Teachers</div>
+                    <div class="stat-number" id="totalTeachers">2</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📚</div>
+                    <div class="stat-label">Total Subjects</div>
+                    <div class="stat-number" id="totalSubjects">4</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-label">Total Balance</div>
+                    <div class="stat-number" id="totalBalance">0</div>
+                </div>
+            </div>
+
+            <!-- Manage Students -->
+            <div class="section-title">👥 Manage Students</div>
+            <button class="btn-add" onclick="openAddStudentModal()">+ Add New Student</button>
+            <div class="admin-table">
+                <div class="admin-table-header">Students List</div>
+                <table id="adminStudentsTable" style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: #f9f9f9;">
+                            <th style="padding: 1rem 1.5rem; text-align: left; border-bottom: 2px solid #e0e0e0;">Name</th>
+                            <th style="padding: 1rem 1.5rem; text-align: left; border-bottom: 2px solid #e0e0e0;">Username</th>
+                            <th style="padding: 1rem 1.5rem; text-align: left; border-bottom: 2px solid #e0e0e0;">Balance</th>
+                            <th style="padding: 1rem 1.5rem; text-align: left; border-bottom: 2px solid #e0e0e0;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminStudentsBody">
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Manage Teachers -->
+            <div class="section-title" style="margin-top: 3rem;">👨‍🏫 Manage Teachers</div>
+            <button class="btn-add" onclick="openAddTeacherModal()">+ Add New Teacher</button>
+            <div class="admin-table">
+                <div class="admin-table-header">Teachers List</div>
+                <table id="adminTeachersTable" style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: #f9f9f9;">
+                            <th style="padding: 1rem 1.5rem; text-align: left; border-bottom: 2px solid #e0e0e0;">Name</th>
+                            <th style="padding: 1rem 1.5rem; text-align: left; border-bottom: 2px solid #e0e0e0;">Username</th>
+                            <th style="padding: 1rem 1.5rem; text-align: left; border-bottom: 2px solid #e0e0e0;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminTeachersBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== STUDENT DASHBOARD ===== -->
+    <div class="dashboard" id="studentDashboard">
+        <div class="navbar-dashboard">
+            <div class="navbar-logo"><span>X</span><span>sure</span></div>
+            <div class="user-info">
+                <div class="user-name">
+                    <i class="fas fa-user-circle"></i> <span id="studentName"></span>
+                </div>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <div class="dashboard-content">
+            <div class="welcome-section">
+                <div class="welcome-text">
+                    <h2>Welcome, <span id="welcomeName"></span>! 👋</h2>
+                    <p>Master languages with our advanced 3D learning platform</p>
+                </div>
+            </div>
+
+            <div class="payment-card">
+                <div class="payment-content">
+                    <div class="payment-header">📊 Your Account Status</div>
+                    <div class="payment-info">
+                        <div class="payment-item">
+                            <div class="payment-label">Balance</div>
+                            <div class="payment-value" id="balanceDisplay">0 UZS</div>
+                        </div>
+                        <div class="payment-item">
+                            <div class="payment-label">Monthly Fee</div>
+                            <div class="payment-value">25,000 UZS</div>
+                        </div>
+                        <div class="payment-item">
+                            <div class="payment-label">Last Payment</div>
+                            <div class="payment-value" id="lastPayment">Today</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">📚 Choose Your Subject</div>
+            <div class="subjects-grid" id="subjectsGrid">
+                <!-- Subjects will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== TEACHER DASHBOARD ===== -->
+    <div class="dashboard" id="teacherDashboard">
+        <div class="navbar-dashboard">
+            <div class="navbar-logo"><span>X</span><span>sure</span></div>
+            <div class="user-info">
+                <div class="user-name">
+                    <i class="fas fa-user-circle"></i> <span id="teacherName"></span>
+                </div>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <div class="dashboard-content">
+            <div class="welcome-section">
+                <div class="welcome-text">
+                    <h2>Welcome, Teacher! 👨‍🏫</h2>
+                    <p>Manage students and grade their assignments</p>
+                </div>
+            </div>
+
+            <div class="section-title">👥 Students List</div>
+            <div class="students-table">
+                <div class="table-header">Manage Student Grades & Payments</div>
+                <table id="studentsTable">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Subject</th>
+                            <th>Grade (0-100)</th>
+                            <th>Balance</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Students will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== LESSON MODAL ===== -->
+    <div class="modal" id="lessonModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="lessonTitle"></h2>
+                <button class="close-modal" onclick="closeLesson()">&times;</button>
+            </div>
+            <div class="lesson-content" id="lessonContent">
+                <!-- Lesson content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ADD/EDIT MODAL ===== -->
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="editModalTitle"></h2>
+                <button class="close-modal" onclick="closeEditModal()">&times;</button>
+            </div>
+            <form id="editForm" class="modal-form">
+                <div id="editFormContent"></div>
+                <div class="modal-actions">
+                    <button type="submit" class="btn-submit">Save Changes</button>
+                    <button type="button" class="btn-cancel" onclick="closeEditModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ===== USER DATABASE =====
+        let users = {
+            students: [
+                { id: 1, username: 'student1', password: '1234', name: 'Ali', balance: 500000, lastPayment: '2025-02-10', grades: {} },
+                { id: 2, username: 'student2', password: '1234', name: 'Faxri', balance: 250000, lastPayment: '2025-02-08', grades: {} },
+                { id: 3, username: 'student3', password: '1234', name: 'Zara', balance: 0, lastPayment: '2025-02-01', grades: {} }
+            ],
+            teachers: [
+                { id: 1, username: 'teacher1', password: '1234', name: 'Mr. Ahmed' },
+                { id: 2, username: 'teacher2', password: '1234', name: 'Ms. Sarah' }
+            ],
+            admins: [
+                { id: 1, username: 'login-russel', password: 'parol-12russell', name: 'Russell Admin' }
+            ]
+        };
+
+        // ===== SUBJECTS DATA =====
+        const subjects = [
+            { 
+                id: 1, 
+                name: 'Arabic', 
+                icon: '🇸🇦',
+                description: 'Learn Modern Standard Arabic',
+                lessons: [
+                    { id: 1, title: 'Lesson 1: Alphabet', content: 'Learning Arabic letters...', exercise: 'Write 5 Arabic words' },
+                    { id: 2, title: 'Lesson 2: Greetings', content: 'Common greetings in Arabic...', exercise: 'Practice greetings' }
+                ]
+            },
+            { 
+                id: 2, 
+                name: 'English', 
+                icon: '🇬🇧',
+                description: 'Improve Your English Skills',
+                lessons: [
+                    { id: 1, title: 'Lesson 1: Basics', content: 'English fundamentals...', exercise: 'Complete sentences' },
+                    { id: 2, title: 'Lesson 2: Grammar', content: 'English grammar rules...', exercise: 'Grammar exercises' }
+                ]
+            },
+            { 
+                id: 3, 
+                name: 'CEFR', 
+                icon: '📖',
+                description: 'European Language Framework',
+                lessons: [
+                    { id: 1, title: 'Level A1', content: 'Beginner level...', exercise: 'Basic comprehension' },
+                    { id: 2, title: 'Level B2', content: 'Upper intermediate...', exercise: 'Advanced exercises' }
+                ]
+            },
+            { 
+                id: 4, 
+                name: 'IELTS', 
+                icon: '🎯',
+                description: 'Prepare for IELTS Exam',
+                lessons: [
+                    { id: 1, title: 'Listening', content: 'IELTS listening strategies...', exercise: 'Audio exercises' },
+                    { id: 2, title: 'Writing', content: 'Essay writing tips...', exercise: 'Write an essay' }
+                ]
+            }
+        ];
+
+        // ===== CURRENT USER =====
+        let currentUser = null;
+        let userRole = 'student';
+        let editingType = null;
+        let editingId = null;
+
+        // ===== LOGIN LOGIC =====
+        const roleButtons = document.querySelectorAll('.role-btn');
+        roleButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                roleButtons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                userRole = this.dataset.role;
+            });
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            let userList = [];
+            if (userRole === 'student') {
+                userList = users.students;
+            } else if (userRole === 'teacher') {
+                userList = users.teachers;
+            } else if (userRole === 'admin') {
+                userList = users.admins;
+            }
+
+            const user = userList.find(u => u.username === username && u.password === password);
+
+            if (user) {
+                currentUser = { ...user, role: userRole };
+                loginSuccess();
+            } else {
+                showNotification('Invalid credentials!', 'error');
+            }
+        });
+
+        function loginSuccess() {
+            document.getElementById('loginPage').style.display = 'none';
+            
+            if (userRole === 'student') {
+                document.getElementById('studentDashboard').classList.add('active');
+                document.getElementById('studentName').textContent = currentUser.name;
+                document.getElementById('welcomeName').textContent = currentUser.name;
+                updateBalanceDisplay();
+                loadStudentSubjects();
+                checkDailyPayment();
+            } else if (userRole === 'teacher') {
+                document.getElementById('teacherDashboard').classList.add('active');
+                document.getElementById('teacherName').textContent = currentUser.name;
+                loadStudentsTable();
+            } else if (userRole === 'admin') {
+                document.getElementById('adminDashboard').classList.add('active');
+                document.getElementById('adminName').textContent = currentUser.name;
+                loadAdminDashboard();
+            }
+            
+            showNotification(`Welcome ${currentUser.name}!`, 'success');
+        }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('studentDashboard').classList.remove('active');
+            document.getElementById('teacherDashboard').classList.remove('active');
+            document.getElementById('adminDashboard').classList.remove('active');
+            document.getElementById('loginForm').reset();
+            document.getElementById('username').focus();
+        }
+
+        // ===== ADMIN FUNCTIONS =====
+        function loadAdminDashboard() {
+            updateStats();
+            loadAdminStudentsTable();
+            loadAdminTeachersTable();
+        }
+
+        function updateStats() {
+            document.getElementById('totalStudents').textContent = users.students.length;
+            document.getElementById('totalTeachers').textContent = users.teachers.length;
+            document.getElementById('totalSubjects').textContent = subjects.length;
+            const totalBalance = users.students.reduce((sum, s) => sum + s.balance, 0);
+            document.getElementById('totalBalance').textContent = (totalBalance / 1000000).toFixed(1) + 'M UZS';
+        }
+
+        function loadAdminStudentsTable() {
+            const tbody = document.getElementById('adminStudentsBody');
+            tbody.innerHTML = users.students.map(student => `
+                <tr style="border-bottom: 1px solid #e0e0e0;">
+                    <td style="padding: 1rem 1.5rem;">${student.name}</td>
+                    <td style="padding: 1rem 1.5rem;">${student.username}</td>
+                    <td style="padding: 1rem 1.5rem;">${student.balance.toLocaleString()} UZS</td>
+                    <td style="padding: 1rem 1.5rem;">
+                        <div class="admin-actions">
+                            <button class="btn-edit" onclick="editStudent(${student.id})">Edit</button>
+                            <button class="btn-delete" onclick="deleteStudent(${student.id})">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function loadAdminTeachersTable() {
+            const tbody = document.getElementById('adminTeachersBody');
+            tbody.innerHTML = users.teachers.map(teacher => `
+                <tr style="border-bottom: 1px solid #e0e0e0;">
+                    <td style="padding: 1rem 1.5rem;">${teacher.name}</td>
+                    <td style="padding: 1rem 1.5rem;">${teacher.username}</td>
+                    <td style="padding: 1rem 1.5rem;">
+                        <div class="admin-actions">
+                            <button class="btn-edit" onclick="editTeacher(${teacher.id})">Edit</button>
+                            <button class="btn-delete" onclick="deleteTeacher(${teacher.id})">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openAddStudentModal() {
+            editingType = 'student';
+            editingId = null;
+            document.getElementById('editModalTitle').textContent = 'Add New Student';
+            document.getElementById('editFormContent').innerHTML = `
+                <div class="form-group-modal">
+                    <label>Full Name</label>
+                    <input type="text" id="inputName" placeholder="Enter full name" required>
+                </div>
+                <div class="form-group-modal">
+                    <label>Username</label>
+                    <input type="text" id="inputUsername" placeholder="Enter username" required>
+                </div>
+                <div class="form-group-modal">
+                    <label>Password</label>
+                    <input type="password" id="inputPassword" placeholder="Enter password" required>
+                </div>
+                <div class="form-group-modal">
+                    <label>Initial Balance (UZS)</label>
+                    <input type="number" id="inputBalance" placeholder="0" value="0">
+                </div>
+            `;
+            document.getElementById('editModal').classList.add('active');
+        }
+
+        function openAddTeacherModal() {
+            editingType = 'teacher';
+            editingId = null;
+            document.getElementById('editModalTitle').textContent = 'Add New Teacher';
+            document.getElementById('editFormContent').innerHTML = `
+                <div class="form-group-modal">
+                    <label>Full Name</label>
+                    <input type="text" id="inputName" placeholder="Enter full name" required>
+                </div>
+                <div class="form-group-modal">
+                    <label>Username</label>
+                    <input type="text" id="inputUsername" placeholder="Enter username" required>
+                </div>
+                <div class="form-group-modal">
+                    <label>Password</label>
+                    <input type="password" id="inputPassword" placeholder="Enter password" required>
+                </div>
+            `;
+            document.getElementById('editModal').classList.add('active');
+        }
+
+        function editStudent(id) {
+            const student = users.students.find(s => s.id === id);
+            editingType = 'student';
+            editingId = id;
+            document.getElementById('editModalTitle').textContent = 'Edit Student: ' + student.name;
+            document.getElementById('editFormContent').innerHTML = `
+                <div class="form-group-modal">
+                    <label>Full Name</label>
+                    <input type="text" id="inputName" value="${student.name}" required>
+                </div>
+                <div class="form-group-modal">
+                    <label>Username</label>
+                    <input type="text" id="inputUsername" value="${student.username}" required>
+                </div>
+                <div class="form-group-modal">
+                    <label>Password</label>
+                    <input type="password" id="inputPassword" value="${student.password}" required>
+                </div>
+                <div class="form-group-modal">
+                    <label>Balance (UZS)</label>
+                    <input type="number" id="inputBalance" value="${student.balance}">
+                </div>
+            `;
+            document.getElementById('editModal').classList.add('active');
+        }
+
+        function editTeacher(id) {
+            const teacher = users.teachers.find(t => t.id === id);
+            editingType = 'teacher';
+            editingId = id;
+            document.getElementById('editModalTitle').textContent = 'Edit Teacher: ' + teacher.name;
+            document.getElementById('editFormContent').innerHTML = `
+                <div class="form-group-modal">
+                    <label>Full Name</label>
+                    <input type="text" id="inputName" value="${teacher.name}" required>
+                </div>
+                <div class="form-group-modal">
+                    <label>Username</label>
+                    <input type="text" id="inputUsername" value="${teacher.username}" required>
+                </div>
+                <div class="form-group-modal">
+                    <label>Password</label>
+                    <input type="password" id="inputPassword" value="${teacher.password}" required>
+                </div>
+            `;
+            document.getElementById('editModal').classList.add('active');
+        }
+
+        function deleteStudent(id) {
+            if (confirm('Are you sure you want to delete this student?')) {
+                users.students = users.students.filter(s => s.id !== id);
+                loadAdminStudentsTable();
+                updateStats();
+                showNotification('Student deleted successfully!', 'success');
+            }
+        }
+
+        function deleteTeacher(id) {
+            if (confirm('Are you sure you want to delete this teacher?')) {
+                users.teachers = users.teachers.filter(t => t.id !== id);
+                loadAdminTeachersTable();
+                updateStats();
+                showNotification('Teacher deleted successfully!', 'success');
+            }
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').classList.remove('active');
+        }
+
+        document.getElementById('editForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('inputName').value;
+            const username = document.getElementById('inputUsername').value;
+            const password = document.getElementById('inputPassword').value;
+
+            if (editingType === 'student') {
+                const balance = parseInt(document.getElementById('inputBalance').value) || 0;
+                
+                if (editingId) {
+                    const student = users.students.find(s => s.id === editingId);
+                    student.name = name;
+                    student.username = username;
+                    student.password = password;
+                    student.balance = balance;
+                    showNotification('Student updated successfully!', 'success');
+                } else {
+                    const newId = Math.max(...users.students.map(s => s.id)) + 1;
+                    users.students.push({
+                        id: newId,
+                        name, username, password,
+                        balance: balance,
+                        lastPayment: new Date().toISOString().split('T')[0],
+                        grades: {}
+                    });
+                    showNotification('Student added successfully!', 'success');
+                }
+                loadAdminStudentsTable();
+            } else if (editingType === 'teacher') {
+                if (editingId) {
+                    const teacher = users.teachers.find(t => t.id === editingId);
+                    teacher.name = name;
+                    teacher.username = username;
+                    teacher.password = password;
+                    showNotification('Teacher updated successfully!', 'success');
+                } else {
+                    const newId = Math.max(...users.teachers.map(t => t.id)) + 1;
+                    users.teachers.push({ id: newId, name, username, password });
+                    showNotification('Teacher added successfully!', 'success');
+                }
+                loadAdminTeachersTable();
+            }
+
+            updateStats();
+            closeEditModal();
+        });
+
+        // ===== STUDENT FUNCTIONS =====
+        function loadStudentSubjects() {
+            const grid = document.getElementById('subjectsGrid');
+            grid.innerHTML = subjects.map(subject => `
+                <div class="subject-card">
+                    <div class="subject-icon">${subject.icon}</div>
+                    <h3 class="subject-name">${subject.name}</h3>
+                    <p class="subject-description">${subject.description}</p>
+                    <div class="subject-progress">
+                        <div class="progress-label">
+                            <span>Progress</span>
+                            <span>${Math.random() * 100 | 0}%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${Math.random() * 100}%"></div>
+                        </div>
+                    </div>
+                    <button class="subject-btn" onclick="openSubject(${subject.id})">
+                        📖 Start Learning
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function openSubject(subjectId) {
+            const subject = subjects.find(s => s.id === subjectId);
+            const lessons = subject.lessons.slice(0, 3).map((lesson, idx) => `
+                <div style="margin-bottom: 2rem; padding: 1.5rem; background: #f9f9f9; border-radius: 12px;">
+                    <h4 style="margin-bottom: 1rem; color: #333; font-weight: 700;">${lesson.title}</h4>
+                    <div class="lesson-video">▶️ Video</div>
+                    <p class="lesson-text">${lesson.content}</p>
+                    <div class="lesson-exercise">
+                        <div class="exercise-title">✏️ ${lesson.exercise}</div>
+                        <div class="exercise-options">
+                            <div class="exercise-option" onclick="selectAnswer(this)">Option A</div>
+                            <div class="exercise-option" onclick="selectAnswer(this)">Option B</div>
+                            <div class="exercise-option" onclick="selectAnswer(this)">Option C</div>
+                            <div class="exercise-option" onclick="selectAnswer(this)">Option D</div>
+                        </div>
+                        <button class="submit-answer" onclick="submitAnswer()">Submit Answer</button>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('lessonTitle').textContent = subject.name + ' - Lessons';
+            document.getElementById('lessonContent').innerHTML = lessons;
+            document.getElementById('lessonModal').classList.add('active');
+        }
+
+        function selectAnswer(element) {
+            document.querySelectorAll('.exercise-option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        function submitAnswer() {
+            showNotification('Great! Answer submitted! 🎉', 'success');
+        }
+
+        function closeLesson() {
+            document.getElementById('lessonModal').classList.remove('active');
+        }
+
+        function updateBalanceDisplay() {
+            document.getElementById('balanceDisplay').textContent = currentUser.balance.toLocaleString() + ' UZS';
+        }
+
+        function checkDailyPayment() {
+            const today = new Date().toISOString().split('T')[0];
+            const lastPayment = currentUser.lastPayment;
+
+            if (lastPayment !== today && currentUser.balance >= 25000) {
+                currentUser.balance -= 25000;
+                currentUser.lastPayment = today;
+                updateBalanceDisplay();
+                showNotification('Daily fee deducted: 25,000 UZS', 'info');
+            } else if (currentUser.balance < 25000) {
+                showNotification('Insufficient balance! Please make a payment.', 'error');
+            }
+        }
+
+        // ===== TEACHER FUNCTIONS =====
+        function loadStudentsTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = users.students.map(student => `
+                <tr>
+                    <td>${student.name}</td>
+                    <td>
+                        <select onchange="updateStudentSubject(${student.id}, this.value)">
+                            <option>Select Subject</option>
+                            ${subjects.map(s => `<option value="${s.id}">${s.name}</option>`).join('')}
+                        </select>
+                    </td>
+                    <td>
+                        <input type="number" class="grade-input" id="grade-${student.id}" min="0" max="100" placeholder="0">
+                    </td>
+                    <td>${student.balance.toLocaleString()} UZS</td>
+                    <td>
+                        <button class="save-grade-btn" onclick="saveGrade(${student.id})">Save Grade</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateStudentSubject(studentId, subjectId) {
+            const student = users.students.find(s => s.id === studentId);
+            student.currentSubject = subjectId;
+        }
+
+        function saveGrade(studentId) {
+            const gradeInput = document.getElementById(`grade-${studentId}`);
+            const grade = gradeInput.value;
+
+            if (grade && grade >= 0 && grade <= 100) {
+                const student = users.students.find(s => s.id === studentId);
+                student.grades[student.currentSubject] = grade;
+                showNotification(`Grade saved for ${student.name}!`, 'success');
+            } else {
+                showNotification('Please enter a valid grade (0-100)', 'error');
+            }
+        }
+
+        // ===== NOTIFICATIONS =====
+        function showNotification(message, type = 'info') {
+            const notif = document.createElement('div');
+            notif.className = 'notification';
+            notif.textContent = message;
+            notif.style.background = type === 'error' ? '#ff6b35' : type === 'success' ? '#4CAF50' : 'linear-gradient(135deg, #ff6b35, #ff0000)';
+            document.body.appendChild(notif);
+            setTimeout(() => notif.remove(), 3000);
+        }
+
+        // Initialize
+        document.getElementById('username').focus();
+    </script>
+</body>
+</html>

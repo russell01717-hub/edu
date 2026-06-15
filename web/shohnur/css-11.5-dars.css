@@ -1,0 +1,175 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #E6C7CC;
+}
+
+.asosiy{
+    width: 1050px;
+    height: 590px;
+    background: white;
+    border-radius: 30px;
+    border-top: 230px;
+    position: relative;
+    top: 20vh;
+    left: 15vh;
+   
+}
+.p1{
+    position: relative;
+    font-size: 20px;
+    color: goldenrod;
+    left: 100vh;
+    top: 10vh;
+}
+
+
+.sh{
+    position: relative;
+    width: 700px;
+    height: 400px;
+    bottom: 200px;
+}
+
+.p2{
+    position: relative;
+    left: 100vh;
+    top: 10vh;
+}
+
+.p3{
+    position: relative;
+    left: 100vh;
+    top: 10vh;
+}
+
+
+.p4{
+    position: relative;
+    left: 100vh;
+    top: 10vh;
+    color: goldenrod;
+}
+
+.p5{
+    position: relative;
+    left: 100vh;
+    bottom: 40vh;
+    text-align: justify;
+    font-size: 20px;
+}
+
+.t9{
+    position: relative;
+    left: 100vh;
+    bottom: 40vh;
+    height: 50px;
+    width: 200px;
+    background: #C07F87;
+    color: white;
+}
+
+.bo{
+    font-size: 25px;
+}
+
+.chose{
+    position: relative;
+    bottom: 33vh;
+    left: 7vh;
+    
+}
+
+
+.f1{
+    font-size: 20px;
+    color: goldenrod;
+    position: relative;
+    left: 0vh;
+}
+
+
+.t1{
+    height: 50px;
+    width: 50px;
+    border: 2px solid#C07F87;
+    color: #C07F87;
+}
+
+.t2{
+    height: 50px;
+    width: 50px;
+    border: 2px solid#C07F87;
+    color: #C07F87;
+}
+
+.t3{
+    height: 50px;
+    width: 50px;
+    border: 2px solid#C07F87;
+    color: #C07F87;
+}
+
+.t4{
+    height: 50px;
+    width: 50px;
+    border: 2px solid#C07F87;
+    color: #C07F87;
+}
+
+.t5{
+     height: 50px;
+    width: 50px;
+    border: 2px solid#C07F87;
+    color: #C07F87;
+}
+
+
+.t6{
+     height: 50px;
+    width: 50px;
+    border: 2px solid#C07F87;
+    color: #C07F87;
+}
+
+
+.t7{
+     height: 50px;
+    width: 50px;
+    border: 2px solid#C07F87;
+    color: #C07F87;
+}
+
+.t8{
+     height: 50px;
+    width: 50px;
+    border: 2px solid#C07F87;
+    color: #C07F87;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="uz" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>G'os Akademiyasi</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+[data-theme=dark]{--bg:#0d0f14;--s:#161920;--s2:#1e2230;--bd:rgba(255,255,255,.07);--bd2:rgba(255,255,255,.14);--tx:#f0f2f7;--tx2:#9ca3af;--tx3:#6b7280;--ac:#4f8ef7;--acg:rgba(79,142,247,.28)}
+[data-theme=light]{--bg:#f0f3fa;--s:#fff;--s2:#e8ecf5;--bd:rgba(0,0,0,.07);--bd2:rgba(0,0,0,.14);--tx:#111827;--tx2:#4b5563;--tx3:#9ca3af;--ac:#2563eb;--acg:rgba(37,99,235,.18)}
+:root{--gr:#22c55e;--grb:rgba(34,197,94,.12);--grb2:rgba(34,197,94,.3);--yw:#f59e0b;--ywb:rgba(245,158,11,.12);--ywb2:rgba(245,158,11,.3);--rd:#ef4444;--rdb:rgba(239,68,68,.12);--rdb2:rgba(239,68,68,.3);--r:12px;--rs:8px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;min-height:100vh;transition:background .25s,color .25s}
+[data-theme=dark] body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(79,142,247,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(79,142,247,.03) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
+/* SITE LOCK */
+.lock{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999}
+.lock.hide{display:none}
+.lbox{background:var(--s);border:1px solid var(--bd2);border-radius:var(--r);padding:30px 26px;width:310px;max-width:90vw;text-align:center;animation:su .4s cubic-bezier(.34,1.56,.64,1)}
+.lico{font-size:36px;margin-bottom:10px}
+.ltit{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;margin-bottom:3px;color:var(--ac)}
+.lsub{font-size:11px;color:var(--tx3);margin-bottom:16px}
+.lpw{position:relative;margin-bottom:7px}
+.linp{width:100%;padding:9px 36px 9px 13px;background:var(--s2);border:1px solid var(--bd);border-radius:var(--rs);color:var(--tx);font-size:14px;font-family:'DM Sans',sans-serif;outline:none;letter-spacing:2px;transition:border-color .2s}
+.linp:focus{border-color:var(--ac)}
+.eye{position:absolute;right:9px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:15px;color:var(--tx3);padding:3px}
+.lerr{font-size:11px;color:var(--rd);height:13px;margin-bottom:7px}
+/* MAIN */
+.app{position:relative;z-index:1;max-width:1300px;margin:0 auto;padding:0 14px 60px;display:none}
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 0 11px;border-bottom:1px solid var(--bd);margin-bottom:14px;gap:8px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:9px}
+.lic{width:34px;height:34px;background:var(--ac);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 0 14px var(--acg);flex-shrink:0}
+.ltx{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;letter-spacing:-.3px;line-height:1.2}
+.lsu{font-size:9px;color:var(--tx3)}
+.hdr{display:flex;align-items:center;gap:5px}
+.ibtn{width:29px;height:29px;border-radius:var(--rs);border:1px solid var(--bd);background:var(--s);color:var(--tx);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:background .15s}
+.ibtn:hover{background:var(--s2)}
+/* TABS */
+.tabs{display:flex;gap:3px;background:var(--s);padding:3px;border-radius:var(--rs);margin-bottom:14px;border:1px solid var(--bd);overflow-x:auto;width:fit-content;max-width:100%}
+.tab{padding:6px 14px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--tx3);font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .2s}
+.tab.active{background:var(--s2);color:var(--tx);border:1px solid var(--bd2)}
+/* STATS */
+.sts{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:7px;margin-bottom:12px}
+.sc{background:var(--s);border:1px solid var(--bd);border-radius:var(--r);padding:10px 12px;animation:fu .4s ease both}
+.sn{font-family:'Syne',sans-serif;font-size:19px;font-weight:700;line-height:1}
+.sl{font-size:9px;color:var(--tx3);margin-top:2px;text-transform:uppercase;letter-spacing:.5px}
+.sg .sn{color:var(--gr)}.sy .sn{color:var(--yw)}.sr .sn{color:var(--rd)}.sbl .sn{color:var(--ac)}
+/* TOOLBAR */
+.tb{display:flex;align-items:center;gap:7px;margin-bottom:10px;flex-wrap:wrap}
+.tt{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;flex:1}
+.btn{padding:6px 12px;border-radius:var(--rs);font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--bd);background:var(--s);color:var(--tx);font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .2s}
+.btn:hover{background:var(--s2);border-color:var(--bd2)}
+.bac{background:var(--ac)!important;border-color:var(--ac)!important;color:#fff!important}.bac:hover{opacity:.85!important}
+.bgr{background:var(--grb);border-color:var(--grb2);color:var(--gr)}.bgr:hover{background:rgba(34,197,94,.22)}
+.brd{background:var(--rdb);border-color:var(--rdb2);color:var(--rd)}.brd:hover{background:rgba(239,68,68,.22)}
+/* DAV TABLE */
+.dout{overflow-x:auto;overflow-y:auto;max-height:65vh;border:1px solid var(--bd);border-radius:var(--r);background:var(--s)}
+.dout::-webkit-scrollbar{width:5px;height:5px}.dout::-webkit-scrollbar-track{background:transparent}.dout::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:3px}
+.dt{border-collapse:collapse;font-size:12px;min-width:100%}
+.dt thead{position:sticky;top:0;z-index:10;background:var(--s2)}
+.dt th{padding:8px 6px;text-align:left;font-size:9px;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid var(--bd);border-right:1px solid var(--bd);white-space:nowrap}
+.dt th.stk{position:sticky;left:0;background:var(--s2);z-index:11}
+.dt td{padding:6px 6px;border-bottom:1px solid var(--bd);border-right:1px solid var(--bd);vertical-align:middle;white-space:nowrap}
+.dt tr:last-child td{border-bottom:none}
+.dt tr:hover td{background:rgba(128,128,128,.025)}
+.dt td.stk{position:sticky;left:0;background:var(--s);z-index:5}
+.dt tr:hover td.stk{background:var(--s2)}
+.snm{font-weight:500;font-size:12px;color:var(--tx)}
+.sph{font-size:10px;color:var(--tx2)}
+.gbg{font-size:10px;padding:2px 6px;border-radius:20px;white-space:nowrap;display:inline-block}
+.geng{background:rgba(34,197,94,.1);color:var(--gr);border:1px solid rgba(34,197,94,.2)}
+.garb{background:rgba(245,158,11,.1);color:var(--yw);border:1px solid rgba(245,158,11,.2)}
+.bch{display:inline-flex;font-size:10px;font-weight:600;padding:2px 6px;border-radius:20px;white-space:nowrap}
+.bok{background:var(--grb);color:var(--gr);border:1px solid var(--grb2)}
+.blow{background:var(--ywb);color:var(--yw);border:1px solid var(--ywb2)}
+.bneg{background:var(--rdb);color:var(--rd);border:1px solid var(--rdb2)}
+/* STATUS */
+.dc{text-align:center;padding:3px 2px}
+.sb{width:25px;height:25px;border-radius:50%;border:1.5px solid var(--bd2);background:transparent;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:11px;transition:transform .12s,background .15s}
+.sb:hover{transform:scale(1.2)}.sb:active{transform:scale(.85)}
+.sb.green{background:var(--grb);border-color:var(--grb2);animation:pop .28s cubic-bezier(.34,1.56,.64,1)}
+.sb.yellow{background:var(--ywb);border-color:var(--ywb2);animation:pop .28s cubic-bezier(.34,1.56,.64,1)}
+.sb.red{background:var(--rdb);border-color:var(--rdb2);animation:pop .28s cubic-bezier(.34,1.56,.64,1)}
+.sb.readonly-btn{cursor:default;pointer-events:none}
+.ci{font-size:11px;font-weight:700;display:block;line-height:1;color:var(--tx3)}
+.green .ci{color:var(--gr)}.yellow .ci{color:var(--yw)}.red .ci{color:var(--rd)}
+.tdc{background:rgba(79,142,247,.06)!important}
+.thd{background:rgba(79,142,247,.1)!important;color:var(--ac)!important}
+.tdot{display:inline-block;width:5px;height:5px;background:var(--ac);border-radius:50%;margin-left:2px;vertical-align:middle;animation:pulse 2s infinite}
+/* SCORE */
+.swp{display:flex;align-items:center;gap:4px}
+.sbar{flex:1;height:3px;background:rgba(128,128,128,.15);border-radius:2px;overflow:hidden;min-width:26px}
+.sbarfill{height:100%;border-radius:2px;transition:width .3s}
+.sinp{width:42px;padding:2px 4px;border-radius:5px;border:1px solid var(--bd);background:var(--s2);color:var(--tx);font-size:11px;font-family:'DM Sans',sans-serif;outline:none;text-align:center}
+.sinp:focus{border-color:var(--ac)}
+.sinp[readonly]{opacity:.6;cursor:default}
+/* SCORE READONLY */
+.score-ro{display:flex;align-items:center;gap:4px}
+.score-ro-bar{flex:1;height:3px;background:rgba(128,128,128,.15);border-radius:2px;overflow:hidden;min-width:26px}
+.score-ro-fill{height:100%;border-radius:2px}
+.score-ro-num{font-size:11px;font-weight:600;min-width:24px;text-align:right}
+/* LEGEND */
+.leg{display:flex;gap:12px;margin-top:9px;flex-wrap:wrap}
+.li{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--tx3)}
+.ld{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+/* SEARCH */
+.sw{position:relative;margin-bottom:9px}
+.si{width:100%;padding:8px 12px 8px 31px;background:var(--s);border:1px solid var(--bd);border-radius:var(--r);color:var(--tx);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s}
+.si:focus{border-color:var(--ac)}
+.sico{position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none;color:var(--tx3)}
+.scnt{position:absolute;right:9px;top:50%;transform:translateY(-50%);font-size:10px;color:var(--tx3)}
+/* TABLE */
+.tw{background:var(--s);border:1px solid var(--bd);border-radius:var(--r);overflow:hidden;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:500px}
+thead{background:var(--s2)}
+th{padding:9px 10px;text-align:left;font-size:9px;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--bd);white-space:nowrap}
+td{padding:8px 10px;border-bottom:1px solid var(--bd);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(128,128,128,.025)}
+/* FILTER */
+.fr{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:9px}
+.fb{padding:4px 10px;border-radius:20px;font-size:11px;cursor:pointer;border:1px solid var(--bd);background:transparent;color:var(--tx3);font-family:'DM Sans',sans-serif;transition:all .18s}
+.fb.act,.fb:hover{background:var(--s2);color:var(--tx);border-color:var(--bd2)}
+/* MODALS */
+.mbg{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;z-index:100;animation:fi .18s ease}
+.mbg.hide{display:none}
+.modal{background:var(--s);border:1px solid var(--bd2);border-radius:var(--r);padding:20px;width:350px;max-width:92vw;animation:su .28s cubic-bezier(.34,1.56,.64,1);max-height:90vh;overflow-y:auto}
+.modal h3{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:13px;color:var(--tx)}
+.fg{margin-bottom:9px}
+.fl{font-size:9px;color:var(--tx3);margin-bottom:4px;display:block;text-transform:uppercase;letter-spacing:.5px}
+.fi,.fsl{width:100%;padding:8px 10px;background:var(--s2);border:1px solid var(--bd);border-radius:var(--rs);color:var(--tx);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s}
+.fi:focus,.fsl:focus{border-color:rgba(79,142,247,.5)}
+.fsl option{background:var(--s)}
+.fpw{position:relative}.fi-pw{padding-right:34px!important}
+.peye{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:14px;color:var(--tx3);padding:2px}
+.mbtns{display:flex;gap:6px;margin-top:13px;justify-content:flex-end}
+.qa{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}
+/* DETAIL */
+.dhd{display:flex;align-items:center;gap:10px;margin-bottom:13px}
+.dav{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;flex-shrink:0}
+.dnm{font-size:14px;font-weight:600;color:var(--tx)}
+.dph{font-size:11px;color:var(--tx3);margin-top:1px}
+.drows{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:11px}
+.di{background:var(--s2);border-radius:var(--rs);padding:8px 10px}
+.dil{font-size:9px;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+.div2{font-size:12px;font-weight:600;color:var(--tx)}
+/* PAG */
+.pag{display:flex;align-items:center;gap:4px;margin-top:9px;flex-wrap:wrap}
+.pp{padding:4px 8px;border-radius:var(--rs);border:1px solid var(--bd);background:var(--s);color:var(--tx3);cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;transition:all .15s}
+.pp:hover,.pp.act{background:var(--s2);color:var(--tx);border-color:var(--bd2)}
+.pp.act{font-weight:600;color:var(--ac)}
+/* INFO CARDS */
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:12px}
+.info-card{background:var(--s);border:1px solid var(--bd);border-radius:var(--r);padding:18px;animation:fu .4s ease both}
+.info-badge{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:600;padding:3px 8px;border-radius:20px;margin-bottom:12px}
+.info-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;font-size:12px}
+.info-label{color:var(--tx3);min-width:80px;flex-shrink:0}
+.info-val{color:var(--tx);font-weight:500}
+/* TOAST */
+.toast{position:fixed;bottom:16px;right:16px;background:var(--s2);border:1px solid var(--bd2);border-radius:var(--rs);padding:9px 13px;font-size:12px;color:var(--tx);z-index:300;animation:su .28s ease;max-width:270px;line-height:1.5}
+.pgs{display:none}.pgs.act{display:block}
+/* SECTION LOCK */
+.sec-lock{display:flex;align-items:center;justify-content:center;min-height:200px;flex-direction:column;gap:12px;color:var(--tx3)}
+.sec-lock-box{background:var(--s2);border:1px solid var(--bd);border-radius:var(--r);padding:24px;text-align:center;max-width:300px;width:100%}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+@keyframes su{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pop{0%{transform:scale(.4);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(79,142,247,.3)}50%{box-shadow:0 0 0 5px rgba(79,142,247,0)}}
+@keyframes shk{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+</style>
+</head>
+<body>
+
+<!-- SITE LOCK -->
+<div class="lock" id="siteLock">
+  <div class="lbox">
+    <div class="lico">&#127979;</div>
+    <div class="ltit">G'os Akademiyasi</div>
+    <div class="lsub">Kirish uchun parolni kiriting</div>
+    <div class="lpw">
+      <input class="linp" type="password" id="siteInp" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" maxlength="40" />
+      <button class="eye" onclick="eyeToggle('siteInp',this)" tabindex="-1">&#128065;</button>
+    </div>
+    <div class="lerr" id="siteErr"></div>
+    <button class="btn bac" style="width:100%;padding:10px;font-size:13px" onclick="trySite()">Kirish &#8594;</button>
+  </div>
+</div>
+
+<!-- TAB LOCK MODAL -->
+<div class="mbg hide" id="mLock">
+  <div class="modal">
+    <h3 id="mLockT">Kirish</h3>
+    <div style="font-size:11px;color:var(--tx3);margin-bottom:12px" id="mLockSub"></div>
+    <div class="fg">
+      <label class="fl">Parol</label>
+      <div class="fpw">
+        <input class="fi fi-pw" type="password" id="tlInp" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" maxlength="40" />
+        <button class="peye" onclick="eyeToggle('tlInp',this)" tabindex="-1">&#128065;</button>
+      </div>
+    </div>
+    <div style="font-size:11px;color:var(--rd);height:13px;margin-bottom:7px" id="mLockErr"></div>
+    <div class="mbtns">
+      <button class="btn" onclick="closeM('mLock')">Bekor</button>
+      <button class="btn bac" onclick="tryTab()">Kirish &#8594;</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD STUDENT -->
+<div class="mbg hide" id="mAdd">
+  <div class="modal">
+    <h3>Yangi o'quvchi</h3>
+    <div class="fg"><label class="fl">Ism Familiya</label><input class="fi" id="inN" /></div>
+    <div class="fg"><label class="fl">Telefon</label><input class="fi" id="inP" placeholder="+998 90 123 45 67" /></div>
+    <div class="fg"><label class="fl">Guruh</label>
+      <select class="fsl" id="inG">
+        <option value="english">Ingliz tili</option>
+        <option value="arabic">Arab tili</option>
+      </select>
+    </div>
+    <div class="fg"><label class="fl">Boshlang'ich balans (so'm)</label><input class="fi" id="inB" type="number" value="0" /></div>
+    <div class="mbtns">
+      <button class="btn" onclick="closeM('mAdd')">Bekor</button>
+      <button class="btn bac" onclick="addStu()">Saqlash</button>
+    </div>
+  </div>
+</div>
+
+<!-- BALANCE -->
+<div class="mbg hide" id="mBal">
+  <div class="modal">
+    <h3>Balans to'ldirish</h3>
+    <div style="font-size:13px;font-weight:500;margin-bottom:3px;color:var(--tx)" id="bNm"></div>
+    <div style="font-size:11px;color:var(--tx3);margin-bottom:11px" id="bCur"></div>
+    <div class="fg"><label class="fl">Miqdor (so'm)</label><input class="fi" id="inAm" type="number" /></div>
+    <div class="qa">
+      <button class="btn" onclick="setAm(50000)">50 000</button>
+      <button class="btn" onclick="setAm(100000)">100 000</button>
+      <button class="btn" onclick="setAm(200000)">200 000</button>
+      <button class="btn" onclick="setAm(500000)">500 000</button>
+    </div>
+    <div class="mbtns">
+      <button class="btn" onclick="closeM('mBal')">Bekor</button>
+      <button class="btn bgr" onclick="addBal()">Qo'shish &#10003;</button>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL -->
+<div class="mbg hide" id="mDet">
+  <div class="modal">
+    <div class="dhd">
+      <div class="dav" id="dAv"></div>
+      <div><div class="dnm" id="dNm"></div><div class="dph" id="dPh"></div></div>
+    </div>
+    <div class="drows" id="dRows"></div>
+    <div class="fg" id="dNmEd" style="display:none"><label class="fl">Ism</label><input class="fi" id="dNmI" /></div>
+    <div class="fg" id="dPhEd" style="display:none"><label class="fl">Telefon</label><input class="fi" id="dPhI" /></div>
+    <div style="display:flex;gap:5px;flex-wrap:wrap">
+      <button class="btn bgr" onclick="balFromDet()">+ Balans</button>
+      <button class="btn" onclick="togEdit()">Tahrir</button>
+      <button class="btn bac" onclick="saveDet()" id="dSave" style="display:none">Saqlash</button>
+      <button class="btn brd" onclick="delDet()">O'chirish</button>
+      <button class="btn" onclick="closeM('mDet')">Yopish</button>
+    </div>
+  </div>
+</div>
+
+<!-- PASSWORD MANAGEMENT (ADMIN) -->
+<div class="mbg hide" id="mPw">
+  <div class="modal">
+    <h3>&#128273; Parol boshqaruvi</h3>
+    <div style="font-size:11px;color:var(--tx3);margin-bottom:12px">Qaysi parolni o'zgartirmoqchisiz?</div>
+    <div class="fg"><label class="fl">Parol turi</label>
+      <select class="fsl" id="pwRole">
+        <option value="site">Saytga kirish paroli</option>
+        <option value="english">Ingliz tili paroli</option>
+        <option value="arabic">Arab tili paroli</option>
+        <option value="admin">Admin paroli</option>
+      </select>
+    </div>
+    <div class="fg"><label class="fl">Yangi parol</label>
+      <div class="fpw"><input class="fi fi-pw" type="password" id="pwNew" /><button class="peye" onclick="eyeToggle('pwNew',this)" tabindex="-1">&#128065;</button></div>
+    </div>
+    <div class="fg"><label class="fl">Tasdiqlash</label>
+      <div class="fpw"><input class="fi fi-pw" type="password" id="pwCf" /><button class="peye" onclick="eyeToggle('pwCf',this)" tabindex="-1">&#128065;</button></div>
+    </div>
+    <div style="font-size:11px;color:var(--rd);height:13px;margin-bottom:7px" id="pwErr"></div>
+    <div class="mbtns">
+      <button class="btn" onclick="closeM('mPw')">Bekor</button>
+      <button class="btn bac" onclick="doPw()">O'zgartirish</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div class="app" id="app">
+<header>
+  <div class="logo">
+    <div class="lic">&#127979;</div>
+    <div>
+      <div class="ltx">G'os <span style="color:var(--ac)">Akademiyasi</span></div>
+      <div class="lsu">O'quv Markazi</div>
+    </div>
+  </div>
+  <div class="hdr">
+    <button class="ibtn" onclick="togTh()" id="tbtn">&#127769;</button>
+  </div>
+</header>
+
+<div class="tabs" id="tabBar"></div>
+
+<!-- DYNAMIC TABS -->
+<div id="dynamicTabs"></div>
+
+<!-- MA'LUMOTLAR -->
+<div class="pgs act" id="tab-info">
+  <div class="tb"><div class="tt">Statistika</div></div>
+  <div class="sts" id="sts-info" style="margin-bottom:20px;"></div>
+  
+  <div class="tb"><div class="tt">Guruhlar va o'qituvchilar</div></div>
+  <div class="info-grid" id="infoGrid"></div>
+</div>
+
+<!-- ADMIN -->
+<div class="pgs" id="tab-admin">
+  <div class="tb">
+    <div class="tt">Admin panel</div>
+    <button class="btn bac" onclick="openAdd()">+ O'quvchi</button>
+    <button class="btn bgr" onclick="openAddCourse()">+ Kurs</button>
+    <button class="btn" style="font-size:11px;padding:4px 9px" onclick="openPw()">&#128273; Parollar</button>
+  </div>
+  <div class="sw">
+    <span class="sico">&#128269;</span>
+    <input class="si" id="sInp" placeholder="Ism yoki telefon..." oninput="doSearch()" />
+    <span class="scnt" id="sCnt"></span>
+  </div>
+  <div class="fr" id="admFlt"></div>
+  <div class="tw"><table><thead><tr id="admH"></tr></thead><tbody id="admB"></tbody></table></div>
+  <div class="pag" id="admP"></div>
+</div>
+</div>
+<script>
+var KEY = 'gosv7';
+var DAY_FEE = 25000;
+var PER = 20;
+var ST = [null, 'green', 'yellow', 'red'];
+var IC = {'': '', 'null': '', 'green': '\u2713', 'yellow': '\u26a0', 'red': '\u2717'};
+var WK = ['Yak', 'Du', 'Se', 'Ch', 'Pa', 'Ju', 'Sh'];
+
+var DEF_PW = {site:'guseduuz', english:"g'ayrat1200", arabic:'sardor2001', admin:'122233_max'};
+function getPw(r){ return (D && D.passwords && D.passwords[r]) ? D.passwords[r] : DEF_PW[r]; }
+function setPw(r,v){ 
+  if(D) {
+    if(!D.passwords) D.passwords = Object.assign({}, DEF_PW);
+    D.passwords[r] = v;
+    saveD();
+  }
+}
+
+var INIT = [{"id": 1, "name": "Ulugbek Nishonov", "group": "english", "balance": 50000, "phone": "+998 90 987 48 15", "score": 0}, {"id": 2, "name": "Komil Yoldoshev", "group": "english", "balance": 200000, "phone": "+998 98 388 22 92", "score": 0}, {"id": 3, "name": "Firdavs Nabiyev", "group": "english", "balance": 500000, "phone": "+998 98 396 21 46", "score": 0}, {"id": 4, "name": "Nozima Latipova", "group": "english", "balance": 50000, "phone": "+998 95 987 98 99", "score": 0}, {"id": 5, "name": "Mansur Jorayev", "group": "english", "balance": 400000, "phone": "+998 97 427 25 91", "score": 0}, {"id": 6, "name": "Nargiza Choriyeva", "group": "english", "balance": 200000, "phone": "+998 90 132 91 45", "score": 0}, {"id": 7, "name": "Jasur Raximov", "group": "english", "balance": 400000, "phone": "+998 91 722 45 62", "score": 0}, {"id": 8, "name": "Iroda Raximova", "group": "english", "balance": 0, "phone": "+998 90 442 89 31", "score": 0}, {"id": 9, "name": "Sanjar Haydarov", "group": "english", "balance": 500000, "phone": "+998 93 749 24 21", "score": 0}, {"id": 10, "name": "Shahlo Nazarova", "group": "english", "balance": 100000, "phone": "+998 91 282 33 66", "score": 0}, {"id": 11, "name": "Laziz Baxtiyorov", "group": "english", "balance": 50000, "phone": "+998 95 916 18 27", "score": 0}, {"id": 12, "name": "Erkin Sultonov", "group": "english", "balance": 100000, "phone": "+998 95 461 44 29", "score": 0}, {"id": 13, "name": "Zulfiya Ismoilova", "group": "english", "balance": 200000, "phone": "+998 94 486 38 92", "score": 0}, {"id": 14, "name": "Nafisa Umarova", "group": "english", "balance": 100000, "phone": "+998 94 670 61 92", "score": 0}, {"id": 15, "name": "Komil Botirov", "group": "english", "balance": 200000, "phone": "+998 95 337 54 91", "score": 0}, {"id": 16, "name": "Javlon Razzaqov", "group": "english", "balance": 50000, "phone": "+998 97 640 65 55", "score": 0}, {"id": 17, "name": "Tarana Hamidova", "group": "english", "balance": 200000, "phone": "+998 94 455 76 56", "score": 0}, {"id": 18, "name": "Nodir Zokirov", "group": "english", "balance": 100000, "phone": "+998 95 692 18 57", "score": 0}, {"id": 19, "name": "Nodir Normatov", "group": "english", "balance": 0, "phone": "+998 91 607 85 35", "score": 0}, {"id": 20, "name": "Feruza Mamatova", "group": "english", "balance": 500000, "phone": "+998 90 840 85 48", "score": 0}, {"id": 21, "name": "Tohir Fayzullayev", "group": "english", "balance": 300000, "phone": "+998 93 457 19 89", "score": 0}, {"id": 22, "name": "Feruza Abdullayeva", "group": "english", "balance": 500000, "phone": "+998 93 259 33 44", "score": 0}, {"id": 23, "name": "Ziyoda Ibragimova", "group": "english", "balance": 0, "phone": "+998 90 956 15 47", "score": 0}, {"id": 24, "name": "Ziyoda Ergasheva", "group": "english", "balance": 300000, "phone": "+998 95 588 39 84", "score": 0}, {"id": 25, "name": "Nasiba Haydarova", "group": "english", "balance": 150000, "phone": "+998 99 922 56 72", "score": 0}, {"id": 26, "name": "Davron Yoldoshev", "group": "english", "balance": 100000, "phone": "+998 97 621 40 41", "score": 0}, {"id": 27, "name": "Xurmo Sultonova", "group": "english", "balance": 50000, "phone": "+998 95 243 54 99", "score": 0}, {"id": 28, "name": "Ibrohim Baxtiyorov", "group": "english", "balance": 300000, "phone": "+998 95 434 23 96", "score": 0}, {"id": 29, "name": "Dildora Mirzayeva", "group": "english", "balance": 0, "phone": "+998 97 541 20 58", "score": 0}, {"id": 30, "name": "Iroda Toshmatova", "group": "english", "balance": 500000, "phone": "+998 97 861 28 91", "score": 0}, {"id": 31, "name": "Madina Davlatova", "group": "english", "balance": 50000, "phone": "+998 97 534 87 32", "score": 0}, {"id": 32, "name": "Tarana Fayzullayeva", "group": "english", "balance": 200000, "phone": "+998 91 279 69 51", "score": 0}, {"id": 33, "name": "Davron Tillayev", "group": "english", "balance": 500000, "phone": "+998 99 608 38 78", "score": 0}, {"id": 34, "name": "Dilshod Usmonov", "group": "english", "balance": 0, "phone": "+998 93 398 23 54", "score": 0}, {"id": 35, "name": "Parviz Ibragimov", "group": "english", "balance": 100000, "phone": "+998 93 473 41 51", "score": 0}, {"id": 36, "name": "Ozoda Toshmatova", "group": "english", "balance": 0, "phone": "+998 90 984 14 19", "score": 0}, {"id": 37, "name": "Iroda Salimova", "group": "english", "balance": 50000, "phone": "+998 94 135 99 72", "score": 0}, {"id": 38, "name": "Husan Usmonov", "group": "english", "balance": 0, "phone": "+998 93 787 78 16", "score": 0}, {"id": 39, "name": "Dildora Usmonova", "group": "english", "balance": 150000, "phone": "+998 94 118 57 18", "score": 0}, {"id": 40, "name": "Umida Tursunova", "group": "english", "balance": 0, "phone": "+998 98 325 27 88", "score": 0}, {"id": 41, "name": "Umid Tillayev", "group": "english", "balance": 0, "phone": "+998 98 862 65 24", "score": 0}, {"id": 42, "name": "Odil Tursunov", "group": "english", "balance": 400000, "phone": "+998 97 169 89 72", "score": 0}, {"id": 43, "name": "Mansur Eshmatov", "group": "english", "balance": 300000, "phone": "+998 90 931 10 51", "score": 0}, {"id": 44, "name": "Dildora Ismoilova", "group": "english", "balance": 0, "phone": "+998 94 705 28 27", "score": 0}, {"id": 45, "name": "Doniyor Nishonov", "group": "english", "balance": 150000, "phone": "+998 94 607 38 50", "score": 0}, {"id": 46, "name": "Muazzam Ibragimova", "group": "english", "balance": 500000, "phone": "+998 98 828 39 44", "score": 0}, {"id": 47, "name": "Muzaffar Salimov", "group": "english", "balance": 400000, "phone": "+998 98 183 18 97", "score": 0}, {"id": 48, "name": "Dilorom Xasanova", "group": "english", "balance": 150000, "phone": "+998 90 882 28 79", "score": 0}, {"id": 49, "name": "Kamola Toshmatova", "group": "english", "balance": 400000, "phone": "+998 95 166 90 38", "score": 0}, {"id": 50, "name": "Otabek Sultonov", "group": "english", "balance": 150000, "phone": "+998 90 281 28 71", "score": 0}, {"id": 51, "name": "Komil Ergashev", "group": "arabic", "balance": 100000, "phone": "+998 93 878 39 97", "score": 0}, {"id": 52, "name": "Shahlo Ashrapova", "group": "arabic", "balance": 300000, "phone": "+998 91 829 81 55", "score": 0}, {"id": 53, "name": "Ravshan Madaminov", "group": "arabic", "balance": 300000, "phone": "+998 90 179 34 49", "score": 0}, {"id": 54, "name": "Shahlo Eshmatova", "group": "arabic", "balance": 150000, "phone": "+998 97 691 79 80", "score": 0}, {"id": 55, "name": "Sarvinoz Ismoilova", "group": "arabic", "balance": 500000, "phone": "+998 99 949 15 99", "score": 0}, {"id": 56, "name": "Xurmo Ortiqova", "group": "arabic", "balance": 50000, "phone": "+998 97 800 81 57", "score": 0}, {"id": 57, "name": "Ziyoda Jorayeva", "group": "arabic", "balance": 0, "phone": "+998 99 247 18 34", "score": 0}, {"id": 58, "name": "Farzona Rajabova", "group": "arabic", "balance": 50000, "phone": "+998 98 428 69 38", "score": 0}, {"id": 59, "name": "Sanjar Matchonov", "group": "arabic", "balance": 300000, "phone": "+998 99 412 91 66", "score": 0}, {"id": 60, "name": "Sitora Normatova", "group": "arabic", "balance": 0, "phone": "+998 94 508 43 49", "score": 0}, {"id": 61, "name": "Abdulloh Sultonov", "group": "arabic", "balance": 200000, "phone": "+998 98 246 44 71", "score": 0}, {"id": 62, "name": "Tohir Holiqov", "group": "arabic", "balance": 150000, "phone": "+998 98 295 29 14", "score": 0}, {"id": 63, "name": "Aziza Zokirova", "group": "arabic", "balance": 0, "phone": "+998 95 868 91 46", "score": 0}, {"id": 64, "name": "Parvin Ortiqova", "group": "arabic", "balance": 100000, "phone": "+998 99 717 88 12", "score": 0}, {"id": 65, "name": "Sabohat Madaminova", "group": "arabic", "balance": 150000, "phone": "+998 93 830 54 35", "score": 0}, {"id": 66, "name": "Odil Karimov", "group": "arabic", "balance": 300000, "phone": "+998 97 493 97 96", "score": 0}, {"id": 67, "name": "Muzaffar Xolmatov", "group": "arabic", "balance": 0, "phone": "+998 90 615 93 49", "score": 0}, {"id": 68, "name": "Toxir Nabiyev", "group": "arabic", "balance": 150000, "phone": "+998 94 328 60 64", "score": 0}, {"id": 69, "name": "Zafar Baxtiyorov", "group": "arabic", "balance": 200000, "phone": "+998 93 593 46 90", "score": 0}, {"id": 70, "name": "Jamila Abdullayeva", "group": "arabic", "balance": 300000, "phone": "+998 94 275 24 86", "score": 0}, {"id": 71, "name": "Charos Komilova", "group": "arabic", "balance": 100000, "phone": "+998 97 745 66 83", "score": 0}, {"id": 72, "name": "Dilnoza Komilova", "group": "arabic", "balance": 500000, "phone": "+998 90 632 57 40", "score": 0}, {"id": 73, "name": "Kamol Davlatov", "group": "arabic", "balance": 400000, "phone": "+998 99 811 63 78", "score": 0}, {"id": 74, "name": "Rohila Botirova", "group": "arabic", "balance": 400000, "phone": "+998 93 500 60 91", "score": 0}, {"id": 75, "name": "Rohila Latipova", "group": "arabic", "balance": 200000, "phone": "+998 99 667 23 17", "score": 0}, {"id": 76, "name": "Bekzod Raximov", "group": "arabic", "balance": 500000, "phone": "+998 94 724 73 44", "score": 0}, {"id": 77, "name": "Dildora Zokirova", "group": "arabic", "balance": 500000, "phone": "+998 91 496 47 36", "score": 0}, {"id": 78, "name": "Jamila Yusupova", "group": "arabic", "balance": 200000, "phone": "+998 93 197 57 51", "score": 0}, {"id": 79, "name": "Tohir Umarov", "group": "arabic", "balance": 100000, "phone": "+998 90 552 23 73", "score": 0}, {"id": 80, "name": "Davron Madaminov", "group": "arabic", "balance": 150000, "phone": "+998 95 274 88 71", "score": 0}, {"id": 81, "name": "Abdulloh Usmonov", "group": "arabic", "balance": 0, "phone": "+998 99 624 96 92", "score": 0}, {"id": 82, "name": "Bobur Ortiqov", "group": "arabic", "balance": 300000, "phone": "+998 94 953 80 98", "score": 0}, {"id": 83, "name": "Behruz Latipov", "group": "arabic", "balance": 50000, "phone": "+998 90 347 69 81", "score": 0}, {"id": 84, "name": "Abdulloh Raximov", "group": "arabic", "balance": 500000, "phone": "+998 97 666 72 71", "score": 0}, {"id": 85, "name": "Lobar Baxtiyorova", "group": "arabic", "balance": 200000, "phone": "+998 90 803 85 58", "score": 0}, {"id": 86, "name": "Xurshid Ismoilov", "group": "arabic", "balance": 0, "phone": "+998 90 257 25 11", "score": 0}, {"id": 87, "name": "Yulduz Inomova", "group": "arabic", "balance": 150000, "phone": "+998 90 979 42 20", "score": 0}, {"id": 88, "name": "Shahlo Hamidova", "group": "arabic", "balance": 500000, "phone": "+998 98 248 77 61", "score": 0}, {"id": 89, "name": "Parizod Ortiqova", "group": "arabic", "balance": 300000, "phone": "+998 90 373 52 71", "score": 0}, {"id": 90, "name": "Murod Hamidov", "group": "arabic", "balance": 100000, "phone": "+998 95 575 15 43", "score": 0}, {"id": 91, "name": "Hilola Qosimova", "group": "arabic", "balance": 0, "phone": "+998 97 694 82 99", "score": 0}, {"id": 92, "name": "Oydin Inomova", "group": "arabic", "balance": 400000, "phone": "+998 90 976 82 31", "score": 0}, {"id": 93, "name": "Ismoil Pulatov", "group": "arabic", "balance": 150000, "phone": "+998 98 998 54 37", "score": 0}, {"id": 94, "name": "Sitora Raximova", "group": "arabic", "balance": 0, "phone": "+998 97 184 11 21", "score": 0}, {"id": 95, "name": "Sherzod Tillayev", "group": "arabic", "balance": 0, "phone": "+998 95 852 24 21", "score": 0}, {"id": 96, "name": "Tohir Usmonov", "group": "arabic", "balance": 400000, "phone": "+998 90 306 87 27", "score": 0}, {"id": 97, "name": "Gulnora Qosimova", "group": "arabic", "balance": 200000, "phone": "+998 98 253 62 77", "score": 0}, {"id": 98, "name": "Hilola Botirova", "group": "arabic", "balance": 150000, "phone": "+998 97 929 11 46", "score": 0}, {"id": 99, "name": "Toxir Mirzayev", "group": "arabic", "balance": 50000, "phone": "+998 93 215 55 53", "score": 0}, {"id": 100, "name": "Kamola Yoldosheva", "group": "arabic", "balance": 150000, "phone": "+998 99 229 83 16", "score": 0}];
+
+var D = null;
+var theme = localStorage.getItem('gos_th') || 'dark';
+var pendTab = null, pendEl = null;
+var balId = null, detId = null;
+var admGrp = 'all', admPg = 1, srchQ = '';
+var davGrp = 'all';
+
+async function loadD(){
+  try {
+    var res = await fetch('http://localhost:3000/api/data');
+    var parsed = await res.json();
+    if(parsed && parsed.stu) {
+      D = parsed;
+      return;
+    }
+  } catch(e){
+    console.error('DB Load Error:', e);
+  }
+  if (!D) {
+    alert("Server bilan ulanishda xato! Node.js ishlayotganligini tekshiring.");
+  }
+}
+
+async function saveD(){
+  if (!D) return;
+  try {
+    await fetch('http://localhost:3000/api/save', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(D)
+    });
+  } catch(e){
+    console.error('DB Save Error:', e);
+  }
+}
+
+function getStu(id){
+  for(var i=0;i<D.stu.length;i++) if(D.stu[i].id===id) return D.stu[i];
+  return null;
+}
+
+function togTh(){
+  theme = theme==='dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('gos_th', theme);
+  document.getElementById('tbtn').innerHTML = theme==='dark' ? '&#127769;' : '&#9728;&#65039;';
+}
+function eyeToggle(id, btn){
+  var e = document.getElementById(id); if(!e) return;
+  e.type = e.type==='password' ? 'text' : 'password';
+  btn.innerHTML = e.type==='password' ? '&#128065;' : '&#128584;';
+}
+
+/* DATES */
+function getDays(){
+  var r = [], now = new Date();
+  for(var i = 29; i >= 0; i--){
+    var d = new Date(now); d.setDate(now.getDate()-i);
+    if(d.getDay() !== 0) r.push(d);
+  }
+  return r;
+}
+function fmt(d){ return d.toISOString().split('T')[0]; }
+function isToday(d){ return fmt(d) === fmt(new Date()); }
+
+/* SITE LOCK */
+async function trySite(){
+  var btn = document.querySelector('.lbox .btn.bac');
+  if(!D){
+    btn.disabled = true;
+    btn.textContent = 'Yuklanmoqda...';
+    await loadD();
+    btn.disabled = false;
+    btn.innerHTML = 'Kirish &#8594;';
+  }
+  if(!D) return;
+  var v = document.getElementById('siteInp').value;
+  if(v === getPw('site')){
+    document.getElementById('siteLock').classList.add('hide');
+    document.getElementById('app').style.display = 'block';
+    initApp();
+  } else {
+    document.getElementById('siteErr').textContent = "Noto'g'ri parol!";
+    shk('siteInp');
+    document.getElementById('siteInp').value = '';
+  }
+}
+
+function initApp(){
+  document.documentElement.setAttribute('data-theme', theme);
+  document.getElementById('tbtn').innerHTML = theme==='dark' ? '&#127769;' : '&#9728;&#65039;';
+  var tabs = [
+    {id:'info', label:'&#8505;&#65039; Ma\'lumotlar', locked:false}
+  ];
+  var dTabsHTML = '';
+  var groupOpts = '';
+  if(D && D.courses) {
+    for(var i=0; i<D.courses.length; i++){
+      var c = D.courses[i];
+      var icon = c.group === 'english' ? '&#127468;&#127463; ' : (c.group === 'arabic' ? '&#128332; ' : '&#128218; ');
+      tabs.push({id: c.group, label: icon + c.gname, locked: true});
+      groupOpts += '<option value="'+c.group+'">'+c.gname+'</option>';
+      dTabsHTML += '<div class="pgs" id="tab-'+c.group+'">' +
+        '<div class="sts" id="sts-'+c.group+'"></div>' +
+        '<div class="tb"><div class="tt">'+c.gname+' &#8212; Davomat</div></div>' +
+        '<div class="dout" id="dout-'+c.group+'"></div>' +
+        '<div class="leg">' +
+          '<div class="li"><div class="ld" style="background:var(--gr)"></div>Keldi</div>' +
+          '<div class="li"><div class="ld" style="background:var(--yw)"></div>Kech</div>' +
+          '<div class="li"><div class="ld" style="background:var(--rd)"></div>Kelmadi</div>' +
+          '<div class="li" style="margin-left:auto;font-size:10px;color:var(--tx3)">&#128190; Saqlanadi</div>' +
+        '</div>' +
+      '</div>';
+    }
+  }
+  tabs.push({id:'admin', label:'&#128274; Admin', locked:true});
+
+  var html = '';
+  for(var i=0;i<tabs.length;i++){
+    html += '<button class="tab'+(i===0?' active':'')+'" onclick="swTab(\''+tabs[i].id+'\',this,'+tabs[i].locked+')">'+tabs[i].label+'</button>';
+  }
+  document.getElementById('tabBar').innerHTML = html;
+  
+  if(document.getElementById('dynamicTabs')){
+    document.getElementById('dynamicTabs').innerHTML = dTabsHTML;
+  }
+  
+  var inG = document.getElementById('inG');
+  if(inG && groupOpts) inG.innerHTML = groupOpts;
+
+  renderInfo();
+}
+
+/* TAB SWITCH */
+function swTab(name, el, needLock){
+  if(needLock){
+    pendTab = name; pendEl = el;
+    var lbl = {admin:'Admin paneliga kirish'};
+    if(D && D.courses) {
+       for(var i=0;i<D.courses.length;i++) lbl[D.courses[i].group] = D.courses[i].gname + ' guruhiga kirish';
+    }
+    document.getElementById('mLockT').textContent = 'Kirish';
+    document.getElementById('mLockSub').textContent = lbl[name] || '';
+    document.getElementById('tlInp').value = '';
+    document.getElementById('mLockErr').textContent = '';
+    document.getElementById('mLock').classList.remove('hide');
+    setTimeout(function(){document.getElementById('tlInp').focus();}, 80);
+  } else {
+    actTab(name, el);
+  }
+}
+
+function tryTab(){
+  var v = document.getElementById('tlInp').value;
+  var role = (pendTab === 'admin') ? 'admin' : pendTab;
+  if(v === getPw(role)){
+    closeM('mLock');
+    actTab(pendTab, pendEl);
+  } else {
+    document.getElementById('mLockErr').textContent = "Noto'g'ri parol!";
+    shk('tlInp');
+    document.getElementById('tlInp').value = '';
+  }
+}
+
+function actTab(name, el){
+  var all = document.querySelectorAll('.pgs');
+  for(var i=0;i<all.length;i++) all[i].classList.remove('act');
+  var tabs = document.querySelectorAll('.tab');
+  for(var i=0;i<tabs.length;i++) tabs[i].classList.remove('active');
+  var target = document.getElementById('tab-'+name);
+  if(target) target.classList.add('act');
+  if(el) el.classList.add('active');
+  if(name==='info') renderInfo();
+  else if(name==='admin') renderAdm();
+  else renderGrpDav(name);
+}
+
+/* STATS */
+function calcSts(flt){
+  var dd = getDays().map(fmt);
+  var g=0,y=0,r=0,tot=0;
+  for(var i=0;i<flt.length;i++){
+    var att = D.att[flt[i].id] || {};
+    for(var j=0;j<dd.length;j++){
+      var st = att[dd[j]];
+      if(st){ tot++; if(st==='green')g++; else if(st==='yellow')y++; else r++; }
+    }
+  }
+  var pct = tot>0 ? Math.round(g/tot*100) : 0;
+  return {count:flt.length, g:g, y:y, r:r, pct:pct};
+}
+function renderStsEl(elId, sts){
+  var el = document.getElementById(elId); if(!el) return;
+  el.innerHTML =
+    '<div class="sc" style="animation-delay:.03s"><div class="sn">'+sts.count+'</div><div class="sl">O\'quvchi</div></div>'+
+    '<div class="sc sg" style="animation-delay:.06s"><div class="sn">'+sts.g+'</div><div class="sl">Keldi</div></div>'+
+    '<div class="sc sy" style="animation-delay:.09s"><div class="sn">'+sts.y+'</div><div class="sl">Kech</div></div>'+
+    '<div class="sc sr" style="animation-delay:.12s"><div class="sn">'+sts.r+'</div><div class="sl">Kelmadi</div></div>'+
+    '<div class="sc sbl" style="animation-delay:.15s"><div class="sn">'+sts.pct+'%</div><div class="sl">Davomat</div></div>';
+}
+
+/* BUILD DAV TABLE */
+function buildDavTable(flt, outId, canEdit, showBal, showPh){
+  var dd = getDays();
+  var h = '<table class="dt"><thead><tr>'+
+    '<th class="stk" style="min-width:'+(showPh?155:115)+'px">Ism</th>';
+  if(showBal) h += '<th style="min-width:70px">Balans</th>';
+  h += '<th style="min-width:48px">Baho</th>';
+  for(var i=0;i<dd.length;i++){
+    var d=dd[i], tod=isToday(d);
+    h += '<th class="'+(tod?'thd':'')+'" style="min-width:26px;text-align:center">'+
+      d.getDate()+'<span style="display:block;font-size:7px;font-weight:400">'+WK[d.getDay()]+'</span>'+
+      (tod?'<span class="tdot"></span>':'')+
+      '</th>';
+  }
+  h += '</tr></thead><tbody>';
+  for(var si=0;si<flt.length;si++){
+    var s=flt[si];
+    var bal=s.balance||0, bc=bal>100000?'bok':bal>0?'blow':'bneg';
+    var sc=s.score||0, scC=sc>=80?'var(--gr)':sc>=50?'var(--yw)':'var(--rd)';
+    h += '<tr><td class="stk"><div class="snm">'+s.name+'</div>';
+    if(showPh) h += '<div class="sph">'+(s.phone||'')+'</div>';
+    h += '</td>';
+    if(showBal) h += '<td><span class="bch '+bc+'">'+bal.toLocaleString()+'</span></td>';
+    /* Score cell */
+    if(canEdit){
+      h += '<td><div class="swp">'+
+        '<input class="sinp" type="number" min="0" max="100" value="'+sc+'" '+
+        'onchange="setSc('+s.id+',this.value,\''+outId+'\')" onclick="this.select()" style="color:'+scC+'">'+
+        '<div class="sbar"><div class="sbarfill" style="width:'+sc+'%;background:'+scC+'"></div></div>'+
+        '</div></td>';
+    } else {
+      h += '<td><div class="score-ro">'+
+        '<span class="score-ro-num" style="color:'+scC+'">'+sc+'</span>'+
+        '<div class="score-ro-bar"><div class="score-ro-fill" style="width:'+sc+'%;background:'+scC+'"></div></div>'+
+        '</div></td>';
+    }
+    /* Day cells */
+    for(var di=0;di<dd.length;di++){
+      var dk=fmt(dd[di]);
+      var att = D.att[s.id] || {};
+      var st = att[dk] || null;
+      var stClass = st || '';
+      var icon = st ? IC[st] : '';
+      var tod=isToday(dd[di]);
+      if(canEdit){
+        h += '<td class="dc'+(tod?' tdc':'')+'">'+
+          '<button class="sb '+stClass+'" onclick="tog('+s.id+',\''+dk+'\',\''+outId+'\')">'+
+          '<span class="ci">'+icon+'</span></button></td>';
+      } else {
+        h += '<td class="dc'+(tod?' tdc':'')+'">'+
+          '<button class="sb '+stClass+' readonly-btn">'+
+          '<span class="ci">'+icon+'</span></button></td>';
+      }
+    }
+    h += '</tr>';
+  }
+  h += '</tbody></table>';
+  var out = document.getElementById(outId);
+  if(!out) return;
+  out.innerHTML = h;
+  out.scrollLeft = out.scrollWidth;
+}
+
+/* DAVOMAT TAB (readonly, filterable) */
+function renderAllDav(){
+  var flt = davGrp==='all' ? D.stu :
+            davGrp==='english' ? D.stu.filter(function(s){return s.group==='english';}) :
+            D.stu.filter(function(s){return s.group==='arabic';});
+  renderStsEl('sts-all', calcSts(flt));
+  /* filter buttons */
+  var opts = [{id:'all',l:'Barchasi'}];
+  if(D && D.courses) {
+    for(var i=0; i<D.courses.length; i++) opts.push({id: D.courses[i].group, l: D.courses[i].gname});
+  }
+  var fhtml = '';
+  for(var i=0;i<opts.length;i++){
+    fhtml += '<button class="fb'+(opts[i].id===davGrp?' act':'')+'" onclick="davFl(\''+opts[i].id+'\')">'+opts[i].l+'</button>';
+  }
+  document.getElementById('davFlt').innerHTML = fhtml;
+  buildDavTable(flt, 'dout-all', false, false, false);
+}
+function davFl(g){ davGrp=g; renderAllDav(); }
+
+/* GURUH TAB (editable) */
+function renderGrpDav(grp){
+  var flt = D.stu.filter(function(s){return s.group===grp;});
+  var stsId = grp==='english' ? 'sts-eng' : 'sts-arb';
+  var outId = grp==='english' ? 'dout-eng' : 'dout-arb';
+  renderStsEl(stsId, calcSts(flt));
+  buildDavTable(flt, outId, true, true, true);
+}
+
+/* TOGGLE ATTENDANCE */
+function tog(id, day, outId){
+  if(!D.att[id]) D.att[id] = {};
+  var cur = (D.att[id] && D.att[id][day]) || null;
+  var idx = ST.indexOf(cur); if(idx<0) idx=0;
+  var nxt = ST[(idx+1) % ST.length];
+  var s = getStu(id);
+  if(s){
+    if(nxt==='green') s.balance = (s.balance||0) - DAY_FEE;
+    else if(cur==='green') s.balance = (s.balance||0) + DAY_FEE;
+  }
+  D.att[id][day] = nxt;
+  saveD();
+  /* refresh current tab */
+  if(outId==='dout-eng') renderGrpDav('english');
+  else if(outId==='dout-arb') renderGrpDav('arabic');
+  /* also refresh readonly davomat if visible */
+  if(document.getElementById('tab-davomat').classList.contains('act')) renderAllDav();
+  if(document.getElementById('tab-admin').classList.contains('act')) renderAdm();
+}
+
+/* SET SCORE */
+function setSc(id, v, outId){
+  var s = getStu(id); if(!s) return;
+  s.score = Math.max(0, Math.min(100, parseInt(v)||0));
+  saveD();
+  /* refresh all views */
+  if(document.getElementById('tab-davomat').classList.contains('act')) renderAllDav();
+  if(document.getElementById('tab-admin').classList.contains('act')) renderAdm();
+}
+
+/* INFO TAB */
+function renderInfo(){
+  // Calculate stats for sts-info
+  var totStu = D.stu ? D.stu.length : 0;
+  var totGrp = D.courses ? D.courses.length : 0;
+  var totBal = 0;
+  if(D.stu) D.stu.forEach(function(s){ totBal += (s.balance||0); });
+  var balFmt = totBal.toLocaleString() + ' so\'m';
+  
+  var stsInfo = document.getElementById('sts-info');
+  if(stsInfo) {
+    stsInfo.innerHTML =
+      '<div class="sc" style="animation-delay:.03s"><div class="sn">'+totStu+'</div><div class="sl">Jami o\'quvchilar</div></div>'+
+      '<div class="sc" style="animation-delay:.06s"><div class="sn">'+totGrp+'</div><div class="sl">Kurslar soni</div></div>'+
+      '<div class="sc sbl" style="animation-delay:.09s"><div class="sn" style="font-size:16px;">'+balFmt+'</div><div class="sl">Umumiy Tushum</div></div>';
+  }
+
+  var infoData = D.courses || [];
+  var html = '';
+  var counts = {};
+  for(var j=0; j<D.stu.length; j++){
+    var g = D.stu[j].group;
+    counts[g] = (counts[g]||0) + 1;
+  }
+  for(var i=0;i<infoData.length;i++){
+    var d = infoData[i];
+    var cnt = counts[d.group] || 0;
+    var icon = d.group==='english'?'&#127468;&#127463;':(d.group==='arabic'?'&#128332;':'&#128218;');
+    html += '<div class="info-card" style="animation-delay:'+i*0.1+'s">'+
+      '<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">'+
+        '<div style="width:46px;height:46px;border-radius:50%;background:'+d.color+';display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">'+
+          icon+
+        '</div>'+
+        '<div>'+
+          '<div style="font-family:Syne,sans-serif;font-size:15px;font-weight:700;color:var(--tx)">'+d.gname+'</div>'+
+          '<div style="font-size:10px;color:var(--tx3);margin-top:2px">'+cnt+' o\'quvchi</div>'+
+        '</div>'+
+      '</div>'+
+      '<div style="background:'+d.bcolor+';border:1px solid '+d.border+';border-radius:var(--rs);padding:10px 12px;margin-bottom:12px">'+
+        '<div style="font-size:10px;color:var(--tx3);margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px">O\'qituvchi</div>'+
+        '<div style="font-size:13px;font-weight:600;color:var(--tx);margin-bottom:2px">'+d.teacher+'</div>'+
+        '<div style="font-size:11px;color:var(--tx2)">'+d.phone+'</div>'+
+      '</div>'+
+      '<div class="info-row"><span class="info-label">Jadval</span><span class="info-val">'+d.schedule+'</span></div>'+
+      '<div class="info-row"><span class="info-label">Vaqt</span><span class="info-val">'+d.time+'</span></div>'+
+      '<div class="info-row"><span class="info-label">Xona</span><span class="info-val">'+d.room+'</span></div>'+
+      '<div class="info-row"><span class="info-label">Daraja</span><span class="info-val">'+d.level+'</span></div>'+
+      '<div style="font-size:11px;color:var(--tx3);margin-top:10px;padding-top:10px;border-top:1px solid var(--bd);line-height:1.5">'+d.desc+'</div>'+
+    '</div>';
+  }
+  document.getElementById('infoGrid').innerHTML = html;
+}
+
+/* ADMIN TABLE */
+function doSearch(){ srchQ=document.getElementById('sInp').value.toLowerCase(); admPg=1; renderAdm(); }
+function admFl(g){ admGrp=g; admPg=1; renderAdm(); }
+
+function renderAdm(){
+  var opts=[{id:'all',l:'Barchasi'}];
+  if(D && D.courses) {
+    for(var i=0; i<D.courses.length; i++) opts.push({id: D.courses[i].group, l: D.courses[i].gname});
+  }
+  var fhtml='';
+  for(var i=0;i<opts.length;i++){
+    fhtml+='<button class="fb'+(opts[i].id===admGrp?' act':'')+'" onclick="admFl(\''+opts[i].id+'\')">'+opts[i].l+'</button>';
+  }
+  document.getElementById('admFlt').innerHTML=fhtml;
+  var flt = admGrp==='all' ? D.stu : D.stu.filter(function(s){return s.group===admGrp;});
+  if(srchQ) flt=flt.filter(function(s){return s.name.toLowerCase().indexOf(srchQ)>=0||(s.phone&&s.phone.indexOf(srchQ)>=0);});
+  document.getElementById('sCnt').textContent=flt.length+' ta';
+  var pages=Math.ceil(flt.length/PER)||1;
+  if(admPg>pages) admPg=1;
+  var sl=flt.slice((admPg-1)*PER, admPg*PER);
+  document.getElementById('admH').innerHTML='<th>ID</th><th>Ism</th><th>Telefon</th><th>Guruh</th><th>Balans</th><th>Baho</th><th></th>';
+  var tb=document.getElementById('admB');
+  if(!sl.length){
+    tb.innerHTML='<tr><td colspan="7" style="padding:26px;text-align:center;color:var(--tx3)">\u2014</td></tr>';
+    document.getElementById('admP').innerHTML=''; return;
+  }
+  var rows='';
+  for(var i=0;i<sl.length;i++){
+    var s=sl[i];
+    var bal=s.balance||0, bc=bal>100000?'bok':bal>0?'blow':'bneg';
+    var sc=s.score||0, scC=sc>=80?'var(--gr)':sc>=50?'var(--yw)':'var(--rd)';
+    var gc=s.group==='english'?'geng':'garb', gl=s.group==='english'?'Ingliz':'Arab';
+    var idStr=String(s.id); while(idStr.length<3) idStr='0'+idStr;
+    rows+='<tr style="animation-delay:'+(i*0.02)+'s">'+
+      '<td style="color:var(--tx3);font-size:10px">#'+idStr+'</td>'+
+      '<td><div class="snm">'+s.name+'</div></td>'+
+      '<td style="color:var(--tx2);font-size:11px">'+(s.phone||'\u2014')+'</td>'+
+      '<td><span class="gbg '+gc+'">'+gl+'</span></td>'+
+      '<td><span class="bch '+bc+'">'+bal.toLocaleString()+' so\'m</span></td>'+
+      '<td style="color:'+scC+';font-weight:600;font-size:12px">'+sc+'</td>'+
+      '<td><div style="display:flex;gap:4px">'+
+        '<button class="btn" style="padding:3px 7px;font-size:11px" onclick="openDet('+s.id+')">Ko\'rish</button>'+
+        '<button class="btn bgr" style="padding:3px 7px;font-size:11px" onclick="openBal('+s.id+')">+</button>'+
+      '</div></td>'+
+    '</tr>';
+  }
+  tb.innerHTML=rows;
+  var pg='';
+  if(pages>1){
+    if(admPg>1) pg+='<button class="pp" onclick="goPg('+(admPg-1)+')">&#8592;</button>';
+    for(var p=1;p<=pages;p++){
+      if(p===1||p===pages||Math.abs(p-admPg)<=1) pg+='<button class="pp'+(p===admPg?' act':'')+'" onclick="goPg('+p+')">'+p+'</button>';
+      else if(Math.abs(p-admPg)===2) pg+='<span style="color:var(--tx3);padding:0 2px;font-size:11px">\u2026</span>';
+    }
+    if(admPg<pages) pg+='<button class="pp" onclick="goPg('+(admPg+1)+')">&#8594;</button>';
+  }
+  document.getElementById('admP').innerHTML=pg;
+}
+function goPg(p){ admPg=p; renderAdm(); }
+
+/* ADD STUDENT */
+function openAdd(){
+  document.getElementById('inN').value=''; document.getElementById('inP').value='';
+  document.getElementById('inB').value='0';
+  document.getElementById('mAdd').classList.remove('hide');
+  setTimeout(function(){document.getElementById('inN').focus();}, 80);
+}
+function addStu(){
+  var nm=document.getElementById('inN').value.trim(); if(!nm){document.getElementById('inN').focus();return;}
+  var ph=document.getElementById('inP').value.trim();
+  var grp=document.getElementById('inG').value;
+  var bal=parseInt(document.getElementById('inB').value)||0;
+  var id=D.nid++;
+  D.stu.push({id:id, name:nm, group:grp, balance:bal, phone:ph, score:0});
+  D.att[id]={};
+  saveD(); closeM('mAdd'); renderAdm();
+  /* update group tab if open */
+  var gTab = document.getElementById('tab-'+grp);
+  if(gTab && gTab.classList.contains('act')) renderGrpDav(grp);
+  if(document.getElementById('tab-davomat').classList.contains('act')) renderAllDav();
+  renderInfo();
+  toast(nm+' qo\'shildi \u2713');
+}
+
+/* BALANCE */
+function openBal(id){
+  balId=id; var s=getStu(id); if(!s) return;
+  document.getElementById('bNm').textContent=s.name;
+  document.getElementById('bCur').textContent='Balans: '+(s.balance||0).toLocaleString()+' so\'m';
+  document.getElementById('inAm').value='';
+  document.getElementById('mBal').classList.remove('hide');
+  setTimeout(function(){document.getElementById('inAm').focus();}, 80);
+}
+function balFromDet(){ closeM('mDet'); openBal(detId); }
+function setAm(v){ document.getElementById('inAm').value=v; }
+function addBal(){
+  var v=parseInt(document.getElementById('inAm').value)||0;
+  if(!v||v<=0){document.getElementById('inAm').focus();return;}
+  var s=getStu(balId); if(!s) return;
+  s.balance=(s.balance||0)+v;
+  saveD(); closeM('mBal');
+  toast('\u2705 '+v.toLocaleString()+' so\'m to\'lovi qabul qilindi: '+s.name+' ('+(s.phone||'\u2014')+')');
+  /* refresh all open tabs */
+  if(document.getElementById('tab-admin').classList.contains('act')) renderAdm();
+  if(document.getElementById('tab-english').classList.contains('act')) renderGrpDav('english');
+  if(document.getElementById('tab-arabic').classList.contains('act')) renderGrpDav('arabic');
+  if(document.getElementById('tab-davomat').classList.contains('act')) renderAllDav();
+}
+
+/* DETAIL */
+function openDet(id){
+  detId=id; var s=getStu(id); if(!s) return;
+  var parts=s.name.split(' ');
+  var ini=((parts[0]||'')[0]||'')+((parts[1]||'')[0]||'');
+  var av=document.getElementById('dAv');
+  av.textContent=ini.toUpperCase();
+  av.style.background=s.group==='english'?'rgba(34,197,94,.22)':'rgba(245,158,11,.22)';
+  av.style.color=s.group==='english'?'var(--gr)':'var(--yw)';
+  document.getElementById('dNm').textContent=s.name;
+  document.getElementById('dPh').textContent=s.phone||'\u2014';
+  document.getElementById('dNmI').value=s.name;
+  document.getElementById('dPhI').value=s.phone||'';
+  document.getElementById('dNmEd').style.display='none';
+  document.getElementById('dPhEd').style.display='none';
+  document.getElementById('dSave').style.display='none';
+  var dd=getDays().map(fmt); var g=0,tot=0;
+  var att=D.att[s.id]||{};
+  for(var i=0;i<dd.length;i++){var st=att[dd[i]];if(st){tot++;if(st==='green')g++;}}
+  var pct=tot>0?Math.round(g/tot*100):0;
+  var bal=s.balance||0, bc=bal>100000?'bok':bal>0?'blow':'bneg';
+  var sc=s.score||0, scC=sc>=80?'var(--gr)':sc>=50?'var(--yw)':'var(--rd)';
+  document.getElementById('dRows').innerHTML=
+    '<div class="di"><div class="dil">Guruh</div><div class="div2">'+(s.group==='english'?'Ingliz':'Arab')+' tili</div></div>'+
+    '<div class="di"><div class="dil">Balans</div><div class="div2"><span class="bch '+bc+'" style="font-size:11px">'+bal.toLocaleString()+' so\'m</span></div></div>'+
+    '<div class="di"><div class="dil">Davomat</div><div class="div2" style="color:'+(pct>=80?'var(--gr)':pct>=50?'var(--yw)':'var(--rd)')+'">'+pct+'% ('+g+' kun)</div></div>'+
+    '<div class="di"><div class="dil">Baho</div><div class="div2" style="color:'+scC+'">'+sc+'/100</div></div>'+
+    '<div class="di"><div class="dil">Telefon</div><div class="div2" style="font-size:11px">'+(s.phone||'\u2014')+'</div></div>';
+  document.getElementById('mDet').classList.remove('hide');
+}
+function togEdit(){
+  var show=document.getElementById('dNmEd').style.display==='none';
+  document.getElementById('dNmEd').style.display=show?'block':'none';
+  document.getElementById('dPhEd').style.display=show?'block':'none';
+  document.getElementById('dSave').style.display=show?'inline-flex':'none';
+}
+function saveDet(){
+  var s=getStu(detId); if(!s) return;
+  var nm=document.getElementById('dNmI').value.trim();
+  var ph=document.getElementById('dPhI').value.trim();
+  if(nm) s.name=nm; if(ph) s.phone=ph;
+  saveD(); closeM('mDet'); renderAdm();
+  if(s.group==='english') renderGrpDav('english');
+  if(s.group==='arabic') renderGrpDav('arabic');
+  if(document.getElementById('tab-davomat').classList.contains('act')) renderAllDav();
+  toast(s.name+' yangilandi \u2713');
+}
+function delDet(){
+  if(!confirm("O'chirishni tasdiqlaysizmi?")) return;
+  var s=getStu(detId); var grp=s?s.group:'';
+  D.stu=D.stu.filter(function(x){return x.id!==detId;});
+  delete D.att[detId];
+  saveD(); closeM('mDet'); renderAdm(); renderInfo();
+  if(grp==='english'&&document.getElementById('tab-english').classList.contains('act')) renderGrpDav('english');
+  if(grp==='arabic'&&document.getElementById('tab-arabic').classList.contains('act')) renderGrpDav('arabic');
+  if(document.getElementById('tab-davomat').classList.contains('act')) renderAllDav();
+  toast((s?s.name:'')+' o\'chirildi');
+}
+
+/* PASSWORD (ADMIN ONLY) */
+function openPw(){
+  document.getElementById('pwNew').value='';
+  document.getElementById('pwCf').value='';
+  document.getElementById('pwErr').textContent='';
+  document.getElementById('mPw').classList.remove('hide');
+  setTimeout(function(){document.getElementById('pwNew').focus();}, 80);
+}
+function doPw(){
+  var role=document.getElementById('pwRole').value;
+  var nw=document.getElementById('pwNew').value;
+  var cf=document.getElementById('pwCf').value;
+  if(!nw||nw.length<4){document.getElementById('pwErr').textContent='Kamida 4 ta belgi!'; return;}
+  if(nw!==cf){document.getElementById('pwErr').textContent='Parollar mos emas!'; shk('pwCf'); return;}
+  setPw(role, nw);
+  closeM('mPw');
+  toast('Parol o\'zgartirildi \u2713');
+}
+
+/* UTILS */
+function closeM(id){ document.getElementById(id).classList.add('hide'); }
+function shk(id){
+  var e=document.getElementById(id); if(!e) return;
+  e.style.animation='shk .35s ease';
+  setTimeout(function(){e.style.animation='';}, 400);
+}
+function toast(msg){
+  var e=document.createElement('div'); e.className='toast'; e.textContent=msg;
+  document.body.appendChild(e);
+  setTimeout(function(){
+    e.style.opacity='0'; e.style.transition='opacity .3s';
+    setTimeout(function(){if(e.parentNode)e.parentNode.removeChild(e);}, 300);
+  }, 3500);
+}
+
+/* EVENT LISTENERS */
+document.getElementById('siteInp').addEventListener('keydown', function(e){if(e.key==='Enter')trySite();});
+document.getElementById('tlInp').addEventListener('keydown', function(e){if(e.key==='Enter')tryTab();});
+document.addEventListener('keydown', function(e){
+  if(e.key==='Escape') ['mLock','mAdd','mBal','mDet','mPw'].forEach(function(id){closeM(id);});
+});
+var mids=['mLock','mAdd','mBal','mDet','mPw'];
+for(var mi=0;mi<mids.length;mi++){
+  (function(mid){
+    var el=document.getElementById(mid);
+    if(el) el.addEventListener('click', function(e){if(e.target===this)closeM(mid);});
+  })(mids[mi]);
+}
+function openAddCourse(){
+  var fields = ['inCId','inCNm','inCTr','inCPh','inCSc','inCTm','inCRm','inCLv','inCDe'];
+  for(var i=0; i<fields.length; i++) document.getElementById(fields[i]).value = '';
+  document.getElementById('mAddCourse').classList.remove('hide');
+  setTimeout(function(){document.getElementById('inCId').focus();}, 80);
+}
+
+async function addCourse(){
+  var c = {
+    group: document.getElementById('inCId').value.trim(),
+    gname: document.getElementById('inCNm').value.trim(),
+    teacher: document.getElementById('inCTr').value.trim(),
+    phone: document.getElementById('inCPh').value.trim(),
+    schedule: document.getElementById('inCSc').value.trim(),
+    time: document.getElementById('inCTm').value.trim(),
+    room: document.getElementById('inCRm').value.trim(),
+    level: document.getElementById('inCLv').value.trim(),
+    desc: document.getElementById('inCDe').value.trim(),
+    color: 'rgba(37,99,235,.15)',
+    tcolor: 'var(--ac)',
+    bcolor: 'rgba(37,99,235,.1)',
+    border: 'rgba(37,99,235,.25)'
+  };
+  if(!c.group || !c.gname) return alert("Majburiy maydonlarni to'ldiring!");
+  
+  try {
+    var res = await fetch('http://localhost:3000/api/courses', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(c)
+    });
+    if(res.ok) {
+      if(!D.courses) D.courses = [];
+      D.courses.push(c);
+      closeM('mAddCourse');
+      alert("Yangi kurs muvaffaqiyatli qo'shildi!");
+      location.reload();
+    }
+  } catch(e){
+    console.error('Add Course Error:', e);
+  }
+}
+</script>
+<script>
+// Languages definition
+const translations = {
+    "en": {
+        "page_title": "Payment Policy", "page_desc": "Manage tuition structures and financial reporting", "global_mode": "Global Payment Mode",
+        "mode_desc": "Select the default payment mode for the academy. Changes apply to future billing cycles.",
+        "per_attendance": "Per Attendance", "fixed_monthly": "Fixed Monthly", "default_fee": "Default Monthly Fee",
+        "calc_lesson": "Calculated Per Lesson", "based_12": "(based on 12 lessons)", "income_sim": "Income Simulation (Current Month)",
+        "expected": "Expected Income", "if_100": "If 100% Fixed Mode", "actual": "Actual Income", "based_active": "Based on active mode",
+        "roster_title": "Class Journal (Magazine)", "roster_desc": "Viewing 50 random students. Search and Payments are Admin-only.",
+        "reset": "Reset Data", "col_student": "Student", "col_group": "Group", "col_att": "Attendance (12 max)",
+        "col_status": "Status", "col_fee": "Calculated Fee", "mod_warn": "Confirm Change",
+        "mod_p1": "You are about to switch the global payment model to ", "mod_p2": "This will ONLY affect future calculations. Previous payments and historic records will remain intact.",
+        "btn_cancel": "Cancel", "btn_confirm": "Confirm Change", "nav_dash": "Dashboard", "nav_groups": "Groups", "nav_students": "Students", "nav_policy": "Payment Policy",
+        "stat_active": "Active", "stat_joined": "Joined Mid", "stat_left": "Left Early", "diff": "Difference: ",
+        "matched": " (Income matched Expected)", "unrealized": "Unrealized Income due to absences: ", 
+        "col_balance": "Account Balance", "col_action": "Action", "admin_mode": "Enable Admin Mode",
+        "search_ph": "Search student...", "ast_ph": "Ask a question...", "btn_pay": "Pay 0 UZS", "paid": "Paid",
+        "ast_intro": "Hello! I am your AI assistant. I can help you understand the payment models.", "ast_btn_explain": "Explain modes", "ast_btn_stats": "Analyze income",
+        "ast_explain_fixed": "In Fixed Monthly mode, students pay a standard amount regardless of missed classes.", "ast_explain_per": "In Per-Attendance mode, students only pay for lessons they attend.",
+        "ast_analysis_good": "Everything looks great! We are collecting expected income.", "ast_analysis_bad": "Warning: There's an income gap due to absences or dropouts! Switch to Fixed mode for financial stability.",
+        "ast_ans_search": "To search, enable Admin mode at the top left, then type a name in the search bar above the journal.",
+        "ast_ans_pay": "Students accounts have 0 balance by default. An admin can make a manual payment from the Action column.",
+        "ast_ans_default": "I'm still learning! But I can help you with payment modes, income stats, and pointing out where to click things."
+    },
+    "uz": {
+        "page_title": "To'lov Siyosati", "page_desc": "O'qish narxlari va moliyaviy hisobotlarni boshqarish", "global_mode": "Global To'lov Usuli",
+        "mode_desc": "Akademiya uchun standart to'lov usulini tanlang. O'zgarishlar kelgusi oylarga ta'sir qiladi.",
+        "per_attendance": "Davomat bo'yicha", "fixed_monthly": "Oylik qat'iy", "default_fee": "Standart Oylik To'lov",
+        "calc_lesson": "Bitta dars bo'yicha hisob", "based_12": "(12 dars asosida)", "income_sim": "Daromad Simulyatsiyasi (Joriy Oy)",
+        "expected": "Kutilayotgan Daromad", "if_100": "100% Qat'iy usulda", "actual": "Haqiqiy Daromad", "based_active": "Faol usul asosida",
+        "roster_title": "Elektron Jurnal (Magazine)", "roster_desc": "50 ta tasodifiy o'quvchi. Qidiruv va To'lov faqat Admin uchun.",
+        "reset": "Qayta Tiklash", "col_student": "O'quvchi", "col_group": "Guruh", "col_att": "Davomat (maks. 12)",
+        "col_status": "Holat", "col_fee": "Hisoblangan To'lov", "mod_warn": "O'zgarishni Tasdiqlash",
+        "mod_p1": "Global to'lov modelini o'zgartirmoqchisiz: ", "mod_p2": "FAQAT kelajakdagi hisob-kitoblarga ta'sir qiladi.",
+        "btn_cancel": "Bekor", "btn_confirm": "Tasdiqlash", "nav_dash": "Asosiy", "nav_groups": "Guruhlar", "nav_students": "O'quvchilar", "nav_policy": "To'lov Siyosati",
+        "stat_active": "Faol", "stat_joined": "Qo'shildi", "stat_left": "Tark etdi", "diff": "Farq: ",
+        "matched": " (Daromad kutilganga teng)", "unrealized": "Yo'qotilgan daromad: ",
+        "col_balance": "Hisob balansi", "col_action": "Harakat", "admin_mode": "Adminni yoqish",
+        "search_ph": "Qidirish...", "ast_ph": "Savolingizni yozing...", "btn_pay": "To'lash", "paid": "To'landi",
+        "ast_intro": "Salom! Men EduBot tizimiman. Qanday yordam bera olaman?", "ast_btn_explain": "Tizimni tushuntirish", "ast_btn_stats": "Moliya tahlili",
+        "ast_explain_fixed": "Qat'iy Oylik rejimida o'quvchilar dars qoldirilishidan qat'i nazar standart to'lov to'lashadi.", "ast_explain_per": "Davomat rejimida o'quvchilar faqat qatnashgan darslari uchun to'lashadi.",
+        "ast_analysis_good": "Hamma narsa ajoyib! Kutilayotgan daromad yig'ilmoqda.", "ast_analysis_bad": "Diqqat: Yo'qolgan daromad mavjud! Qat'iy rejimga o'tishni o'ylab ko'ring.",
+        "ast_ans_search": "Qidirish uchun tepada Admin rejimini yoqing va jurnal qidiruv panelidan foydalaning.",
+        "ast_ans_pay": "O'quvchilar hisobi 0 so'm. Admin to'lovni o'zi harakat qatoridan amalga oshirishi mumkin.",
+        "ast_ans_default": "Men hali o'rganyapman! Lekin to'lovlar, daromadlar va admin huquqlari haqida yordam bera olaman."
+    },
+    "ru": {
+        "page_title": "Политика Оплаты", "page_desc": "Управление структурами оплаты и финансами", "global_mode": "Глобальный Режим",
+        "mode_desc": "Выберите режим оплаты по умолчанию. Изменения применяются к будущим месяцам.",
+        "per_attendance": "За посещаемость", "fixed_monthly": "Фиксированно в месяц", "default_fee": "Ежемесячный Платеж",
+        "calc_lesson": "Расчет за урок", "based_12": "(на основе 12 уроков)", "income_sim": "Симуляция Дохода (Текущий Месяц)",
+        "expected": "Ожидаемый Доход", "if_100": "Если 100% Фикс. Режим", "actual": "Фактический Доход", "based_active": "На основе активного режима",
+        "roster_title": "Журнал (Электронный)", "roster_desc": "50 студентов. Поиск и платежи только для админов.",
+        "reset": "Сброс Данных", "col_student": "Студент", "col_group": "Группа", "col_att": "Посещаемость (12)",
+        "col_status": "Статус", "col_fee": "Рассчитано", "mod_warn": "Подтвердите Изменение",
+        "mod_p1": "Вы собираетесь изменить модель оплаты на ", "mod_p2": "Повлияет ТОЛЬКО на будущие расчеты.",
+        "btn_cancel": "Отмена", "btn_confirm": "Подтвердить", "nav_dash": "Панель", "nav_groups": "Группы", "nav_students": "Студенты", "nav_policy": "Политика Оплаты",
+        "stat_active": "Активный", "stat_joined": "Присоединился", "stat_left": "Ушел", "diff": "Разница: ",
+        "matched": " (Доход совпадает)", "unrealized": "Недополученный доход: ",
+        "col_balance": "Баланс счета", "col_action": "Действие", "admin_mode": "Режим Админа",
+        "search_ph": "Поиск...", "ast_ph": "Задайте вопрос...", "btn_pay": "Оплатить", "paid": "Оплачено",
+        "ast_intro": "Привет! Я ИИ EduBot. Чем могу помочь?", "ast_btn_explain": "Объяснить режимы", "ast_btn_stats": "Анализ дохода",
+        "ast_explain_fixed": "В режиме Фиксированный платеж студенты платят стандартную сумму.", "ast_explain_per": "В режиме За посещаемость студенты платят только за посещенные уроки.",
+        "ast_analysis_good": "Все отлично! Мы собираем ожидаемый доход.", "ast_analysis_bad": "Внимание! Есть разрыв в доходе из-за пропусков.",
+        "ast_ans_search": "Чтобы искать, включите режим админа, затем используйте строку поиска в Журнале.",
+        "ast_ans_pay": "Баланс студентов равен 0 сум. Админ может провести платеж в колонке Действие.",
+        "ast_ans_default": "Я все еще учусь! Обращайтесь по поводу платежей, финансов и режима администратора."
+    }
+};
+
+let currentLang = 'en';
+const FIXED_MONTHLY_FEE = 300000;
+const TOTAL_LESSONS = 12;
+const PER_LESSON_FEE = FIXED_MONTHLY_FEE / TOTAL_LESSONS; // 25,000 UZS
+
+let isFixedMode = true;
+let isAdmin = false;
+let students = [];
+
+const firstNames = ["Aziz", "Malika", "Javohir", "Gulnoza", "Dilshod", "Zarina", "Rustam", "Madina", "Sardor", "Shahzoda", "Ivan", "Maria", "Alexey", "Oleg", "Anna", "Dmitry", "Elena", "Kamila", "Anvar", "Nigina"];
+const lastNames = ["Rakhimov", "Yusupova", "Tursunov", "Karimova", "Abdullaev", "Ergasheva", "Khodjaev", "Ivanov", "Smirnov", "Petrov", "Sokolova", "Volkov", "Morozov", "Kurbanov", "Aliev", "Umarov", "Ismailova", "Nazarov", "Rustamov"];
+const groups = ["Beginner English", "Advanced Math", "Russian For Adults", "Web Development", "IELTS Prep"];
+
+function generateFakeStudents(count) {
+    let result = [];
+    for (let i = 1; i <= count; i++) {
+        const rand = Math.random();
+        let status = 'active'; let joinedMidMonth = false; let leftEarly = false; let totalPossible = 12; let attended = 12;
+
+        if (rand > 0.9) { status = 'new'; joinedMidMonth = true; totalPossible = Math.floor(Math.random() * 8) + 2; attended = Math.floor(Math.random() * (totalPossible + 1)); }
+        else if (rand > 0.8) { status = 'left'; leftEarly = true; totalPossible = Math.floor(Math.random() * 6) + 3; attended = Math.floor(Math.random() * totalPossible); }
+        else { attended = Math.floor(Math.random() * 4) + 9; if(attended > 12) attended = 12; }
+
+        result.push({
+            id: i,
+            name: `${firstNames[Math.floor(Math.random() * firstNames.length)]} ${lastNames[Math.floor(Math.random() * lastNames.length)]}`,
+            group: groups[Math.floor(Math.random() * groups.length)],
+            status, joinedMidMonth, leftEarly, attended, totalPossible,
+            balance: 0 // Magazine logic: Everyone's account starts at 0 som
+        });
+    }
+    return result;
+}
+
+const modeToggle = document.getElementById('paymentModeToggle');
+const modeBadge = document.getElementById('modeBadge');
+const tbody = document.getElementById('studentTableBody');
+const expectedEl = document.getElementById('expectedIncome');
+const actualEl = document.getElementById('actualIncome');
+const varianceAlertEl = document.getElementById('varianceAlert');
+const modal = document.getElementById('warningModal');
+const btnCancelMode = document.getElementById('cancelModeBtn');
+const btnConfirmMode = document.getElementById('confirmModeBtn');
+const newModeText = document.getElementById('modalNewMode');
+const btnReset = document.getElementById('resetBtn');
+const langSelect = document.getElementById('langSelect');
+const themeToggle = document.getElementById('themeToggle');
+const adminToggle = document.getElementById('adminRoleToggle');
+const adminLabel = document.getElementById('adminLabel');
+const searchBarContainer = document.getElementById('searchBarContainer');
+const searchInput = document.getElementById('searchInput');
+
+// Assistant DOM
+const assistantAvatar = document.getElementById('assistantAvatar');
+const assistantBubble = document.getElementById('assistantBubble');
+const closeAssistant = document.getElementById('closeAssistant');
+const astChatBody = document.getElementById('astChatBody');
+const astInput = document.getElementById('astInput');
+const astSendBtn = document.getElementById('astSendBtn');
+const astBtnExplain = document.getElementById('astBtnExplain');
+const astBtnStats = document.getElementById('astBtnStats');
+const astNotif = document.getElementById('astNotif');
+
+let pendingModeChange = null;
+
+function init() {
+    students = generateFakeStudents(50); // The 50 student requirement for the Magazine
+    applyTranslations();
+    renderTable();
+    updateStats();
+}
+
+function formatMoney(amount) { return amount.toLocaleString() + " UZS"; }
+function calculateStudentFee(student) {
+    if (isFixedMode) {
+        if (student.joinedMidMonth || student.leftEarly) return student.totalPossible * PER_LESSON_FEE;
+        return FIXED_MONTHLY_FEE;
+    } else {
+        return student.attended * PER_LESSON_FEE;
+    }
+}
+
+function t(key) { return translations[currentLang][key] || key; }
+
+function applyTranslations() {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        if (translations[currentLang][el.getAttribute('data-i18n')]) el.innerText = translations[currentLang][el.getAttribute('data-i18n')];
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+        if (translations[currentLang][el.getAttribute('data-i18n-ph')]) el.placeholder = translations[currentLang][el.getAttribute('data-i18n-ph')];
+    });
+    modeBadge.innerText = isFixedMode ? t("fixed_monthly") : t("per_attendance");
+    updateStats();
+    renderTable();
+}
+
+function renderTable() {
+    tbody.innerHTML = '';
+    const q = searchInput.value.toLowerCase();
+    
+    students.forEach((student, index) => {
+        if (q && !student.name.toLowerCase().includes(q) && !student.group.toLowerCase().includes(q)) return; // Search Filter
+
+        const fee = calculateStudentFee(student);
+        let statusClass = student.status === 'active' ? 'status-active' : student.status === 'new' ? 'status-new' : 'status-left';
+        let statusKey = student.status === 'active' ? 'stat_active' : student.status === 'new' ? 'stat_joined' : 'stat_left';
+        let missedPenalty = isFixedMode && student.attended < student.totalPossible && !student.joinedMidMonth && !student.leftEarly;
+
+        let tr = document.createElement('tr');
+        
+        let actionCell = `<span class="text-muted" style="font-size:0.8rem">Waiting</span>`;
+        if (student.balance > 0) {
+            actionCell = `<span class="badge" style="background:var(--success-color); color:white">${t('paid')}</span>`;
+        } else if (isAdmin && student.balance === 0) {
+            actionCell = `<button class="btn btn-success action-btn" onclick="makePayment(${index}, ${fee})">${t('btn_pay')}</button>`;
+        }
+
+        tr.innerHTML = `
+            <td>
+                <div class="student-info">
+                    <span class="student-name">${student.name}</span>
+                    <span class="student-sub">ID: ${(student.id).toString().padStart(3, '0')}</span>
+                </div>
+            </td>
+            <td>${student.group}</td>
+            <td>
+                <div class="attendance-controls">
+                    <button class="att-btn" onclick="updateAttendance(${index}, -1)" ${student.attended <= 0 ? 'disabled' : ''}>-</button>
+                    <strong>${student.attended} / ${student.totalPossible}</strong>
+                    <button class="att-btn" onclick="updateAttendance(${index}, 1)" ${student.attended >= student.totalPossible ? 'disabled' : ''}>+</button>
+                </div>
+            </td>
+            <td><span class="status-badge ${statusClass}">${t(statusKey)}</span></td>
+            <td class="text-right">
+                <span class="fee-calc ${missedPenalty ? 'missed' : ''}">${formatMoney(fee)}</span>
+            </td>
+            <td class="text-right">
+                <span class="balance-account ${student.balance > 0 ? 'paid' : ''}">${formatMoney(student.balance)}</span>
+            </td>
+            <td class="text-center">${actionCell}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+window.updateAttendance = function(index, delta) {
+    let s = students[index]; let newVal = s.attended + delta;
+    if (newVal >= 0 && newVal <= s.totalPossible) {
+        s.attended = newVal; renderTable(); updateStats();
+    }
+}
+
+window.makePayment = function(index, amount) {
+    if(!isAdmin) return; // Only admin
+    students[index].balance = amount; // Sets balance to calculated fee
+    renderTable();
+}
+
+function updateStats() {
+    let expected = 0; let actual = 0;
+    students.forEach(s => {
+        let exp = FIXED_MONTHLY_FEE;
+        if(s.joinedMidMonth || s.leftEarly) exp = s.totalPossible * PER_LESSON_FEE;
+        expected += exp;
+        actual += calculateStudentFee(s);
+    });
+    
+    expectedEl.textContent = formatMoney(expected);
+    actualEl.textContent = formatMoney(actual);
+    let variance = expected - actual;
+    
+    if (variance === 0) {
+        varianceAlertEl.style.color = 'var(--success-color)'; varianceAlertEl.style.background = 'rgba(16, 185, 129, 0.1)'; varianceAlertEl.style.borderColor = 'rgba(16, 185, 129, 0.2)';
+        varianceAlertEl.innerHTML = `<span data-i18n="diff">${t('diff')}</span> <b style="color:var(--success-color)">0 UZS</b> <span data-i18n="matched">${t('matched')}</span>`;
+    } else {
+        varianceAlertEl.style.color = 'var(--warning-color)'; varianceAlertEl.style.background = 'rgba(245, 158, 11, 0.1)'; varianceAlertEl.style.borderColor = 'rgba(245, 158, 11, 0.2)';
+        varianceAlertEl.innerHTML = `<span data-i18n="unrealized">${t('unrealized')}</span> <b style="color:var(--danger-color)">-${formatMoney(variance)}</b>`;
+    }
+}
+
+// Events
+searchInput.addEventListener('input', renderTable);
+
+adminToggle.addEventListener('change', (e) => {
+    isAdmin = e.target.checked;
+    adminLabel.classList.toggle('active', isAdmin);
+    searchBarContainer.classList.toggle('active', isAdmin);
+    if(!isAdmin) { searchInput.value = ''; } // Clear search if admin leaves
+    renderTable(); // Re-render to show/hide pay buttons and search results
+});
+
+langSelect.addEventListener('change', (e) => { currentLang = e.target.value; applyTranslations(); });
+themeToggle.addEventListener('click', () => { document.body.classList.toggle('light-mode'); themeToggle.innerHTML = document.body.classList.contains('light-mode') ? "<i class='bx bx-moon'></i>" : "<i class='bx bx-sun'></i>"; });
+
+modeToggle.addEventListener('change', (e) => {
+    e.preventDefault(); pendingModeChange = e.target.checked; modeToggle.checked = !pendingModeChange;
+    newModeText.textContent = pendingModeChange ? t("fixed_monthly") : t("per_attendance");
+    modal.classList.add('active');
+});
+
+btnCancelMode.addEventListener('click', () => { modal.classList.remove('active'); pendingModeChange = null; });
+btnConfirmMode.addEventListener('click', () => {
+    isFixedMode = pendingModeChange; modeToggle.checked = isFixedMode;
+    const labels = document.querySelectorAll('.toggle-label');
+    if (isFixedMode) { labels[0].classList.remove('active'); labels[1].classList.add('active'); modeBadge.textContent = t("fixed_monthly"); modeBadge.style.color = "var(--primary-color)"; modeBadge.style.background = "rgba(59, 130, 246, 0.2)"; }
+    else { labels[1].classList.remove('active'); labels[0].classList.add('active'); modeBadge.textContent = t("per_attendance"); modeBadge.style.color = "var(--warning-color)"; modeBadge.style.background = "rgba(245, 158, 11, 0.2)"; }
+    modal.classList.remove('active'); renderTable(); updateStats();
+});
+
+btnReset.addEventListener('click', () => { students = generateFakeStudents(50); renderTable(); updateStats(); });
+
+// ==== AI Assistant ==== //
+assistantAvatar.addEventListener('click', () => {
+    assistantBubble.classList.toggle('active');
+    astNotif.classList.add('hidden');
+});
+
+closeAssistant.addEventListener('click', () => { assistantBubble.classList.remove('active'); });
+
+function addChatMessage(text, isUser) {
+    const msg = document.createElement('div');
+    msg.className = `chat-message ${isUser ? 'user-msg' : 'bot-msg'}`;
+    msg.innerText = text;
+    astChatBody.appendChild(msg);
+    astChatBody.scrollTop = astChatBody.scrollHeight;
+}
+
+astBtnExplain.addEventListener('click', () => { addChatMessage(isFixedMode ? t("ast_explain_fixed") : t("ast_explain_per"), false); });
+astBtnStats.addEventListener('click', () => { 
+    if (varianceAlertEl.innerHTML.includes('0 UZS')) addChatMessage(t("ast_analysis_good"), false); 
+    else addChatMessage(t("ast_analysis_bad"), false); 
+});
+
+function handleAiInput() {
+    const text = astInput.value.trim().toLowerCase();
+    if(!text) return;
+    addChatMessage(astInput.value, true);
+    astInput.value = '';
+
+    // Simulate typing
+    const typing = document.createElement('div');
+    typing.className = 'chat-message bot-msg typing-indicator';
+    typing.innerText = "Typing...";
+    astChatBody.appendChild(typing);
+    astChatBody.scrollTop = astChatBody.scrollHeight;
+
+    setTimeout(() => {
+        typing.remove();
+        if (text.includes('search') || text.includes('qidir') || text.includes('поиск')) {
+            addChatMessage(t("ast_ans_search"), false);
+        } else if (text.includes('pay') || text.includes('to\'la') || text.includes('оплат')) {
+            addChatMessage(t("ast_ans_pay"), false);
+        } else {
+            addChatMessage(t("ast_ans_default"), false);
+        }
+    }, 800);
+}
+
+astSendBtn.addEventListener('click', handleAiInput);
+astInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleAiInput(); });
+
+init();
+
+</script>
+</body>
+</html>

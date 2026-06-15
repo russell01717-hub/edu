@@ -1,0 +1,132 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.kok{
+    width: 507px;
+    height: 100%;
+    background: green;
+    position: absolute;
+    left: 67%;
+}
+
+.img{
+    position: absolute;
+    right: 18vh;
+    bottom: 0vh;
+    border-radius: 25px;
+    height: 600px;
+    width: 650px;
+}
+
+.f1{
+    position: relative;
+    top: 1vh;
+    left: 10vh;
+    font-size: 40px;
+}
+
+.f2{
+    position: relative;
+    bottom: 3vh;
+    left: 30%;
+    font-size: 20px;
+    display: flex;
+    gap: 30px;
+}
+
+.f2-1{
+    text-decoration: none;
+    color: gray;
+}
+
+.f2-2{
+    text-decoration: none;
+    color: gray;
+}
+
+.f2-3{
+    text-decoration: none;
+    color: gray;
+}
+
+.f2-4{
+    text-decoration: none;
+    color: gray;
+}
+
+.f2-5{
+    text-decoration: none;
+    color: gray;
+}
+
+.f4-1{
+    width: 150px;
+    height: 50px;
+    background: white;
+    position: relative;
+    bottom: 7vh;
+    left: 85%;
+    border-radius: 10px;
+    border: none;
+    font-size: 20px;
+}
+
+.f4-2{
+    width: 150px;
+    height: 50px;
+    background: green;
+    position: relative;
+    bottom: 7vh;
+    left: 60%;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    font-size: 20px;
+}
+
+.f5{
+    position: relative;
+    top: 10vh;
+    left: 10vh;
+    font-size: 40px;
+}
+
+.f5-1{
+    text-transform: capitalize;
+}
+
+.f5-2{
+    font-size: 30px;
+    color: gray;
+    position: relative;
+    top: 2vh;
+
+}
+
+.f6{
+    width: 200px;
+    height: 50px;
+    background: orangered;
+    position: relative;
+    top: 20vh;
+    left: 10vh;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    font-size: 20px;
+}
+
+.f7{
+    width: 200px;
+    height: 50px;
+    background: white;
+    position: relative;
+    top: 20vh;
+    left: 15vh;
+    border-radius: 10px;
+    border: none;
+    font-size: 20px;
+}

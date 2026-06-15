@@ -1,0 +1,2011 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background: linear-gradient(to Right,#6974DC,#7355B0);
+}
+
+.p1{
+    width: 100%;
+    height: 80px;
+    background-color: #6F60BF;
+    
+}
+
+.p2{
+    width: 130px;
+    height: 130px;
+    position: absolute;
+    left: 10vh;
+    bottom: 85vh;
+}
+
+.p3{
+    position: absolute;
+    top: 4vh;
+    left: 50vh;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    gap: 130px;
+    
+
+}
+
+.pp1{
+    text-decoration: none;
+    color: white;
+    font-size: 25px;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+    transition-delay: 0;
+}
+
+.pp1:hover{
+    color: #0BCEFA;
+    text-decoration: underline ;
+    transform: translateY(-5px);
+    transition-duration: 2s;
+}
+
+.pp3{
+    text-decoration: none;
+    color: white;
+    font-size: 25px;
+}
+
+@media (max-width: 768px){
+    .p3{
+        flex-direction: column;
+        width: 100px;
+        height: 50px;
+    }
+}
+
+.p4{
+    padding: 7px 40px;
+    color: white;
+    background: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(15px); 
+    -webkit-backdrop-filter: blur(15px);    
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left: 70%;
+    top: 2.3vh;
+    border-radius: 10px;
+
+}
+
+.pp4{
+    position: relative;
+    bottom: 1vh;
+}
+
+.p5{
+    padding: 15px 40px;
+    color: white;
+    background-color: #0BCEFA;
+    border-radius: 10px;
+    position: relative;
+    left: 81%;
+    top: 2vh;
+}
+
+.card2{
+    width: 700px;
+    height: 400px;
+    background: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(15px); 
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    color: white;
+    position: relative;
+    left: 20vh;
+    top: 20vh;
+}
+
+@media (max-width: 768px){
+    .card2{
+        flex-direction: column;
+        width: 100px;
+        height: 50px;
+    }
+}
+
+.ca1{
+    position: relative;
+    top: 5vh;
+    font-size: 45px;
+}
+
+@media (max-width: 768px){
+    .ca1{
+        flex-direction: column;
+        width: 100px;
+        height: 50px;
+    }
+}
+
+.ca2{
+    position: relative;
+    top: 5vh;
+    font-size: 20px;
+}
+
+@media (max-width: 768px){
+    .ca2{
+        flex-direction: column;
+        width: 100px;
+        height: 50px;
+    }
+}
+
+.ca3{
+    width: 50px;
+    height: 40px;
+    position: absolute;
+    left: 0.7vh;
+    top: 1vh;
+}
+
+@media (max-width: 768px){
+    .ca3{
+        flex-direction: column;
+        width: 100px;
+        height: 50px;
+    }
+}
+
+.m1{
+    background: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(15px); 
+    -webkit-backdrop-filter: blur(15px); 
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    width: 60PX;
+    height: 60PX;
+    position: relative;
+    left: 25vh;
+    top: 10vh;
+}
+
+@media (max-width: 768px){
+    .m1{
+        flex-direction: column;
+    }
+}
+
+.s2{
+    
+    width: 50px;
+    height: 40px;
+    position: absolute;
+    left: 0.7vh;
+    top: 1vh;
+}
+.s1{
+    background: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(15px); 
+    -webkit-backdrop-filter: blur(15px); 
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    width: 60PX;
+    height: 60PX;
+    position: relative;
+    left: 38vh;
+    top: 1vh;
+
+}
+
+.w2{
+    
+    width: 50px;
+    height: 40px;
+    position: absolute;
+    left: 0.7vh;
+    top: 1vh;
+}
+.w1{
+    background: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(15px); 
+    -webkit-backdrop-filter: blur(15px); 
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    width: 60PX;
+    height: 60PX;
+    position: relative;
+    left: 51vh;
+    bottom: 7.5vh;
+
+}
+
+.o2{
+    
+    width: 50px;
+    height: 40px;
+    position: absolute;
+    left: 0.7vh;
+    top: 1vh;
+}
+.o1{
+    background: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(15px); 
+    -webkit-backdrop-filter: blur(15px); 
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    width: 60PX;
+    height: 60PX;
+    position: relative;
+    left: 63vh;
+    bottom: 16vh;
+
+}
+
+.f1{
+    width: 350px;
+    height: 600px;
+    background-color: white;
+    position: absolute;
+    left: 130vh;
+    top: 20vh;
+    border-radius: 25px;
+}
+
+.f2{
+    width: 70px;
+    height: 70px;
+    position: absolute;
+    left: 35%;
+    top: 7vh;
+    border-radius: 20px;
+}
+
+.f3{
+    
+    position: absolute;
+    top: 20vh;
+    left: 10%;
+
+}
+
+.f4{
+    position: absolute;
+    top: 28vh;
+    left: 9%;
+}
+
+.f5{
+    position: absolute;
+    top: 38vh;
+    left: 5vh;
+    width: 270px;
+    height: 50px;
+    border-radius: 10px;
+}
+
+.f6{
+    position: absolute;
+    top: 50vh;
+    left: 5vh;
+    width: 270px;
+    height: 50px;
+    border-radius: 10px;
+}
+
+.f7{
+    position: absolute;
+    top: 65vh;
+    left: 5vh;
+}
+
+.f8{
+    position: absolute;
+    top: 64vh;
+    left: 9vh;
+}
+
+.f9{
+    width: 270px;
+    height: 50px;
+    border-radius: 10px;
+    position: absolute;
+    top: 75vh;
+    left: 5vh;
+    color: white;
+    background-color: #0BCEFA;
+    border: none;
+}
+
+.c1{
+    background-color: #E9EEF4;
+    width: 100%;
+    position: relative;
+    top: 40vh;
+    height: 1700px;
+}
+
+.c2{
+    position: absolute;
+    left: 30%;
+    top: 15vh;
+    color: #6A6CD0;
+    font-size: 50px;
+}
+
+.c3{
+    background-color: white;
+    width: 400px;
+    height: 300px;
+    border-radius: 20px;
+    position: absolute;
+    left: 15vh;
+    top: 40vh;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+    transition-delay: 0;
+    
+}
+
+.c3:hover{
+    transform: translateY(-50px);
+}
+
+
+
+
+.shox{
+    font-size: 50px;
+    position: absolute;
+    left: 5px;
+    top: 7px;
+}
+
+.shox1{
+    background-color: #6C6CD0;
+    width: 70px;
+    height: 70px;
+    border-radius: 10px;
+    position: absolute;
+    top: 5vh;
+    left: 5vh;
+}
+
+.c4{
+    position: absolute;
+    left: 5vh;
+    top: 20vh;
+}
+
+.c5{
+    position: absolute;
+    top: 30vh;
+    left: 5vh;
+    font-size: 20px;
+    color: gray;
+}
+
+.c6{
+    background-color: white;
+    width: 400px;
+    height: 300px;
+    border-radius: 20px;
+    position: absolute;
+    left: 80vh;
+    top: 40vh;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+    transition-delay: 0;
+}
+
+.c6:hover{
+    transform: translateY(-50px);
+}
+
+.shox2{
+    font-size: 50px;
+    position: absolute;
+    left: 5px;
+    top: 7px;
+}
+
+.c7{
+    background-color: #F376B6;
+    width: 70px;
+    height: 70px;
+    border-radius: 10px;
+    position: absolute;
+    top: 5vh;
+    left: 5vh;
+}
+
+.c9{
+    position: absolute;
+    left: 5vh;
+    top: 20vh;
+}
+
+.c10{
+    position: absolute;
+    left: 5vh;
+    top: 30vh;
+    font-size: 20px;
+    color: gray;
+}
+
+.c12{
+    background-color: white;
+    width: 400px;
+    height: 300px;
+    border-radius: 20px;
+    position: absolute;
+    left: 65vh;
+    top: 0vh;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+    transition-delay: 0;
+}
+
+.c12:hover{
+    transform: translateY(-50px);
+}
+
+.c11{
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    left: 8px;
+    top: 5px;
+}
+
+.c13{
+    background-color: #24D2FE;
+    width: 70px;
+    height: 70px;
+    border-radius: 10px;
+    position: absolute;
+    top: 5vh;
+    left: 5vh;
+}
+
+.c14{
+    position: absolute;
+    top: 20vh;
+    left: 5vh;
+}
+
+.c15{
+    position: absolute;
+    left: 5vh;
+    top: 30vh;
+    font-size: 20px;
+    color: gray;
+}
+
+.c16{
+    background: linear-gradient(to Right,#00CBF7,#00B2E1);
+    width: 650px;
+    height: 450px;
+    border-radius: 15px;
+    position: absolute;
+    top: 60vh;
+    right: 30vh;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+    transition-delay: 0;
+}
+
+.c17:hover{
+    transform: translateY(-50px);
+}
+
+.c20{
+    font-size: 50px;
+    position: absolute;
+    left: 3vh;
+    top: 5vh;
+    color: white;
+
+}
+
+.c17{
+    position: absolute;
+    left: 14vh;
+    top: 5vh;
+    color: white;
+}
+
+.c18{
+    position: absolute;
+    left: 5vh;
+    top: 17vh;
+    color: white;
+    font-size: 20px;
+}
+
+.c19{
+    width: 90%;
+    height: 55px;
+    position: absolute;
+    top: 70%;
+    left: 5vh;
+    border-radius: 20px;
+    border: none;
+    background: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(15px); 
+    -webkit-backdrop-filter: blur(15px); 
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+
+.c21{
+    background: linear-gradient(to Right,#5F6F85,#536177);
+    width: 650px;
+    height: 450px;
+    border-radius: 15px;
+    position: absolute;
+    top: 60vh;
+    left: 30vh;
+}
+
+.c22{
+    color: white;
+    font-size: 50px;
+    position: absolute;
+    top: 5vh;
+    left: 3vh;
+}
+
+.c23{
+    color: white;
+    position: absolute;
+    left: 17vh;
+    top: 7vh;
+}
+
+.c24{
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    left: 3vh;
+    top: 17vh;
+}
+
+.c25{
+    color: white;
+    display: flex;
+    gap: 30px;
+    font-size: 40px;
+    position: absolute;
+    left: 3vh;
+    top: 30vh;
+}
+
+.c26{
+    width: 90%;
+    height: 55px;
+    position: absolute;
+    top: 70%;
+    left: 5vh;
+    border-radius: 20px;
+    border: none;
+    background: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(15px); 
+    -webkit-backdrop-filter: blur(15px); 
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.c27{
+    position: absolute;
+    top: 175vh;
+    text-align: center;
+    left: 39vh;
+    color: gray;
+}
+
+.c28{
+    width: 45vh;
+    height: 27vh;
+    border-radius: 15px;
+    position: absolute;
+    top: 195vh;
+    left: 30vh;
+    background-color: white;
+}
+
+.c29{
+    font-size: 60px;
+    color: #00D4FF;
+    position: absolute;
+    left: 12vh;
+    top: 5vh;
+}
+
+.c30{
+    font-size: 20px;
+    text-align: center;
+    position: absolute;
+    top: 17vh;
+    left: 4vh;
+}
+
+.c31{
+    width: 45vh;
+    height: 27vh;
+    border-radius: 15px;
+    position: absolute;
+    top: 195vh;
+    left: 80vh;
+    background-color: white;
+}
+
+.c32{
+    font-size: 60px;
+    color: #667EEA;
+    position: absolute;
+    left: 12vh;
+    top: 5vh;
+}
+
+.c33{
+    font-size: 20px;
+    text-align: center;
+    position: absolute;
+    top: 17vh;
+    left: 4vh;
+}
+
+.c34{
+    width: 45vh;
+    height: 27vh;
+    border-radius: 15px;
+    position: absolute;
+    top: 195vh;
+    left: 130vh;
+    background-color: white;
+}
+
+.c35{
+    font-size: 60px;
+    color: #F5576C;
+    position: absolute;
+    left: 12vh;
+    top: 5vh;
+}
+
+.c36{
+    font-size: 20px;
+    text-align: center;
+    position: absolute;
+    top: 17vh;
+    left: 4vh;
+}
+
+.c37{
+    background: linear-gradient(to Right,#00D0FC,#00ADDD);
+    width: 100%;
+    height: 1500px;
+    position: absolute;
+    top: 233vh;
+}
+
+.c38{
+    color: white;
+    font-size: 50px;
+    position: absolute;
+    left: 30vh;
+    top: 15vh;
+}
+
+.c42{
+    width: 400px;/* card1*/
+    height: 350px;
+    background-color: white;
+    border-radius: 15px;
+    position: absolute;
+    top: 30vh;
+    left: 10vh;
+}
+
+.c39{
+    font-size: 65px;
+    color: white;
+    position: absolute;
+    top: 1vh;
+    left: 0.5vh;
+    
+}
+
+.c43{
+    background: linear-gradient(to Right,#00ADFF,#008FFF);/* rasm orqa fon*/
+    width: 80px;
+    height: 80px;
+    border-radius: 5px;
+    position: absolute;
+    top: 5vh;
+    left: 5vh;
+}
+
+.c40{
+    position: absolute;/* 1yozuv*/
+    left: 5vh;
+    top: 20vh;
+}
+
+.c41{
+    position: absolute;/* 2 yozuv*/
+    left: 5vh;
+    top: 33vh;
+    font-size: 18px;
+    color: gray;
+
+}
+
+.c47{
+    width: 400px;/* card2*/
+    height: 350px;
+    background-color: white;
+    border-radius: 15px;
+    position: absolute;
+    top: 263vh;
+    left: 80vh;
+}
+
+.c46{
+    background: linear-gradient(to Right,#00ADFF,#008FFF);/* rasm orqa fon*/
+    width: 80px;
+    height: 80px;
+    border-radius: 5px;
+    position: absolute;
+    top: 5vh;
+    left: 5vh; 
+}
+
+.c48{
+    font-size: 65px;
+    position: absolute;
+    top: 1vh;
+    color: white;
+    
+}
+
+.c44{
+    position: absolute;/* 1yozuv*/
+    left: 5vh;
+    top: 20vh;
+}
+
+.c45{
+    position: absolute;/* 2 yozuv*/
+    left: 5vh;
+    top: 33vh;
+    font-size: 18px;
+    color: gray;
+}
+
+.c50{
+    width: 400px;/* card4*/
+    height: 350px;
+    background-color: white;
+    border-radius: 15px;
+    position: absolute;
+    top: 263vh;
+    left: 150vh;
+}
+
+.c51{
+    background: linear-gradient(to Right,#00ADFF,#008FFF);/* rasm orqa fon*/
+    width: 80px;
+    height: 80px;
+    border-radius: 5px;
+    position: absolute;
+    top: 5vh;
+    left: 5vh; 
+}
+
+.c52{
+    font-size: 65px;
+    position: absolute;
+    top: 1vh;
+    color: white;
+}
+
+.c53{
+    position: absolute;/* 1yozuv*/
+    left: 5vh;
+    top: 20vh;
+}
+
+.c54{
+    position: absolute;/* 2 yozuv*/
+    left: 5vh;
+    top: 33vh;
+    font-size: 18px;
+    color: gray;
+}
+
+.c55{
+    width: 400px;/* card5*/
+    height: 350px;
+    background-color: white;
+    border-radius: 15px;
+    position: absolute;
+    top: 325vh;
+    left: 10vh;
+}
+
+.c56{
+    background: linear-gradient(to Right,#00ADFF,#008FFF);/* rasm orqa fon*/
+    width: 80px;
+    height: 80px;
+    border-radius: 5px;
+    position: absolute;
+    top: 5vh;
+    left: 5vh; 
+}
+
+.c57{
+    font-size: 65px;
+    position: absolute;
+    top: 1vh;
+    color: white;
+}
+
+.c58{
+    position: absolute;/* 1yozuv*/
+    left: 5vh;
+    top: 20vh;
+}
+
+.c59{
+    position: absolute;/* 2 yozuv*/
+    left: 5vh;
+    top: 33vh;
+    font-size: 18px;
+    color: gray;
+}
+
+.c60{
+    width: 400px;/* card6*/
+    height: 350px;
+    background-color: white;
+    border-radius: 15px;
+    position: absolute;
+    top: 325vh;
+    left: 80vh;
+}
+
+.c61{
+    background: linear-gradient(to Right,#00ADFF,#008FFF);/* rasm orqa fon*/
+    width: 80px;
+    height: 80px;
+    border-radius: 5px;
+    position: absolute;
+    top: 5vh;
+    left: 5vh; 
+}
+
+.c62{
+    font-size: 65px;
+    position: absolute;
+    top: 1vh;
+    color: white;
+}
+
+.c63{
+    position: absolute;/* 1yozuv*/
+    left: 5vh;
+    top: 20vh;
+    font-size: 25px;
+}
+
+.c64{
+    position: absolute;/* 2 yozuv*/
+    left: 5vh;
+    top: 33vh;
+    font-size: 18px;
+    color: gray;
+}
+
+.c65{
+    width: 400px;/* card6*/
+    height: 350px;
+    background-color: white;
+    border-radius: 15px;
+    position: absolute;
+    top: 325vh;
+    left: 150vh;
+}
+
+.c66{
+    background: linear-gradient(to Right,#00ADFF,#008FFF);/* rasm orqa fon*/
+    width: 80px;
+    height: 80px;
+    border-radius: 5px;
+    position: absolute;
+    top: 5vh;
+    left: 5vh; 
+}
+
+.c67{
+    font-size: 65px;
+    position: absolute;
+    top: 1vh;
+    color: white;
+    
+}
+
+.c68{
+    position: absolute;/* 1yozuv*/
+    left: 5vh;
+    top: 20vh;
+    font-size: 25px;
+}
+
+.c69{
+    position: absolute;/* 2 yozuv*/
+    left: 5vh;
+    top: 33vh;
+    font-size: 18px;
+    color: gray;
+}
+
+.c70{
+    background: linear-gradient(to Right,#607CDE,#7352AC);
+    width: 100%;
+    height: 1400px;
+    position: absolute;
+    top: 520vh;
+}
+
+.c71{
+    width: 400px;
+    height: 250px;
+    background: rgba(255, 255, 255, 0.1); /* shaffof fon */
+    backdrop-filter: blur(15px); /* orqani xiralashtiradi */
+    -webkit-backdrop-filter: blur(15px); /* Safari uchun */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left: 18vh;
+    top: 30vh;
+    border-radius: 15px;
+    color: white;
+}
+
+.c72{
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(to Right,#15C2FB,#3CA1F2);
+    border-radius: 5px;
+    position: absolute;
+    left: 3vh;
+    top: 3vh;
+}
+
+.c73{
+    font-size: 25px;
+    position: absolute;
+    top: 1.5vh;
+    left:1vh ;
+}
+
+.c74{
+    position: absolute;
+    left: 3vh;
+    top: 13vh;
+    font-size: 18px;
+    color: white;
+}
+
+.c75{
+    position: absolute;
+    left: 3vh;
+    top: 18vh;
+    color: white;
+}
+
+.c76{
+    width: 60px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.1); /* shaffof fon */
+    backdrop-filter: blur(15px); /* orqani xiralashtiradi */
+    -webkit-backdrop-filter: blur(15px); /* Safari uchun */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left: 3vh;
+    top: 30vh;
+    border-radius: 15px;
+}
+
+.c78{
+    width: 400px;
+    height: 250px;
+    background: rgba(255, 255, 255, 0.1); /* shaffof fon */
+    backdrop-filter: blur(15px); /* orqani xiralashtiradi */
+    -webkit-backdrop-filter: blur(15px); /* Safari uchun */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left:83vh;
+    top: 30vh;
+    border-radius: 15px;
+    color: white;
+}
+
+.c79{
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(to Right,#15C2FB,#3CA1F2);
+    border-radius: 5px;
+    position: absolute;
+    left: 3vh;
+    top: 3vh;
+}
+
+.c80{
+    font-size: 25px;
+    position: absolute;
+    top: 1.5vh;
+    left:1vh ;
+}
+
+.c81{
+    position: absolute;
+    left: 3vh;
+    top: 13vh;
+    font-size: 18px;
+    color: white;
+}
+
+.c82{
+    position: absolute;
+    left: 3vh;
+    top: 18vh;
+    color: white;
+}
+
+.c83{
+    width: 60px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.1); /* shaffof fon */
+    backdrop-filter: blur(15px); /* orqani xiralashtiradi */
+    -webkit-backdrop-filter: blur(15px); /* Safari uchun */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left: 3vh;
+    top: 30vh;
+    border-radius: 15px;
+}
+
+.c84{
+    width: 400px;
+    height: 250px;
+    background: rgba(255, 255, 255, 0.1); /* shaffof fon */
+    backdrop-filter: blur(15px); /* orqani xiralashtiradi */
+    -webkit-backdrop-filter: blur(15px); /* Safari uchun */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left:148vh;
+    top: 30vh;
+    border-radius: 15px;
+    color: white;
+}
+
+.c85{
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(to Right,#15C2FB,#3CA1F2);
+    border-radius: 5px;
+    position: absolute;
+    left: 3vh;
+    top: 3vh;
+}
+
+.c86{
+    font-size: 25px;
+    position: absolute;
+    top: 1.5vh;
+    left:1vh ;
+}
+
+.c87{
+    position: absolute;
+    left: 3vh;
+    top: 13vh;
+    font-size: 18px;
+    color: white;
+}
+
+.c88{
+    position: absolute;
+    left: 3vh;
+    top: 18vh;
+    color: white;
+}
+
+.c89{
+    width: 60px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.1); /* shaffof fon */
+    backdrop-filter: blur(15px); /* orqani xiralashtiradi */
+    -webkit-backdrop-filter: blur(15px); /* Safari uchun */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left: 3vh;
+    top: 30vh;
+    border-radius: 15px;
+}
+
+.c90{
+    width: 400px;
+    height: 250px;
+    background: rgba(255, 255, 255, 0.1); /* shaffof fon */
+    backdrop-filter: blur(15px); /* orqani xiralashtiradi */
+    -webkit-backdrop-filter: blur(15px); /* Safari uchun */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left:18vh;
+    top: 73vh;
+    border-radius: 15px;
+    color: white;
+}
+
+.c91{
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(to Right,#15C2FB,#3CA1F2);
+    border-radius: 5px;
+    position: absolute;
+    left: 3vh;
+    top: 3vh;
+}
+
+.c92{
+    font-size: 25px;
+    position: absolute;
+    top: 1.5vh;
+    left:1vh ;
+}
+
+.c93{
+    position: absolute;
+    left: 3vh;
+    top: 13vh;
+    font-size: 18px;
+    color: white;
+}
+
+.c94{
+    position: absolute;
+    left: 3vh;
+    top: 18vh;
+    color: white;
+}
+
+.c95{
+    width: 60px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.1); /* shaffof fon */
+    backdrop-filter: blur(15px); /* orqani xiralashtiradi */
+    -webkit-backdrop-filter: blur(15px); /* Safari uchun */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left: 3vh;
+    top: 30vh;
+    border-radius: 15px;
+}
+
+.c96{
+    width: 400px;
+    height: 250px;
+    background: rgba(255, 255, 255, 0.1); /* shaffof fon */
+    backdrop-filter: blur(15px); /* orqani xiralashtiradi */
+    -webkit-backdrop-filter: blur(15px); /* Safari uchun */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left:83vh;
+    top: 73vh;
+    border-radius: 15px;
+    color: white;
+}
+
+.c97{
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(to Right,#15C2FB,#3CA1F2);
+    border-radius: 5px;
+    position: absolute;
+    left: 3vh;
+    top: 3vh;
+}
+
+.c98{
+    font-size: 25px;
+    position: absolute;
+    top: 1.5vh;
+    left:1vh ;
+}
+
+.c99{
+    position: absolute;
+    left: 3vh;
+    top: 13vh;
+    font-size: 18px;
+    color: white;
+}
+
+.c100{
+    position: absolute;
+    left: 3vh;
+    top: 18vh;
+    color: white;
+}
+
+.c101{
+    width: 60px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.1); /* shaffof fon */
+    backdrop-filter: blur(15px); /* orqani xiralashtiradi */
+    -webkit-backdrop-filter: blur(15px); /* Safari uchun */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left: 3vh;
+    top: 30vh;
+    border-radius: 15px;
+}
+
+.c102{
+    width: 400px;
+    height: 250px;
+    background: rgba(255, 255, 255, 0.1); /* shaffof fon */
+    backdrop-filter: blur(15px); /* orqani xiralashtiradi */
+    -webkit-backdrop-filter: blur(15px); /* Safari uchun */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left:148vh;
+    top: 73vh;
+    border-radius: 15px;
+    color: white;
+}
+
+.c103{
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(to Right,#15C2FB,#3CA1F2);
+    border-radius: 5px;
+    position: absolute;
+    left: 3vh;
+    top: 3vh;
+}
+
+.c104{
+    font-size: 25px;
+    position: absolute;
+    top: 1.5vh;
+    left:1vh ;
+}
+
+.c105{
+    position: absolute;
+    left: 3vh;
+    top: 13vh;
+    font-size: 18px;
+    color: white;
+}
+
+.c106{
+    position: absolute;
+    left: 3vh;
+    top: 18vh;
+    color: white;
+}
+
+.c107{
+    width: 60px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.1); /* shaffof fon */
+    backdrop-filter: blur(15px); /* orqani xiralashtiradi */
+    -webkit-backdrop-filter: blur(15px); /* Safari uchun */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left: 3vh;
+    top: 30vh;
+    border-radius: 15px;
+}
+
+.c108{
+    width: 400px;
+    height: 250px;
+    background: rgba(255, 255, 255, 0.1); /* shaffof fon */
+    backdrop-filter: blur(15px); /* orqani xiralashtiradi */
+    -webkit-backdrop-filter: blur(15px); /* Safari uchun */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left:18vh;
+    top: 117vh;
+    border-radius: 15px;
+    color: white;
+}
+
+.c109{
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(to Right,#15C2FB,#3CA1F2);
+    border-radius: 5px;
+    position: absolute;
+    left: 3vh;
+    top: 3vh;
+}
+
+.c110{
+    font-size: 25px;
+    position: absolute;
+    top: 1.5vh;
+    left:1vh ;
+}
+
+.c111{
+    position: absolute;
+    left: 3vh;
+    top: 13vh;
+    font-size: 18px;
+    color: white;
+}
+
+.c112{
+    position: absolute;
+    left: 3vh;
+    top: 18vh;
+    color: white;
+}
+
+.c113{
+    width: 60px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.1); /* shaffof fon */
+    backdrop-filter: blur(15px); /* orqani xiralashtiradi */
+    -webkit-backdrop-filter: blur(15px); /* Safari uchun */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left: 3vh;
+    top: 30vh;
+    border-radius: 15px;
+}
+
+.c114{
+    width: 400px;
+    height: 250px;
+    background: rgba(255, 255, 255, 0.1); /* shaffof fon */
+    backdrop-filter: blur(15px); /* orqani xiralashtiradi */
+    -webkit-backdrop-filter: blur(15px); /* Safari uchun */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left:83vh;
+    top: 117vh;
+    border-radius: 15px;
+    color: white;
+}
+
+.c115{
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(to Right,#15C2FB,#3CA1F2);
+    border-radius: 5px;
+    position: absolute;
+    left: 3vh;
+    top: 3vh;
+}
+
+.c116{
+    font-size: 25px;
+    position: absolute;
+    top: 1.5vh;
+    left:1vh ;
+}
+
+.c117{
+    position: absolute;
+    left: 3vh;
+    top: 13vh;
+    font-size: 18px;
+    color: white;
+}
+
+.c118{
+    position: absolute;
+    left: 3vh;
+    top: 18vh;
+    color: white;
+}
+
+.c119{
+    width: 60px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.1); /* shaffof fon */
+    backdrop-filter: blur(15px); /* orqani xiralashtiradi */
+    -webkit-backdrop-filter: blur(15px); /* Safari uchun */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left: 3vh;
+    top: 30vh;
+    border-radius: 15px;
+}
+
+.c120{
+    width: 400px;
+    height: 250px;
+    background: rgba(255, 255, 255, 0.1); /* shaffof fon */
+    backdrop-filter: blur(15px); /* orqani xiralashtiradi */
+    -webkit-backdrop-filter: blur(15px); /* Safari uchun */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left:148vh;
+    top: 117vh;
+    border-radius: 15px;
+    color: white;
+}
+
+.c121{
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(to Right,#15C2FB,#3CA1F2);
+    border-radius: 5px;
+    position: absolute;
+    left: 3vh;
+    top: 3vh;
+}
+
+.c122{
+    font-size: 25px;
+    position: absolute;
+    top: 1.5vh;
+    left:1vh ;
+}
+
+.c123{
+    position: absolute;
+    left: 3vh;
+    top: 13vh;
+    font-size: 18px;
+    color: white;
+}
+
+.c124{
+    position: absolute;
+    left: 3vh;
+    top: 18vh;
+    color: white;
+}
+
+.c125{
+    width: 60px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.1); /* shaffof fon */
+    backdrop-filter: blur(15px); /* orqani xiralashtiradi */
+    -webkit-backdrop-filter: blur(15px); /* Safari uchun */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left: 3vh;
+    top: 30vh;
+    border-radius: 15px;
+}
+
+.c126{
+    width: 400px;
+    height: 250px;
+    background: rgba(255, 255, 255, 0.1); /* shaffof fon */
+    backdrop-filter: blur(15px); /* orqani xiralashtiradi */
+    -webkit-backdrop-filter: blur(15px); /* Safari uchun */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left:18vh;
+    top: 160vh;
+    border-radius: 15px;
+    color: white;
+}
+
+.c127{
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(to Right,#15C2FB,#3CA1F2);
+    border-radius: 5px;
+    position: absolute;
+    left: 3vh;
+    top: 3vh;
+}
+
+.c128{
+    font-size: 25px;
+    position: absolute;
+    top: 1.5vh;
+    left:1vh ;
+}
+
+.c129{
+    position: absolute;
+    left: 3vh;
+    top: 13vh;
+    font-size: 18px;
+    color: white;
+}
+
+.c130{
+    position: absolute;
+    left: 3vh;
+    top: 18vh;
+    color: white;
+}
+
+.c131{
+    width: 60px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.1); /* shaffof fon */
+    backdrop-filter: blur(15px); /* orqani xiralashtiradi */
+    -webkit-backdrop-filter: blur(15px); /* Safari uchun */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left: 3vh;
+    top: 30vh;
+    border-radius: 15px;
+}
+
+.c132{
+    width: 400px;
+    height: 250px;
+    background: rgba(255, 255, 255, 0.1); /* shaffof fon */
+    backdrop-filter: blur(15px); /* orqani xiralashtiradi */
+    -webkit-backdrop-filter: blur(15px); /* Safari uchun */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left:83vh;
+    top: 160vh;
+    border-radius: 15px;
+    color: white;
+}
+
+.c133{
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(to Right,#15C2FB,#3CA1F2);
+    border-radius: 5px;
+    position: absolute;
+    left: 3vh;
+    top: 3vh;
+}
+
+.c134{
+    font-size: 25px;
+    position: absolute;
+    top: 1.5vh;
+    left:1vh ;
+}
+
+.c135{
+    position: absolute;
+    left: 3vh;
+    top: 13vh;
+    font-size: 18px;
+    color: white;
+}
+
+.c136{
+    position: absolute;
+    left: 3vh;
+    top: 18vh;
+    color: white;
+}
+
+.c137{
+    width: 60px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.1); /* shaffof fon */
+    backdrop-filter: blur(15px); /* orqani xiralashtiradi */
+    -webkit-backdrop-filter: blur(15px); /* Safari uchun */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left: 3vh;
+    top: 30vh;
+    border-radius: 15px;
+}
+
+.c138{
+    width: 400px;
+    height: 250px;
+    background: rgba(255, 255, 255, 0.1); /* shaffof fon */
+    backdrop-filter: blur(15px); /* orqani xiralashtiradi */
+    -webkit-backdrop-filter: blur(15px); /* Safari uchun */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left:148vh;
+    top: 160vh;
+    border-radius: 15px;
+    color: white;
+}
+
+.c139{
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(to Right,#15C2FB,#3CA1F2);
+    border-radius: 5px;
+    position: absolute;
+    left: 3vh;
+    top: 3vh;
+}
+
+.c140{
+    font-size: 25px;
+    position: absolute;
+    top: 1.5vh;
+    left:1vh ;
+}
+
+.c141{
+    position: absolute;
+    left: 3vh;
+    top: 13vh;
+    font-size: 18px;
+    color: white;
+}
+
+.c142{
+    position: absolute;
+    left: 3vh;
+    top: 18vh;
+    color: white;
+}
+
+.c143{
+    width: 60px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.1); /* shaffof fon */
+    backdrop-filter: blur(15px); /* orqani xiralashtiradi */
+    -webkit-backdrop-filter: blur(15px); /* Safari uchun */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left: 3vh;
+    top: 30vh;
+    border-radius: 15px;
+}
+
+.c77{
+    position: absolute;
+    left: 87vh;
+    font-size: 60px;
+    color: white;
+    top: 10vh;
+}
+
+.c144{
+    background-color: #EFF3F7;
+    width: 100%;
+    height: 1000px;
+    position: absolute;
+    top: 730vh;
+}
+
+.c145{
+    font-size: 50px;
+    color: #6E65C7;
+    position: absolute;
+    top: 10vh;
+    left: 68vh;
+}
+
+.c146{
+    font-size: 23px;
+    color: gray;
+    position: absolute;
+    top: 20vh;
+    left: 72vh;
+}
+
+.c147{
+    width: 400px;
+    height: 330px;
+    background-color: white;
+    border-radius: 20px;
+    position: absolute;
+    left: 10vh;
+    top: 40vh;
+}
+
+.c148{
+    position: absolute;
+    left: 5vh;
+    top: 5vh;
+    color: #FBBF24;
+}
+
+.c149{
+    position: absolute;
+    left: 5vh;
+    top: 13vh;
+    font-size: 18px;
+    font-style: italic;
+    opacity: 0.7;
+}
+
+.c150{
+    border: 1px solid #0d6efd;
+    border-radius: 55px;
+    display: inline-block;
+    position: absolute;
+    left: 5vh;
+    top: 30vh;
+    width: 60px;
+    height: 60px;
+}
+
+.c155{
+    position: absolute;
+    left: 19vh;
+    top: 30vh;
+}
+
+.c153{
+    color: #00B2E1;
+}
+
+.c154{
+    opacity: 0.7;
+}
+
+.c151{
+    font-size: 35px;
+    position: absolute;
+    top: 10px;
+    left: 7px;
+
+}
+
+.c157{
+    width: 90px;
+    height: 25px;
+    border-radius: 15px;
+    background-color: #0AA775;
+    color: white;
+    position: absolute;
+    left: 22vh;
+    top: 10vh;
+    border: none;
+}
+
+.c160{
+    width: 400px;
+    height: 330px;
+    background-color: white;
+    border-radius: 20px;
+    position: absolute;
+    left: 80vh;
+    top: 40vh;
+}
+
+.c161{
+    position: absolute;
+    left: 5vh;
+    top: 5vh;
+    color: #FBBF24;
+}
+
+.c162{
+    position: absolute;
+    left: 5vh;
+    top: 13vh;
+    font-size: 18px;
+    font-style: italic;
+    opacity: 0.7;
+}
+
+.c163{
+    border: 1px solid #0d6efd;
+    border-radius: 55px;
+    display: inline-block;
+    position: absolute;
+    left: 5vh;
+    top: 30vh;
+    width: 60px;
+    height: 60px; 
+}
+
+.c164{
+    font-size: 35px;
+    position: absolute;
+    top: 10px;
+    left: 7px;
+}
+
+.c165{
+    position: absolute;
+    left: 19vh;
+    top: 30vh;
+}
+
+.c167{
+    color: #00B2E1;
+}
+
+.c168{
+    opacity: 0.7;
+}
+
+.c169{
+    width: 90px;
+    height: 25px;
+    border-radius: 15px;
+    background-color: #0AA775;
+    color: white;
+    position: absolute;
+    left: 22vh;
+    top: 10vh;
+    border: none;
+}
+
+.c171{
+    width: 400px;
+    height: 330px;
+    background-color: white;
+    border-radius: 20px;
+    position: absolute;
+    left: 60vh;
+    top: 0vh;
+}
+
+.c172{
+    position: absolute;
+    left: 5vh;
+    top: 5vh;
+    color: #FBBF24;
+}
+
+.c173{
+    position: absolute;
+    left: 5vh;
+    top: 13vh;
+    font-size: 18px;
+    font-style: italic;
+    opacity: 0.7;
+}
+
+.c174{
+    border: 1px solid #0d6efd;
+    border-radius: 55px;
+    display: inline-block;
+    position: absolute;
+    left: 5vh;
+    top: 30vh;
+    width: 60px;
+    height: 60px; 
+}
+
+.c175{
+    font-size: 35px;
+    position: absolute;
+    top: 10px;
+    left: 7px;
+}
+
+.c176{
+    position: absolute;
+    left: 19vh;
+    top: 30vh;
+}
+
+.c177{
+    color: #00B2E1;
+}
+
+.c178{
+    opacity: 0.7;
+}
+
+.c180{
+    width: 90px;
+    height: 25px;
+    border-radius: 15px;
+    background-color: #0AA775;
+    color: white;
+    position: absolute;
+    left: 22vh;
+    top: 10vh;
+    border: none;
+}
+
+.c181{
+    width: 1350px;
+    height: 200px;
+    border-radius: 25px;
+    background: linear-gradient(to Right,#00CEFA,#00A3D5);
+    position: absolute;
+    right: 00vh;
+    top: 70vh;
+}
+
+.c182{
+    font-size: 60px;
+    color: white;
+    position: absolute;
+    left: 20vh;
+    top: 5vh;
+}
+
+.c183{
+    font-size: 25px;
+    color: white;
+    position: absolute;
+    left: 20vh;
+    top: 15vh;
+}
+
+.c184{
+    font-size: 60px;
+    color: white;
+    position: absolute;
+    left: 80vh;
+    top: 5vh;
+
+}
+
+.c185{
+    font-size: 25px;
+    color: white;
+    position: absolute;
+    left: 80vh;
+    top: 15vh;
+}
+
+.c186{
+    font-size: 60px;
+    color: white;
+    position: absolute;
+    left: 150vh;
+    top: 5vh;
+}
+
+.c187{
+    font-size: 25px;
+    color: white;
+    position: absolute;
+    left: 150vh;
+    top: 15vh;
+}
+

@@ -1,0 +1,56 @@
+.p1{
+    position: relative;
+    top: 30vh;
+    left: 110vh;
+}
+
+.p0{
+    position: relative;
+    top: 38vh;
+left: 126vh;
+opacity: 50%;
+}
+
+.p2{
+    position: relative;
+    top: 26vh;
+    left: 110vh;
+    opacity: 50%;
+}
+
+.p3{
+    color: darkgray;
+    position: relative;
+    background-color: black;
+    width: 140px;
+    height: 25px;
+    top: 28vh;
+    left: 110vh;
+
+}
+
+.p4{
+    position: relative;
+    top: 22.5vh;
+    left: 130vh;
+    opacity: 50%;
+
+}
+
+.P8{
+    position: relative;
+    width: 50vh;
+    height: 50vh;
+    left: 40vh;
+}
+
+
+
+
+
+
+
+
+
+
+

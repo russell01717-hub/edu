@@ -1,0 +1,55 @@
+button {
+    padding: 12px 38px;
+    border: none;
+    background-color: blue;
+    color: white;
+    font-size: 15px;
+    font-weight: 800;
+    position: relative;
+    z-index: 0;
+    transition: all 0.3s ease;
+}
+
+button::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    /* top: 0; */
+    width: 0;
+    bottom: 0;
+    height: 10%;
+    background-color: black;
+    z-index: -1;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    border-radius: 10px;
+}
+
+button:hover::before {
+    width: 100%;
+    border-radius: 20px;
+}
+
+/* button::before {
+    content: "Before ";
+    color: red;
+    font-family: 'Times New Roman', Times, serif;
+    border: 2px solid red;
+}
+
+button:after {
+    content: " after";
+    color: red;
+    font-family: 'Times New Roman', Times, serif;
+    border: 2px solid red;
+} */
+
+/* Before va after - elementni oldi va orqa tarafidan yana malumot qoshishdan tashqari uni dizayn uchun ishlatish ham mumkin */
+
+
+body{
+    background: linear-gradient(to Right,#6974DC,#7355B0);
+    background: linear-gradient(to left,white,blue);
+}

@@ -1,0 +1,75 @@
+*{
+padding: 0;
+margin: 0;
+box-sizing: border-box;
+}
+
+.p1{
+    position: absolute;
+    left: 5vh;
+}
+
+.p2{
+    width: 70px;
+    height: 70px;
+    position: absolute;
+    left: 43%;
+    top: 0vh;
+    
+}
+
+.p3{
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    left: 49%;
+    top: 0vh;
+}
+
+.p4{
+    position: absolute;
+    left: 55%;
+    bottom: 12vh;
+}
+
+.p5{
+    position: absolute;
+    left: 80%;
+    bottom: 15vh;
+}
+
+.p6{
+    position: absolute;
+    padding: 10px 30px;
+    background-color: black;
+    color: white;
+    border-radius: 10px;
+    left: 85vh;
+    top: 20vh;
+}
+
+body{
+    background-image: url(https://i.pinimg.com/1200x/b9/2e/35/b92e3538c4dd187b734e78425e363aae.jpg);
+    background-size: cover;
+    
+}
+div{
+    position: absolute;
+    top: 40vh;
+    left: 37%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

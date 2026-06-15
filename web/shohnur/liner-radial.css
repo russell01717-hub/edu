@@ -1,0 +1,172 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    Min-height: 150vh;
+    background: linear-gradient(to top Right,#D16BA5,#86A8E7,#5FFBF1);
+}
+
+.f1{
+    display: flex;
+    gap: 5px;
+    position: absolute;
+    top: 3vh;
+    left: 5vh;
+}
+
+.f11{
+    font-size: 38px;
+    font-size: 38px;
+    color: white;
+
+}
+
+.f2{
+    position: absolute;
+    top: 5vh;
+    left: 60%;
+    display: flex;
+    gap: 20px;
+}
+
+.s2{
+    border: none;
+    text-decoration: none;
+    color: white;
+}
+
+.s1{
+    text-decoration: none;
+    color: white;
+}
+
+.s3{
+    text-decoration: none;
+    color: white;
+}
+
+.s4{
+    text-decoration: none;
+    color: white;
+}
+
+.s5{
+    text-decoration: none;
+    color: white;
+}
+
+.f3{
+    position: absolute;
+    left: 30%;
+    top: 30%;
+    font-size: 40px;
+    color: white;
+}
+
+.f4{
+    position: absolute;
+    left: 40%;
+    top: 37%;
+    color: white;
+    font-size: 25px;
+}
+
+.f5{
+    position: absolute;
+    left: 43%;
+    top: 50%;
+    color: white;
+    font-size: 25px;
+}
+
+.f6{
+    position: absolute;
+    left: 30%;
+    top: 60%;
+    display: flex;
+    gap: 20px;
+
+}
+
+.r1{
+    width: 150px;
+    height: 40px;
+    border-radius: 15px;
+    background-color: #D15BA5;
+    border: none;
+}
+
+.r2{
+    width: 150px;
+    height: 40px;
+    border-radius: 15px;
+    background-color: #86A8E7;
+    border: none;
+}
+
+.r3{
+    width: 150px;
+    height: 40px;
+    border-radius: 15px;
+    background-color: #5FFBF1;
+    border: none;
+}
+
+.f7{
+    width: 150px;
+    height: 40px;
+    border-radius: 15px;
+    background-color: #00C9B7;
+    border: none; 
+    position: absolute;
+    left: 41%;
+    top: 68%;
+    color: white;
+}
+
+.f10{
+    width: 500px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 5px;
+    border-left: solid 3px white;
+    position: absolute;
+    left: 30%;
+    top: 80%;
+}
+
+.d{
+    position: absolute;
+    left: 3vh;
+    top: 3vh;
+    color: white;
+}
+
+.f8{
+    position: absolute;
+    left: 30%;
+    top: 77%;
+    color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
