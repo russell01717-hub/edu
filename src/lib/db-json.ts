@@ -45,9 +45,9 @@ function migrate() {
     const gayrat = data.users.find(u => u.login === "gayrat")
     const shoxali = data.users.find(u => u.login === "shoxali")
     const now = new Date().toISOString()
-    data.groups.push({ id: nextId("groups"), name: "Arab tili 1", description: "Sardor guruhi", pricePerLesson: 50000, days: "Du,Chor,Jum", subject: "arabic", teacherId: sardor?.id || 0, createdAt: now })
-    data.groups.push({ id: nextId("groups"), name: "Arab tili 2", description: "Shoxali guruhi", pricePerLesson: 50000, days: "Du,Chor,Jum", subject: "arabic", teacherId: shoxali?.id || 0, createdAt: now })
-    data.groups.push({ id: nextId("groups"), name: "Ingliz tili 1", description: "G'ayrat guruhi", pricePerLesson: 60000, days: "Se,Pay,Shan", subject: "english", teacherId: gayrat?.id || 0, createdAt: now })
+    data.groups.push({ id: nextId("groups"), name: "Arab tili 1", description: "Sardor guruhi", pricePerLesson: 50000, monthlyFee: 270000, days: "Du,Chor,Jum", subject: "arabic", teacherId: sardor?.id || 0, createdAt: now })
+    data.groups.push({ id: nextId("groups"), name: "Arab tili 2", description: "Shoxali guruhi", pricePerLesson: 50000, monthlyFee: 270000, days: "Du,Chor,Jum", subject: "arabic", teacherId: shoxali?.id || 0, createdAt: now })
+    data.groups.push({ id: nextId("groups"), name: "Ingliz tili 1", description: "G'ayrat guruhi", pricePerLesson: 60000, monthlyFee: 270000, days: "Se,Pay,Shan", subject: "english", teacherId: gayrat?.id || 0, createdAt: now })
   }
   save()
 }
@@ -63,9 +63,9 @@ function reset() {
   const gu = nextId("users"); data.users.push({ id: gu, name: "G'ayrat", login: "gayrat", password: gh, role: "teacher", phone: "+998901234568", createdAt: new Date().toISOString() })
   const xu = nextId("users"); data.users.push({ id: xu, name: "Shoxali", login: "shoxali", password: gh, role: "teacher", phone: "+998901234569", createdAt: new Date().toISOString() })
   const now = new Date().toISOString()
-  data.groups.push({ id: nextId("groups"), name: "Arab tili 1", description: "Sardor guruhi", pricePerLesson: 50000, days: "Du,Chor,Jum", subject: "arabic", teacherId: su, createdAt: now })
-  data.groups.push({ id: nextId("groups"), name: "Arab tili 2", description: "Shoxali guruhi", pricePerLesson: 50000, days: "Du,Chor,Jum", subject: "arabic", teacherId: xu, createdAt: now })
-  data.groups.push({ id: nextId("groups"), name: "Ingliz tili 1", description: "G'ayrat guruhi", pricePerLesson: 60000, days: "Se,Pay,Shan", subject: "english", teacherId: gu, createdAt: now })
+  data.groups.push({ id: nextId("groups"), name: "Arab tili 1", description: "Sardor guruhi", pricePerLesson: 50000, monthlyFee: 270000, days: "Du,Chor,Jum", subject: "arabic", teacherId: su, createdAt: now })
+  data.groups.push({ id: nextId("groups"), name: "Arab tili 2", description: "Shoxali guruhi", pricePerLesson: 50000, monthlyFee: 270000, days: "Du,Chor,Jum", subject: "arabic", teacherId: xu, createdAt: now })
+  data.groups.push({ id: nextId("groups"), name: "Ingliz tili 1", description: "G'ayrat guruhi", pricePerLesson: 60000, monthlyFee: 270000, days: "Se,Pay,Shan", subject: "english", teacherId: gu, createdAt: now })
   save()
 }
 
@@ -109,18 +109,19 @@ export async function getGroup(id: number) {
   if (!g) return null
   return { ...g, studentCount: data.students.filter(s => s.groupId === g.id).length }
 }
-export async function createGroup(name: string, description: string, pricePerLesson: number, days?: string, subject = "", teacherId = 0) {
-  const g = { id: nextId("groups"), name, description, pricePerLesson, days: days || "", subject, teacherId, createdAt: new Date().toISOString() }
+export async function createGroup(name: string, description: string, pricePerLesson: number, days?: string, subject = "", teacherId = 0, monthlyFee = 270000) {
+  const g = { id: nextId("groups"), name, description, pricePerLesson, monthlyFee, days: days || "", subject, teacherId, createdAt: new Date().toISOString() }
   data.groups.push(g); save()
   return g
 }
-export async function updateGroup(id: number, name: string, description: string, pricePerLesson: number, days?: string, subject?: string, teacherId?: number) {
+export async function updateGroup(id: number, name: string, description: string, pricePerLesson: number, days?: string, subject?: string, teacherId?: number, monthlyFee?: number) {
   const g = data.groups.find(x => x.id === id)
   if (!g) return null
   g.name = name; g.description = description; g.pricePerLesson = pricePerLesson
   if (days !== undefined) g.days = days
   if (subject !== undefined) g.subject = subject
   if (teacherId !== undefined) g.teacherId = teacherId
+  if (monthlyFee !== undefined) g.monthlyFee = monthlyFee
   save()
   return g
 }

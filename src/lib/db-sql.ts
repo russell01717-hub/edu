@@ -20,6 +20,7 @@ const sql = postgres(process.env.DATABASE_URL!, {
   try { await sql`ALTER TABLE groups ADD COLUMN IF NOT EXISTS teacher_id INT DEFAULT 0` } catch {}
   try { await sql`ALTER TABLE students ADD COLUMN IF NOT EXISTS start_date TEXT DEFAULT ''` } catch {}
   try { await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS phone TEXT DEFAULT ''` } catch {}
+  try { await sql`ALTER TABLE groups ADD COLUMN IF NOT EXISTS monthly_fee INT DEFAULT 270000` } catch {}
   try {
     const [cnt] = await sql`SELECT COUNT(*)::int as c FROM users`
     if (cnt.c === 0) {
@@ -36,9 +37,9 @@ const sql = postgres(process.env.DATABASE_URL!, {
       const [su] = await sql`SELECT id FROM users WHERE login = 'sardor'`
       const [gu] = await sql`SELECT id FROM users WHERE login = 'gayrat'`
       const [xu] = await sql`SELECT id FROM users WHERE login = 'shoxali'`
-      await sql`INSERT INTO groups (name, description, price_per_lesson, days, subject, teacher_id) VALUES ('Arab tili 1', 'Sardor guruhi', 50000, 'Du,Chor,Jum', 'arabic', ${su?.id || 0})`
-      await sql`INSERT INTO groups (name, description, price_per_lesson, days, subject, teacher_id) VALUES ('Arab tili 2', 'Shoxali guruhi', 50000, 'Du,Chor,Jum', 'arabic', ${xu?.id || 0})`
-      await sql`INSERT INTO groups (name, description, price_per_lesson, days, subject, teacher_id) VALUES ('Ingliz tili 1', 'G''ayrat guruhi', 60000, 'Se,Pay,Shan', 'english', ${gu?.id || 0})`
+      await sql`INSERT INTO groups (name, description, price_per_lesson, days, subject, teacher_id, monthly_fee) VALUES ('Arab tili 1', 'Sardor guruhi', 50000, 'Du,Chor,Jum', 'arabic', ${su?.id || 0}, 270000)`
+      await sql`INSERT INTO groups (name, description, price_per_lesson, days, subject, teacher_id, monthly_fee) VALUES ('Arab tili 2', 'Shoxali guruhi', 50000, 'Du,Chor,Jum', 'arabic', ${xu?.id || 0}, 270000)`
+      await sql`INSERT INTO groups (name, description, price_per_lesson, days, subject, teacher_id, monthly_fee) VALUES ('Ingliz tili 1', 'G''ayrat guruhi', 60000, 'Se,Pay,Shan', 'english', ${gu?.id || 0}, 270000)`
     }
   } catch {}
 })()
@@ -88,7 +89,8 @@ export async function getGroups() {
   `
   return groups.map(g => ({
     id: g.id, name: g.name, description: g.description || "",
-    pricePerLesson: g.price_per_lesson, days: g.days || "",
+    pricePerLesson: g.price_per_lesson, monthlyFee: g.monthly_fee ?? 270000,
+    days: g.days || "",
     subject: g.subject || "", teacherId: g.teacher_id || 0,
     studentCount: g.studentCount,
     createdAt: g.created_at?.toISOString?.() || g.created_at,
@@ -97,22 +99,22 @@ export async function getGroups() {
 export async function getGroup(id: number) {
   const [g] = await sql`SELECT g.*, COUNT(s.id)::int as "studentCount" FROM groups g LEFT JOIN students s ON s.group_id = g.id WHERE g.id = ${id} GROUP BY g.id`
   if (!g) return null
-  return { id: g.id, name: g.name, description: g.description || "", pricePerLesson: g.price_per_lesson, days: g.days || "", subject: g.subject || "", teacherId: g.teacher_id || 0, studentCount: g.studentCount, createdAt: g.created_at?.toISOString?.() || g.created_at }
+  return { id: g.id, name: g.name, description: g.description || "", pricePerLesson: g.price_per_lesson, monthlyFee: g.monthly_fee ?? 270000, days: g.days || "", subject: g.subject || "", teacherId: g.teacher_id || 0, studentCount: g.studentCount, createdAt: g.created_at?.toISOString?.() || g.created_at }
 }
-export async function createGroup(name: string, description: string, pricePerLesson: number, days?: string, subject = "", teacherId = 0) {
+export async function createGroup(name: string, description: string, pricePerLesson: number, days?: string, subject = "", teacherId = 0, monthlyFee = 270000) {
   const [g] = await sql`
-    INSERT INTO groups (name, description, price_per_lesson, days, subject, teacher_id) VALUES (${name}, ${description || ""}, ${pricePerLesson || 0}, ${days || ""}, ${subject}, ${teacherId})
+    INSERT INTO groups (name, description, price_per_lesson, days, subject, teacher_id, monthly_fee) VALUES (${name}, ${description || ""}, ${pricePerLesson || 0}, ${days || ""}, ${subject}, ${teacherId}, ${monthlyFee || 270000})
     RETURNING *
   `
-  return { id: g.id, name: g.name, description: g.description, pricePerLesson: g.price_per_lesson, days: g.days || "", subject: g.subject || "", teacherId: g.teacher_id || 0, createdAt: g.created_at?.toISOString?.() || g.created_at, studentCount: 0 }
+  return { id: g.id, name: g.name, description: g.description, pricePerLesson: g.price_per_lesson, monthlyFee: g.monthly_fee ?? 270000, days: g.days || "", subject: g.subject || "", teacherId: g.teacher_id || 0, createdAt: g.created_at?.toISOString?.() || g.created_at, studentCount: 0 }
 }
-export async function updateGroup(id: number, name: string, description: string, pricePerLesson: number, days?: string, subject?: string, teacherId?: number) {
+export async function updateGroup(id: number, name: string, description: string, pricePerLesson: number, days?: string, subject?: string, teacherId?: number, monthlyFee?: number) {
   const [g] = await sql`
-    UPDATE groups SET name = ${name}, description = ${description || ""}, price_per_lesson = ${pricePerLesson || 0}, days = ${days || ""}, subject = ${subject || ""}, teacher_id = ${teacherId || 0}
+    UPDATE groups SET name = ${name}, description = ${description || ""}, price_per_lesson = ${pricePerLesson || 0}, days = ${days || ""}, subject = ${subject || ""}, teacher_id = ${teacherId || 0}, monthly_fee = ${monthlyFee ?? 270000}
     WHERE id = ${id} RETURNING *
   `
   if (!g) return null
-  return { id: g.id, name: g.name, description: g.description || "", pricePerLesson: g.price_per_lesson, days: g.days || "", subject: g.subject || "", teacherId: g.teacher_id || 0, createdAt: g.created_at?.toISOString?.() || g.created_at }
+  return { id: g.id, name: g.name, description: g.description || "", pricePerLesson: g.price_per_lesson, monthlyFee: g.monthly_fee ?? 270000, days: g.days || "", subject: g.subject || "", teacherId: g.teacher_id || 0, createdAt: g.created_at?.toISOString?.() || g.created_at }
 }
 export async function deleteGroup(id: number) {
   await sql`DELETE FROM students WHERE group_id = ${id}`

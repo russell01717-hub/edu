@@ -8,7 +8,8 @@ function calcMonths(startDate: string): number {
   return (n.getFullYear() - s.getFullYear()) * 12 + n.getMonth() - s.getMonth() + 1
 }
 
-function calcMonthlyFee(startDate: string, pricePerLesson: number, daysCount: number): number {
+function calcMonthlyFee(startDate: string, pricePerLesson: number, daysCount: number, groupMonthlyFee = 0): number {
+  if (groupMonthlyFee > 0) return groupMonthlyFee
   const months = calcMonths(startDate)
   if (months <= 0 || !pricePerLesson) return 0
   return pricePerLesson * daysCount * 4
@@ -165,7 +166,7 @@ export default function StudentsPage() {
         {filtered.map(s => {
           const group = groups.find(g => g.id === s.groupId)
           const daysCount = group?.days ? group.days.split(",").filter(Boolean).length : 0
-          const monthlyFee = calcMonthlyFee(s.startDate, group?.pricePerLesson || 0, daysCount)
+          const monthlyFee = calcMonthlyFee(s.startDate, group?.pricePerLesson || 0, daysCount, group?.monthlyFee || 0)
           const monthsCount = calcMonths(s.startDate)
 
           const monthAtts = lessons
