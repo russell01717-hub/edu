@@ -177,9 +177,8 @@ export default function GroupsPage() {
           const subj = SUBJECTS.find(s => s.value === g.subject)
           return (
             <div key={g.id}>
-              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 card-hover animate-scaleIn relative overflow-hidden group cursor-pointer"
-                style={{ transformStyle: "preserve-3d" }}
-                onClick={() => toggleExpand(g.id)}>
+              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 card-hover animate-scaleIn relative overflow-hidden group"
+                style={{ transformStyle: "preserve-3d" }}>
                 <div className="absolute top-0 right-0 w-32 h-32 rounded-full -mr-10 -mt-10 group-hover:scale-150 transition-transform duration-500"
                   style={{ background: subject === "english" ? "rgba(59,130,246,0.05)" : "var(--theme-primary)", opacity: 0.05 }} />
                 <div className="relative">
@@ -199,14 +198,13 @@ export default function GroupsPage() {
                     </div>
                     <div className="flex items-center gap-1">
                       {(user?.role === "admin" || user?.id === g.teacherId) && <>
-                        <button onClick={(e) => { e.stopPropagation(); openEdit(g) }} className="p-1.5 rounded-lg text-xs hover:bg-orange-50 transition cursor-pointer" style={{ color: "var(--theme-primary)" }}>
+                        <button onClick={() => openEdit(g)} className="p-1.5 rounded-lg text-xs hover:bg-orange-50 transition cursor-pointer" style={{ color: "var(--theme-primary)" }}>
                           <i className="fas fa-pen-to-square" />
                         </button>
-                        <button onClick={(e) => { e.stopPropagation(); del(g.id) }} className="p-1.5 rounded-lg text-xs hover:bg-red-50 text-red-500 transition cursor-pointer">
+                        <button onClick={() => del(g.id)} className="p-1.5 rounded-lg text-xs hover:bg-red-50 text-red-500 transition cursor-pointer">
                           <i className="fas fa-trash-can" />
                         </button>
                       </>}
-                      <i className={`fas fa-chevron-${expandedId === g.id ? "up" : "down"} text-gray-300 ml-1 text-xs`} />
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-4 text-sm">
@@ -236,6 +234,11 @@ export default function GroupsPage() {
                       <span className="text-xs text-gray-400 ml-auto">har hafta</span>
                     </div>
                   )}
+                  <button onClick={() => toggleExpand(g.id)} className="mt-3 w-full py-2 rounded-xl text-sm font-semibold transition-all cursor-pointer flex items-center justify-center gap-2"
+                    style={{ background: "color-mix(in srgb, var(--theme-primary) 10%, transparent)", color: "var(--theme-primary)" }}>
+                    <i className={`fas fa-${expandedId === g.id ? "chevron-up" : "eye"}`} />
+                    {expandedId === g.id ? "Yopish" : "O'quvchilarni ko'rish"}
+                  </button>
                 </div>
               </div>
               {expandedId === g.id && (
