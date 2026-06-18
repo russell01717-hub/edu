@@ -56,6 +56,7 @@ export default function LoginPage() {
       </div>
 
       <div className="w-full max-w-md z-10">
+        <img src="/login-bg.png" alt="" className="absolute -right-6 -top-6 w-24 h-24 object-contain opacity-90 pointer-events-none z-20 animate-float" style={{ animationDuration: "7s" }} />
         <form onSubmit={handleSubmit} className="bg-white/95 backdrop-blur-xl p-8 rounded-3xl shadow-2xl border border-white/30 animate-scaleIn mb-4">
           <div className="text-center mb-6">
             <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white text-2xl mx-auto mb-3 animate-float shadow-lg shadow-orange-500/30">
