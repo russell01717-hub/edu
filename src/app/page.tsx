@@ -56,11 +56,13 @@ export default function LoginPage() {
       </div>
 
       <div className="w-full max-w-md z-10">
-        <img src="/login-bg.png" alt="" className="absolute -right-6 -top-6 w-24 h-24 object-contain opacity-90 pointer-events-none z-20 animate-float" style={{ animationDuration: "7s" }} />
-        <form onSubmit={handleSubmit} className="bg-white/95 backdrop-blur-xl p-8 rounded-3xl shadow-2xl border border-white/30 animate-scaleIn mb-4">
+        <form onSubmit={handleSubmit} className="bg-white/95 backdrop-blur-xl p-8 rounded-3xl shadow-2xl border border-white/30 animate-scaleIn mb-4 relative overflow-hidden">
+          <div className="absolute -right-6 -top-6 w-28 h-28 opacity-20 pointer-events-none">
+            <img src="/login-bg.png" alt="" className="w-full h-full object-contain" />
+          </div>
           <div className="text-center mb-6">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white text-2xl mx-auto mb-3 animate-float shadow-lg shadow-orange-500/30">
-              <i className="fas fa-graduation-cap" />
+            <div className="w-20 h-20 rounded-2xl mx-auto mb-3 overflow-hidden shadow-lg shadow-orange-500/30 animate-float">
+              <img src="/login-bg.png" alt="" className="w-full h-full object-cover" />
             </div>
             <h1 className="text-3xl font-bold text-gray-900">Akademiya</h1>
             <p className="text-gray-400 text-sm mt-1">O'quv markazi tizimi</p>
