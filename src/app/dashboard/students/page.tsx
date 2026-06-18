@@ -29,6 +29,13 @@ function formatStamp(d: string): string {
 
 const MONTH_NAMES = ["Yanvar","Fevral","Mart","Aprel","May","Iyun","Iyul","Avgust","Sentabr","Oktabr","Noyabr","Dekabr"]
 
+function feePeriod(): string {
+  const d = new Date()
+  const cur = MONTH_NAMES[d.getMonth()]
+  const next = MONTH_NAMES[(d.getMonth() + 1) % 12]
+  return `1 ${cur} - 1 ${next}`
+}
+
 export default function StudentsPage() {
   const [students, setStudents] = useState<any[]>([])
   const [groups, setGroups] = useState<any[]>([])
@@ -216,7 +223,7 @@ export default function StudentsPage() {
                 <p className={`text-2xl font-bold ${s.balance >= 0 ? "text-green-600" : "text-red-600"}`}>
                   {s.balance.toLocaleString()} <span className="text-sm font-normal">so'm</span>
                 </p>
-                {monthlyFee > 0 && <p className="text-[10px] text-gray-400 mt-0.5">Oyiga ~{monthlyFee.toLocaleString()} so'm</p>}
+                {monthlyFee > 0 && <p className="text-[10px] text-gray-400 mt-0.5">{feePeriod()}: {monthlyFee.toLocaleString()} so'm</p>}
               </div>
 
               <div className="mb-3">

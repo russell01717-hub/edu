@@ -213,7 +213,7 @@ export default function GroupsPage() {
                     <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl" style={{ background: "color-mix(in srgb, var(--theme-primary) 10%, transparent)" }}>
                       <i className="fas fa-money-bill-wave" style={{ color: "var(--theme-primary)" }} />
                       <span className="font-bold" style={{ color: "var(--theme-primary)" }}>{(g.monthlyFee || 270000).toLocaleString()}</span>
-                      <span className="text-gray-400 text-xs">so'm/oy</span>
+                      <span className="text-gray-400 text-xs">so'm</span>
                     </div>
                     <div className="bg-blue-50 px-3 py-1.5 rounded-xl">
                       <i className="fas fa-user-graduate text-blue-500 mr-1" />
