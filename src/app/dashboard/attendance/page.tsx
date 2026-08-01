@@ -1,9 +1,6 @@
 "use client"
 import { useEffect, useState } from "react"
-
-function getTokenUser(): any {
-  try { return JSON.parse(atob(localStorage.getItem("token") || "")) } catch { return null }
-}
+import { getTokenUser, authHeaders } from "@/lib/auth-client"
 
 const STATUS_CYCLE = ["present", "absent", "late"] as const
 
@@ -24,8 +21,7 @@ export default function AttendancePage() {
   useEffect(() => {
     const u = getTokenUser()
     if (!u) return
-    const params = u.role === "teacher" ? `?role=teacher&teacherId=${u.id}&_=${Date.now()}` : `?_=${Date.now()}`
-    fetch(`/api/groups${params}`).then(r => r.json()).then(g => {
+    fetch(`/api/groups?_=${Date.now()}`, { headers: authHeaders(false) }).then(r => r.json()).then(g => {
       setGroups(g)
       if (u.role === "teacher" && g.length > 0) setSelectedGroup(g[0].id.toString())
     })
@@ -35,19 +31,17 @@ export default function AttendancePage() {
 
   async function startLesson() {
     if (!selectedGroup || !date) return
-    const res = await fetch("/api/lessons", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ groupId: parseInt(selectedGroup), date, topic }) })
+    const res = await fetch("/api/lessons", { method: "POST", headers: authHeaders(), body: JSON.stringify({ groupId: parseInt(selectedGroup), date, topic }) })
     const lesson = await res.json()
     setCurrentLessonId(lesson.id)
-    const res2 = await fetch(`/api/students?groupId=${selectedGroup}&_=${Date.now()}`)
+    const res2 = await fetch(`/api/students?groupId=${selectedGroup}&_=${Date.now()}`, { headers: authHeaders(false) })
     const sts = await res2.json()
     setStudents(sts)
     const att: Record<number, string> = {}
     sts.forEach((s: any) => { att[s.id] = "present" })
     setAttendances(att); setStep("taking"); setMsg("")
     const month = date.substring(0, 7)
-    const u = getTokenUser()
-    const params = u?.role === "teacher" ? `?role=teacher&teacherId=${u.id}&_=${Date.now()}` : `?_=${Date.now()}`
-    const res3 = await fetch(`/api/lessons${params}`)
+    const res3 = await fetch(`/api/lessons?_=${Date.now()}`, { headers: authHeaders(false) })
     const allLessons = await res3.json()
     const monthLessons = allLessons.filter((l: any) => l.groupId === parseInt(selectedGroup) && l.date?.startsWith(month))
     setLessonNumber(monthLessons.length)
@@ -65,7 +59,7 @@ export default function AttendancePage() {
   async function saveAttendance() {
     if (!currentLessonId) return
     const data = Object.entries(attendances).map(([sid, status]) => ({ studentId: parseInt(sid), lessonId: currentLessonId, status }))
-    await fetch("/api/attendance", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ attendances: data }) })
+    await fetch("/api/attendance", { method: "POST", headers: authHeaders(), body: JSON.stringify({ attendances: data }) })
     setMsg("Davomat saqlandi!")
     setTimeout(() => { setStep("select"); setMsg(""); setCurrentLessonId(null); setStudents([]); setLessonNumber(0) }, 1000)
   }
@@ -78,12 +72,12 @@ export default function AttendancePage() {
 
   return (
     <div className="animate-fadeIn">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Davomat</h1>
-        <p className="text-sm text-gray-400"><i className="fas fa-check-circle mr-1" style={{ color: "var(--theme-primary)" }} />Darsga kelgan/kelmaganlarni belgilang</p>
+      <div className="page-header">
+        <h1 className="page-title">Davomat</h1>
+        <p className="page-desc"><i className="fas fa-check-circle" style={{ color: "var(--theme-primary)" }} />Darsga kelgan/kelmaganlarni belgilang</p>
       </div>
       {step === "select" ? (
-        <div className="bg-white p-4 lg:p-5 rounded-2xl shadow-sm border border-gray-100 animate-scaleIn">
+        <div className="card p-4 lg:p-5 animate-scaleIn">
           <div className="flex flex-col sm:flex-row gap-3 items-end">
             <div className="w-full sm:w-48">
               <label className="text-xs text-gray-400 block mb-1 font-medium"><i className="fas fa-users mr-1" />Guruh</label>
@@ -122,29 +116,29 @@ export default function AttendancePage() {
               <label className="text-xs text-gray-400 block mb-1 font-medium"><i className="fas fa-pen mr-1" />Mavzu</label>
               <input value={topic} onChange={e => setTopic(e.target.value)} className="input-field" />
             </div>
-            <button onClick={startLesson} className="btn-primary px-5 py-2.5 rounded-xl font-semibold text-sm cursor-pointer w-full sm:w-auto flex items-center gap-2" style={{ marginTop: "22px" }}>
+            <button onClick={startLesson} className="btn-primary px-4 py-2.5 rounded-lg font-semibold text-sm cursor-pointer w-full sm:w-auto flex items-center gap-2" style={{ marginTop: "22px" }}>
               <i className="fas fa-play" /> Darsni boshlash
             </button>
           </div>
         </div>
       ) : (
         <div>
-          <div className="bg-white p-4 lg:p-5 rounded-2xl shadow-sm border border-gray-100 mb-4 animate-slideIn">
+          <div className="card p-4 lg:p-5 mb-4 animate-slideIn">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl flex items-center justify-center text-white text-lg font-bold" style={{ background: `linear-gradient(135deg, var(--theme-primary), var(--theme-secondary))` }}>
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white text-lg font-bold" style={{ background: `linear-gradient(135deg, var(--theme-primary), var(--theme-secondary))` }}>
                   <i className="fas fa-hashtag" />
                 </div>
                 <div>
-                  <h2 className="text-lg font-semibold text-gray-900">{group?.name} — {lessonNumber}-dars</h2>
+                  <h2 className="text-base font-semibold text-gray-900">{group?.name} — {lessonNumber}-dars</h2>
                   <p className="text-sm text-gray-400"><i className="fas fa-calendar-day mr-1" />{date} {topic ? `| ${topic}` : ""}</p>
                 </div>
               </div>
-              <button onClick={saveAttendance} className="btn-primary px-5 py-2 rounded-xl font-semibold text-sm cursor-pointer w-full sm:w-auto flex items-center gap-2 animate-glow">
+              <button onClick={saveAttendance} className="btn-primary px-4 py-2 rounded-lg font-semibold text-sm cursor-pointer w-full sm:w-auto flex items-center gap-2 animate-glow">
                 <i className="fas fa-check" /> Saqlash
               </button>
             </div>
-            {msg && <div className="mt-3 p-3 bg-green-100 text-green-700 rounded-xl font-medium animate-bounceIn text-sm"><i className="fas fa-check-circle mr-1" />{msg}</div>}
+            {msg && <div className="mt-3 p-3 bg-green-100 text-green-700 rounded-lg font-medium animate-bounceIn text-sm"><i className="fas fa-check-circle mr-1" />{msg}</div>}
           </div>
           {students.length === 0 ? (
             <div className="text-center py-12 text-gray-400"><i className="fas fa-user text-3xl block mb-2" />Bu guruhda o'quvchilar yo'q</div>
@@ -153,7 +147,7 @@ export default function AttendancePage() {
               const cfg = statusConfig[attendances[s.id]] || statusConfig.present
               return (
                 <div key={s.id} onClick={() => toggleStatus(s.id)}
-                  className="flex items-center justify-between p-4 bg-white rounded-2xl border border-gray-100 mb-2 hover:translate-x-1.5 transition-all cursor-pointer animate-slideUp"
+                  className="flex items-center justify-between p-4 card mb-2 hover:translate-x-1.5 transition-all cursor-pointer animate-slideUp"
                   style={{ animationDelay: `${i * 0.03}s` }}>
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white" style={{ background: `linear-gradient(135deg, var(--theme-primary), var(--theme-secondary))` }}>
@@ -162,7 +156,7 @@ export default function AttendancePage() {
                     <span className="font-medium text-gray-900">{s.name}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="px-4 py-1.5 rounded-xl font-semibold text-sm border-2 transition-all hover:scale-105 flex items-center gap-1.5"
+                    <div className="px-4 py-1.5 rounded-lg font-semibold text-sm border-2 transition-all hover:scale-105 flex items-center gap-1.5"
                       style={{ background: cfg.bg, borderColor: cfg.border, color: cfg.color }}>
                       <i className={`fas ${cfg.icon}`} /> {cfg.label}
                     </div>
@@ -171,7 +165,7 @@ export default function AttendancePage() {
               )
             })
           )}
-          <div className="flex gap-4 mt-4 text-xs text-gray-400 justify-center items-center">
+          <div className="flex gap-4 mt-4 text-xs text-gray-400 justify-center items-center flex-wrap">
             <span><i className="fas fa-check-circle text-green-500 mr-1" />Keldi</span>
             <span><i className="fas fa-clock text-yellow-500 mr-1" />Kechikdi</span>
             <span><i className="fas fa-times-circle text-red-500 mr-1" />Kelmadi</span>

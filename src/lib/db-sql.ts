@@ -21,10 +21,11 @@ const sql = postgres(process.env.DATABASE_URL!, {
   try { await sql`ALTER TABLE students ADD COLUMN IF NOT EXISTS start_date TEXT DEFAULT ''` } catch {}
   try { await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS phone TEXT DEFAULT ''` } catch {}
   try { await sql`ALTER TABLE groups ADD COLUMN IF NOT EXISTS monthly_fee INT DEFAULT 270000` } catch {}
+  try { await sql`ALTER TABLE payments ADD COLUMN IF NOT EXISTS lesson_id INT DEFAULT NULL` } catch {}
   try {
     const [cnt] = await sql`SELECT COUNT(*)::int as c FROM users`
     if (cnt.c === 0) {
-      const ah = bcrypt.hashSync("admin123", 10)
+      const ah = bcrypt.hashSync("admin1234", 10)
       const fh = bcrypt.hashSync("4444", 10)
       await sql`INSERT INTO users (name, login, password, role, phone) VALUES ('Admin', 'admin', ${ah}, 'admin', '')`
       await sql`INSERT INTO users (name, login, password, role, phone) VALUES ('Sardor', 'sardor', ${fh}, 'teacher', '+998901234567')`
@@ -117,6 +118,9 @@ export async function updateGroup(id: number, name: string, description: string,
   return { id: g.id, name: g.name, description: g.description || "", pricePerLesson: g.price_per_lesson, monthlyFee: g.monthly_fee ?? 270000, days: g.days || "", subject: g.subject || "", teacherId: g.teacher_id || 0, createdAt: g.created_at?.toISOString?.() || g.created_at }
 }
 export async function deleteGroup(id: number) {
+  await sql`DELETE FROM attendances WHERE lesson_id IN (SELECT id FROM lessons WHERE group_id = ${id})`
+  await sql`DELETE FROM lessons WHERE group_id = ${id}`
+  await sql`DELETE FROM payments WHERE student_id IN (SELECT id FROM students WHERE group_id = ${id})`
   await sql`DELETE FROM students WHERE group_id = ${id}`
   await sql`DELETE FROM groups WHERE id = ${id}`
 }
@@ -219,18 +223,28 @@ export async function getStudentMonthAttendances(studentId: number, month: strin
   }))
 }
 export async function setAttendance(studentId: number, lessonId: number, status: string) {
-  const [existing] = await sql`SELECT id FROM attendances WHERE student_id = ${studentId} AND lesson_id = ${lessonId}`
+  const [existing] = await sql`SELECT status FROM attendances WHERE student_id = ${studentId} AND lesson_id = ${lessonId}`
+  const prevStatus = existing?.status || ""
   if (existing) {
     await sql`UPDATE attendances SET status = ${status} WHERE id = ${existing.id}`
   } else {
     await sql`INSERT INTO attendances (student_id, lesson_id, status) VALUES (${studentId}, ${lessonId}, ${status})`
   }
-  if (status === "present" || status === "late") {
-    const [student] = await sql`SELECT s.*, g.price_per_lesson FROM students s JOIN groups g ON s.group_id = g.id WHERE s.id = ${studentId}`
-    if (student && student.price_per_lesson > 0) {
-      const [lesson] = await sql`SELECT date FROM lessons WHERE id = ${lessonId}`
+
+  const isCharged = (s: string) => s === "present" || s === "late"
+  const wasCharged = isCharged(prevStatus)
+  const nowCharged = isCharged(status)
+
+  const [student] = await sql`SELECT s.id, s.group_id, s.balance, g.price_per_lesson FROM students s JOIN groups g ON s.group_id = g.id WHERE s.id = ${studentId}`
+  if (student && student.price_per_lesson > 0 && wasCharged !== nowCharged) {
+    const [lesson] = await sql`SELECT date FROM lessons WHERE id = ${lessonId}`
+    const date = lesson?.date || ""
+    if (nowCharged) {
       await sql`UPDATE students SET balance = balance - ${student.price_per_lesson} WHERE id = ${studentId}`
-      await sql`INSERT INTO payments (student_id, amount, type, note, date) VALUES (${studentId}, ${-student.price_per_lesson}, 'expense', ${`Dars: ${lesson?.date || ""}`}, ${lesson?.date || ""})`
+      await sql`INSERT INTO payments (student_id, amount, type, note, date, lesson_id) VALUES (${studentId}, ${-student.price_per_lesson}, 'expense', ${`Dars: ${date}`}, ${date}, ${lessonId})`
+    } else {
+      await sql`UPDATE students SET balance = balance + ${student.price_per_lesson} WHERE id = ${studentId}`
+      await sql`DELETE FROM payments WHERE student_id = ${studentId} AND lesson_id = ${lessonId} AND type = 'expense'`
     }
   }
 }

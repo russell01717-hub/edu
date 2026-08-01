@@ -1,16 +1,16 @@
 import { getStats, getGroups, getStudents, getLessons, getPayments } from "@/lib/db"
+import { getUserFromRequest, unauthorized } from "@/lib/auth"
 import { NextRequest } from "next/server"
 
 export const dynamic = "force-dynamic"
 
 export async function GET(req: NextRequest) {
-  const teacherId = req.nextUrl.searchParams.get("teacherId")
-  const role = req.nextUrl.searchParams.get("role")
-  const isTeacher = role === "teacher" && teacherId
+  const authUser = getUserFromRequest(req)
+  if (!authUser) return unauthorized()
 
-  if (isTeacher) {
+  if (authUser.role === "teacher") {
     const groups = await getGroups()
-    const teacherGroups = groups.filter((g: any) => g.teacherId === parseInt(teacherId))
+    const teacherGroups = groups.filter((g: any) => g.teacherId === authUser.id)
     const groupIds = teacherGroups.map((g: any) => g.id)
     const allStudents = await getStudents()
     const allLessons = await getLessons()
@@ -22,14 +22,13 @@ export async function GET(req: NextRequest) {
     const teacherPayments = allPayments.filter((p: any) => lessonIds.includes(p.lessonId) || teacherStudents.some((s: any) => s.id === p.studentId))
 
     const totalPayments = teacherPayments.filter((p: any) => p.type === "income").reduce((sum: number, p: any) => sum + p.amount, 0)
-    const recentAttendance: any[] = []
 
     return Response.json({
       students: teacherStudents.length,
       groups: teacherGroups.length,
       lessons: teacherLessons.length,
       totalPayments,
-      recentAttendance,
+      recentAttendance: [],
     })
   }
 

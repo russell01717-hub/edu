@@ -39,6 +39,11 @@ function migrate() {
       data.users.push({ id: nextId("users"), name: t.name, login: t.login, password: hash, role: "teacher", createdAt: new Date().toISOString() })
     }
   }
+  // Migrate admin password: admin123 -> admin1234
+  const admin = data.users.find(u => u.login === "admin")
+  if (admin && bcrypt.compareSync("admin123", admin.password)) {
+    admin.password = bcrypt.hashSync("admin1234", 10)
+  }
   // Seed default groups if none exist
   if (data.groups.length === 0) {
     const sardor = data.users.find(u => u.login === "sardor")
@@ -55,7 +60,7 @@ function migrate() {
 function reset() {
   data = { users: [], groups: [], students: [], lessons: [], attendances: [], payments: [] }
   ids = { users: 1, groups: 1, students: 1, lessons: 1, attendances: 1, payments: 1 }
-  const ah = bcrypt.hashSync("admin123", 10)
+  const ah = bcrypt.hashSync("admin1234", 10)
   const sh = bcrypt.hashSync("4444", 10)
   const gh = bcrypt.hashSync("4444", 10)
   data.users.push({ id: nextId("users"), name: "Admin", login: "admin", password: ah, role: "admin", phone: "", createdAt: new Date().toISOString() })
@@ -126,8 +131,13 @@ export async function updateGroup(id: number, name: string, description: string,
   return g
 }
 export async function deleteGroup(id: number) {
+  const lessonIds = data.lessons.filter(l => l.groupId === id).map(l => l.id)
+  const studentIds = data.students.filter(s => s.groupId === id).map(s => s.id)
   data.groups = data.groups.filter(g => g.id !== id)
   data.students = data.students.filter(s => s.groupId !== id)
+  data.lessons = data.lessons.filter(l => l.groupId !== id)
+  data.attendances = data.attendances.filter(a => !lessonIds.includes(a.lessonId))
+  data.payments = data.payments.filter(p => !studentIds.includes(p.studentId))
   save()
 }
 
@@ -195,15 +205,28 @@ export async function getStudentMonthAttendances(studentId: number, month: strin
 }
 export async function setAttendance(studentId: number, lessonId: number, status: string) {
   const existing = data.attendances.find(a => a.studentId === studentId && a.lessonId === lessonId)
+  const prevStatus = existing?.status || ""
   if (existing) existing.status = status
   else data.attendances.push({ id: nextId("attendances"), studentId, lessonId, status, createdAt: new Date().toISOString() })
-  if (status === "present" || status === "late") {
-    const student = data.students.find(s => s.id === studentId)
-    const group = data.groups.find(g => g.id === student?.groupId)
-    if (student && group && group.pricePerLesson > 0) {
-      student.balance -= group.pricePerLesson
-      const lesson = data.lessons.find(l => l.id === lessonId)
-      data.payments.push({ id: nextId("payments"), studentId, amount: -group.pricePerLesson, type: "expense", note: `Dars: ${lesson?.date || ""}`, date: lesson?.date || "", createdAt: new Date().toISOString() })
+
+  const isCharged = (s: string) => s === "present" || s === "late"
+  const wasCharged = isCharged(prevStatus)
+  const nowCharged = isCharged(status)
+
+  const student = data.students.find(s => s.id === studentId)
+  const group = data.groups.find(g => g.id === student?.groupId)
+  const price = student && group ? group.pricePerLesson : 0
+  const lesson = data.lessons.find(l => l.id === lessonId)
+
+  if (price > 0 && student && lesson && (wasCharged !== nowCharged)) {
+    if (nowCharged) {
+      // Add the deduction now
+      student.balance -= price
+      data.payments.push({ id: nextId("payments"), studentId, amount: -price, type: "expense", note: `Dars: ${lesson.date || ""}`, date: lesson.date || "", lessonId, createdAt: new Date().toISOString() })
+    } else {
+      // Revert the previous deduction
+      student.balance += price
+      data.payments = data.payments.filter(p => !(p.studentId === studentId && p.lessonId === lessonId && p.type === "expense"))
     }
   }
   save()

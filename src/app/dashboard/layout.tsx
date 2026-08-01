@@ -3,6 +3,7 @@ import Link from "next/link"
 import { useRouter, usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import { LiquidNav } from "@/components/LiquidNav"
+import { getTokenUser, authHeaders } from "@/lib/auth-client"
 
 const THEMES = [
   { name: "Orange", primary: "#f97316", secondary: "#ea580c" },
@@ -61,7 +62,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const token = localStorage.getItem("token")
     if (!token) { router.push("/"); return }
     try {
-      const u = JSON.parse(atob(token))
+      const u = getTokenUser()
       setUser(u)
       if (u.role === "teacher") {
         const adminPaths = ["/dashboard/users", "/dashboard/payments"]
@@ -83,13 +84,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     if (editPass) payload.password = editPass
     const res = await fetch("/api/users", {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: authHeaders(),
       body: JSON.stringify(payload),
     })
     if (res.ok) {
       const updated = await res.json()
-      const newToken = Buffer.from(JSON.stringify(updated)).toString("base64")
-      localStorage.setItem("token", newToken)
+      if (updated.token) localStorage.setItem("token", updated.token)
       setUser(updated)
       setEditName(""); setEditPhone(""); setEditPass("")
       setProfileMsg("Profil yangilandi")
@@ -114,32 +114,32 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const links = allLinks.filter(l => l.show)
 
   return (
-    <div className={`flex h-screen ${dark ? "bg-gray-900" : "bg-gray-50"}`}>
-      {sidebarOpen && <div className="fixed inset-0 bg-black/40 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />}
+    <div className="flex h-screen" style={{ background: "var(--bg)" }}>
+      {sidebarOpen && <div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />}
 
       {/* Sidebar */}
-      <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-64 flex flex-col p-6 text-white transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
-        style={{ background: "linear-gradient(180deg, #0f0f0f 0%, #1a1a2e 100%)" }}>
-        <div className="flex items-center gap-3 mb-8">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `linear-gradient(135deg, var(--theme-primary), var(--theme-secondary))` }}>
+      <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-64 flex flex-col p-4 text-white transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
+        style={{ background: "linear-gradient(180deg, #0f0f13 0%, #16161d 100%)" }}>
+        <div className="flex items-center gap-3 mb-6 px-2">
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: `linear-gradient(135deg, var(--theme-primary), var(--theme-secondary))` }}>
             <i className="fas fa-graduation-cap text-white text-lg" />
           </div>
           <div>
-            <h2 className="text-lg font-bold">Akademiya</h2>
+            <h2 className="text-lg font-bold leading-tight">Akademiya</h2>
             <p className="text-xs" style={{ color: "var(--theme-primary)" }}>
               {isAdmin ? "Admin panel" : user?.name || ""} {user?.login === "sardor" || user?.login === "shoxali" ? "• Arab tili" : user?.login === "gayrat" ? "• Ingliz tili" : ""}
             </p>
           </div>
         </div>
 
-        <nav className="flex-1 space-y-1">
+        <nav className="flex-1 space-y-0.5 overflow-y-auto">
           {links.map(l => {
             const active = pathname === l.href
             return (
               <Link key={l.href} href={l.href} onClick={() => setSidebarOpen(false)}
-                className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-all ${active ? "font-semibold" : "text-gray-400 hover:bg-white/5 hover:text-white hover:translate-x-1"}`}
-                style={active ? { background: `${THEMES.find(t => t.name === theme)?.primary}33`, color: THEMES.find(t => t.name === theme)?.primary } : {}}>
-                <i className={`fas ${l.icon} w-5 text-center`} /> {l.label}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all ${active ? "font-semibold" : "text-gray-400 hover:bg-white/5 hover:text-white"}`}
+                style={active ? { background: `${THEMES.find(t => t.name === theme)?.primary}2e`, color: THEMES.find(t => t.name === theme)?.primary } : {}}>
+                <i className={`fas ${l.icon} w-5 text-center text-base`} /> {l.label}
               </Link>
             )
           })}
@@ -148,12 +148,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {/* Sidebar Theme */}
         <div className="relative mb-2">
           <button onClick={() => setShowTheme(!showTheme)}
-            className="flex items-center gap-2 w-full px-4 py-2 rounded-xl text-xs text-gray-400 hover:bg-white/5 transition cursor-pointer">
+            className="flex items-center gap-2 w-full px-3 py-2 rounded-lg text-xs text-gray-400 hover:bg-white/5 transition cursor-pointer">
             <i className="fas fa-palette" /> Rang
             <span className="ml-auto w-4 h-4 rounded-full" style={{ background: `linear-gradient(135deg, var(--theme-primary), var(--theme-secondary))` }} />
           </button>
           {showTheme && (
-            <div className="absolute bottom-full left-0 right-0 mb-1 bg-gray-800 rounded-xl p-2 animate-slideIn shadow-xl border border-gray-700 z-50">
+            <div className="absolute bottom-full left-0 right-0 mb-2 bg-gray-800 rounded-xl p-2 animate-slideIn shadow-xl border border-gray-700 z-[60]">
               <div className="flex gap-1.5 justify-center">
                 {THEMES.map(t => (
                   <button key={t.name} onClick={() => changeTheme(t.name)}
@@ -190,7 +190,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           )}
         </div>
 
-        <button onClick={logout} className="flex items-center gap-3 px-4 py-2.5 text-gray-400 hover:bg-red-500/10 hover:text-red-400 rounded-xl text-sm transition-all cursor-pointer">
+        <button onClick={logout} className="flex items-center gap-3 px-3 py-2.5 text-gray-400 hover:bg-red-500/10 hover:text-red-400 rounded-lg text-sm transition-all cursor-pointer">
           <i className="fas fa-sign-out-alt w-5 text-center" /> Chiqish
         </button>
       </aside>
@@ -198,38 +198,38 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* Main */}
       <main className="flex-1 overflow-y-auto w-full">
         <LiquidNav
-          items={links.filter(l => LIQUID_PATHS[l.href]).map(l => ({ href: l.href, label: l.label, icon: LIQUID_PATHS[l.href] }))}
-          dark={dark}
-          onToggleDark={() => setDark(!dark)}
-          right={
-            <div className="flex items-center gap-2">
-              {/* Theme picker */}
-              <div className="relative">
-                <button onClick={() => setShowHeaderTheme(!showHeaderTheme)}
-                  className={`w-9 h-9 rounded-xl flex items-center justify-center cursor-pointer transition-all ${dark ? "hover:bg-gray-700 text-gray-300" : "hover:bg-gray-100 text-gray-500"}`}
-                  title="Rang">
-                  <i className="fas fa-palette" />
-                </button>
-                {showHeaderTheme && (
-                  <div className={`absolute right-0 top-full mt-1 rounded-xl p-2 animate-slideIn shadow-xl border z-50 ${dark ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"}`}>
-                    <div className="flex gap-1.5">
-                      {THEMES.map(t => (
-                        <button key={t.name} onClick={() => changeTheme(t.name)}
-                          className={`w-7 h-7 rounded-full transition-all cursor-pointer ${theme === t.name ? "ring-2 ring-white scale-110" : "hover:scale-110"}`}
-                          style={{ background: `linear-gradient(135deg, ${t.primary}, ${t.secondary})` }}
-                          title={t.name} />
-                      ))}
+            items={links.filter(l => LIQUID_PATHS[l.href]).map(l => ({ href: l.href, label: l.label, icon: LIQUID_PATHS[l.href] }))}
+            dark={dark}
+            onToggleDark={() => setDark(!dark)}
+            right={
+              <div className="flex items-center gap-2">
+                {/* Theme picker */}
+                <div className="relative">
+                  <button onClick={() => setShowHeaderTheme(!showHeaderTheme)}
+                    className={`w-9 h-9 rounded-xl flex items-center justify-center cursor-pointer transition-all ${dark ? "hover:bg-gray-700 text-gray-300" : "hover:bg-gray-100 text-gray-500"}`}
+                    title="Rang">
+                    <i className="fas fa-palette" />
+                  </button>
+                  {showHeaderTheme && (
+                    <div className={`absolute right-0 top-full mt-1 rounded-xl p-2 animate-slideIn shadow-xl border z-[60] ${dark ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"}`}>
+                      <div className="flex gap-1.5">
+                        {THEMES.map(t => (
+                          <button key={t.name} onClick={() => changeTheme(t.name)}
+                            className={`w-7 h-7 rounded-full transition-all cursor-pointer ${theme === t.name ? "ring-2 ring-white scale-110" : "hover:scale-110"}`}
+                            style={{ background: `linear-gradient(135deg, ${t.primary}, ${t.secondary})` }}
+                            title={t.name} />
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
+                <button onClick={() => setSidebarOpen(true)} className={`lg:hidden w-9 h-9 rounded-xl flex items-center justify-center cursor-pointer ${dark ? "text-gray-300 hover:bg-gray-700" : "text-gray-700 hover:bg-gray-100"}`} title="Menyu">
+                  <i className="fas fa-bars" />
+                </button>
               </div>
-              <button onClick={() => setSidebarOpen(true)} className={`lg:hidden w-9 h-9 rounded-xl flex items-center justify-center cursor-pointer ${dark ? "text-gray-300 hover:bg-gray-700" : "text-gray-700 hover:bg-gray-100"}`} title="Menyu">
-                <i className="fas fa-bars" />
-              </button>
-            </div>
-          }
-        />
-        <div className={`pt-16 p-4 lg:p-8 ${dark ? "text-gray-200" : ""}`}>{children}</div>
+            }
+          />
+        <div className={`px-4 lg:px-8 pt-20 pb-10 max-w-7xl mx-auto w-full ${dark ? "text-gray-200" : ""}`}>{children}</div>
       </main>
     </div>
   )

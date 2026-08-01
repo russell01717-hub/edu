@@ -1,9 +1,6 @@
 "use client"
 import { useEffect, useState } from "react"
-
-function getTokenUser(): any {
-  try { return JSON.parse(atob(localStorage.getItem("token") || "")) } catch { return null }
-}
+import { getTokenUser, authHeaders } from "@/lib/auth-client"
 
 export default function LessonsPage() {
   const [lessons, setLessons] = useState<any[]>([])
@@ -13,13 +10,12 @@ export default function LessonsPage() {
   useEffect(() => {
     const u = getTokenUser()
     if (!u) return
-    const params = u.role === "teacher" ? `?role=teacher&teacherId=${u.id}&_=${Date.now()}` : `?_=${Date.now()}`
-    fetch(`/api/lessons${params}`).then(r => r.json()).then(setLessons)
+    fetch(`/api/lessons?_=${Date.now()}`, { headers: authHeaders(false) }).then(r => r.json()).then(setLessons)
   }, [])
 
   async function del(id: number) {
     if (!confirm("Darsni o'chirasizmi?")) return
-    await fetch(`/api/lessons?id=${id}`, { method: "DELETE" })
+    await fetch(`/api/lessons?id=${id}`, { method: "DELETE", headers: authHeaders(false) })
     setLessons(prev => prev.filter(l => l.id !== id))
   }
 
@@ -33,16 +29,16 @@ export default function LessonsPage() {
 
   return (
     <div className="animate-fadeIn">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Darslar tarixi</h1>
-        <p className="text-sm text-gray-400"><i className="fas fa-book mr-1" style={{ color: "var(--theme-primary)" }} />Barcha o'tilgan darslar</p>
+      <div className="page-header">
+        <h1 className="page-title">Darslar tarixi</h1>
+        <p className="page-desc"><i className="fas fa-book" style={{ color: "var(--theme-primary)" }} />Barcha o'tilgan darslar</p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {lessonsWithNum.map(l => (
-          <div key={l.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 card-hover animate-scaleIn">
+          <div key={l.id} className="card p-4 card-hover animate-scaleIn">
             <div className="flex items-start justify-between gap-3 mb-3">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white text-sm font-bold" style={{ background: `linear-gradient(135deg, var(--theme-primary), var(--theme-secondary))` }}>
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white text-sm font-bold" style={{ background: `linear-gradient(135deg, var(--theme-primary), var(--theme-secondary))` }}>
                   <i className="fas fa-hashtag" />
                 </div>
                 <div>
@@ -51,7 +47,7 @@ export default function LessonsPage() {
                 </div>
               </div>
               {user?.role === "admin" && (
-                <button onClick={() => del(l.id)} className="p-1.5 rounded-lg text-xs hover:bg-red-50 text-red-400 hover:text-red-600 transition cursor-pointer shrink-0">
+                <button onClick={() => del(l.id)} className="p-2 rounded-lg text-xs hover:bg-red-50 text-red-400 hover:text-red-600 transition cursor-pointer shrink-0">
                   <i className="fas fa-trash-can" />
                 </button>
               )}

@@ -10,11 +10,11 @@ async function main() {
       data: {
         name: "Admin",
         login: "admin",
-        password: bcrypt.hashSync("admin123", 10),
+        password: bcrypt.hashSync("admin1234", 10),
         role: "admin",
       },
     })
-    console.log("Admin user created (admin / admin123)")
+    console.log("Admin user created (admin / admin1234)")
   } else {
     console.log("Admin user already exists")
   }

@@ -3,6 +3,9 @@ ALTER TABLE groups ADD COLUMN IF NOT EXISTS days TEXT DEFAULT '';
 ALTER TABLE groups ADD COLUMN IF NOT EXISTS subject TEXT DEFAULT '';
 ALTER TABLE groups ADD COLUMN IF NOT EXISTS teacher_id INT DEFAULT 0;
 ALTER TABLE students ADD COLUMN IF NOT EXISTS start_date TEXT DEFAULT '';
+ALTER TABLE users ADD COLUMN IF NOT EXISTS phone TEXT DEFAULT '';
+ALTER TABLE groups ADD COLUMN IF NOT EXISTS monthly_fee INT DEFAULT 270000;
+ALTER TABLE payments ADD COLUMN IF NOT EXISTS lesson_id INT DEFAULT NULL;
 
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
@@ -60,18 +63,18 @@ CREATE TABLE IF NOT EXISTS payments (
   created_at TIMESTAMP DEFAULT NOW()
 );
 
-INSERT INTO users (name, login, password, role)
-SELECT 'Admin', 'admin', '$2a$10$joXlAMPf2vJrZ/.ub6VMRu84yuLDihg5GtCCjI.jtQy4YdJchzyRS', 'admin'
+INSERT INTO users (name, login, password, role, phone)
+SELECT 'Admin', 'admin', '$2a$10$FNLahby8XaM3sPpRw0WUMu7B9BpT2D88CHQPIykqeC7TzdIea50fW', 'admin', ''
 WHERE NOT EXISTS (SELECT 1 FROM users WHERE login = 'admin');
 
-INSERT INTO users (name, login, password, role)
-SELECT 'Sardor', 'sardor', '$2a$10$joXlAMPf2vJrZ/.ub6VMRu84yuLDihg5GtCCjI.jtQy4YdJchzyRS', 'teacher'
+INSERT INTO users (name, login, password, role, phone)
+SELECT 'Sardor', 'sardor', '$2a$10$G0rZCT8PLl6ryr3668RUhemxoYBa/kH5rN/1aW50TGeBXVk7ZnjUa', 'teacher', '+998901234567'
 WHERE NOT EXISTS (SELECT 1 FROM users WHERE login = 'sardor');
 
-INSERT INTO users (name, login, password, role)
-SELECT 'G''ayrat', 'gayrat', '$2a$10$joXlAMPf2vJrZ/.ub6VMRu84yuLDihg5GtCCjI.jtQy4YdJchzyRS', 'teacher'
+INSERT INTO users (name, login, password, role, phone)
+SELECT 'G''ayrat', 'gayrat', '$2a$10$fBjOr2WzK.eOQV6qEHRLF.yMGMnvp7Grg.7eNdtjJ2Fb28Fc50.RC', 'teacher', '+998901234568'
 WHERE NOT EXISTS (SELECT 1 FROM users WHERE login = 'gayrat');
 
-INSERT INTO users (name, login, password, role)
-SELECT 'Shoxali', 'shoxali', '$2a$10$joXlAMPf2vJrZ/.ub6VMRu84yuLDihg5GtCCjI.jtQy4YdJchzyRS', 'teacher'
+INSERT INTO users (name, login, password, role, phone)
+SELECT 'Shoxali', 'shoxali', '$2a$10$fBjOr2WzK.eOQV6qEHRLF.yMGMnvp7Grg.7eNdtjJ2Fb28Fc50.RC', 'teacher', '+998901234569'
 WHERE NOT EXISTS (SELECT 1 FROM users WHERE login = 'shoxali');

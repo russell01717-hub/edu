@@ -1,5 +1,6 @@
 "use client"
 import { useEffect, useState } from "react"
+import { getTokenUser, authHeaders } from "@/lib/auth-client"
 
 function calcMonths(startDate: string): number {
   if (!startDate) return 0
@@ -13,10 +14,6 @@ function calcMonthlyFee(startDate: string, pricePerLesson: number, daysCount: nu
   const months = calcMonths(startDate)
   if (months <= 0 || !pricePerLesson) return 0
   return pricePerLesson * daysCount * 4
-}
-
-function getTokenUser(): any {
-  try { return JSON.parse(atob(localStorage.getItem("token") || "")) } catch { return null }
 }
 
 function pad2(n: number): string { return n < 10 ? "0" + n : "" + n }
@@ -57,16 +54,15 @@ export default function StudentsPage() {
     const u = getTokenUser()
     if (!u) return
     const month = getMonth()
-    const params = u.role === "teacher" ? `?role=teacher&teacherId=${u.id}&_=${Date.now()}` : `?_=${Date.now()}`
     const [s, g, l] = await Promise.all([
-      fetch(`/api/students${params}`).then(r => r.json()),
-      fetch(`/api/groups${params}`).then(r => r.json()),
-      fetch(`/api/lessons${params}`).then(r => r.json()),
+      fetch(`/api/students?_=${Date.now()}`, { headers: authHeaders(false) }).then(r => r.json()),
+      fetch(`/api/groups?_=${Date.now()}`, { headers: authHeaders(false) }).then(r => r.json()),
+      fetch(`/api/lessons?_=${Date.now()}`, { headers: authHeaders(false) }).then(r => r.json()),
     ])
     setStudents(s); setGroups(g)
     const monthLessons = l.filter((le: any) => le.date?.startsWith(month)).sort((a: any, b: any) => a.date?.localeCompare(b.date))
     setLessons(monthLessons)
-    const res = await fetch(`/api/attendance?month=${month}&_=${Date.now()}`)
+    const res = await fetch(`/api/attendance?month=${month}&_=${Date.now()}`, { headers: authHeaders(false) })
     if (res.ok) {
       const allAtts = await res.json()
       const atts: Record<string, string> = {}
@@ -96,7 +92,7 @@ export default function StudentsPage() {
     const gid = groupId || (groups.length > 0 ? groups[0].id.toString() : "")
     if (!gid) { setErr("Guruh topilmadi"); return }
     const res = await fetch("/api/students", {
-      method: "POST", headers: { "Content-Type": "application/json" },
+      method: "POST", headers: authHeaders(),
       body: JSON.stringify({ name, phone, groupId: parseInt(gid), startDate }),
     })
     if (!res.ok) { const d = await res.json(); setErr(d.error || "Xatolik"); return }
@@ -105,7 +101,7 @@ export default function StudentsPage() {
 
   async function del(id: number) {
     if (!confirm("O'chirasizmi?")) return
-    await fetch(`/api/students?id=${id}`, { method: "DELETE" }); loadData()
+    await fetch(`/api/students?id=${id}`, { method: "DELETE", headers: authHeaders(false) }); loadData()
   }
 
   const filtered = students.filter(s => s.name.toLowerCase().includes(search.toLowerCase()) || s.phone?.includes(search))
@@ -113,14 +109,14 @@ export default function StudentsPage() {
   return (
     <div className="animate-fadeIn">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">O'quvchilar</h1>
-          <p className="text-sm text-gray-400"><i className="fas fa-user-graduate mr-1" style={{ color: "var(--theme-primary)" }} />{user?.role === "teacher" ? "Sizning o'quvchilaringiz" : "Barcha o'quvchilar"}</p>
+        <div className="page-header" style={{ marginBottom: 0 }}>
+          <h1 className="page-title">O'quvchilar</h1>
+          <p className="page-desc"><i className="fas fa-user-graduate" style={{ color: "var(--theme-primary)" }} />{user?.role === "teacher" ? "Sizning o'quvchilaringiz" : "Barcha o'quvchilar"}</p>
         </div>
         <button onClick={() => {
           setShowForm(!showForm)
           if (!showForm && user?.role === "teacher" && groups.length > 0) setGroupId(groups[0].id.toString())
-        }} className="btn-primary flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm cursor-pointer w-full sm:w-auto justify-center">
+        }} className="btn-primary flex items-center gap-2 px-4 py-2.5 rounded-lg font-semibold text-sm cursor-pointer w-full sm:w-auto justify-center">
           <i className="fas fa-plus" /> Yangi o'quvchi
         </button>
       </div>
@@ -131,8 +127,8 @@ export default function StudentsPage() {
       </div>
 
       {showForm && (
-        <form onSubmit={create} className="bg-white p-4 lg:p-5 rounded-2xl shadow-sm border border-gray-100 mb-6 flex flex-col sm:flex-row gap-3 items-end animate-slideIn">
-          {err && <div className="w-full p-3 bg-red-50 text-red-600 rounded-xl text-sm"><i className="fas fa-exclamation-circle mr-1" />{err}</div>}
+        <form onSubmit={create} className="card p-4 lg:p-5 mb-6 flex flex-col sm:flex-row gap-3 items-end animate-slideIn">
+          {err && <div className="w-full p-3 bg-red-50 text-red-600 rounded-lg text-sm"><i className="fas fa-exclamation-circle mr-1" />{err}</div>}
           <div className="w-full sm:flex-1">
             <label className="text-xs text-gray-400 block mb-1 font-medium">Ism</label>
             <input value={name} onChange={e => setName(e.target.value)} className="input-field" required />
@@ -163,7 +159,7 @@ export default function StudentsPage() {
               </div>
             )}
           </div>
-          <button type="submit" className="btn-primary px-5 py-2.5 rounded-xl font-semibold text-sm cursor-pointer w-full sm:w-auto flex items-center gap-2" style={{ marginTop: "22px" }}>
+          <button type="submit" className="btn-primary px-4 py-2.5 rounded-lg font-semibold text-sm cursor-pointer w-full sm:w-auto flex items-center gap-2" style={{ marginTop: "22px" }}>
             <i className="fas fa-check" /> Saqlash
           </button>
         </form>
@@ -181,32 +177,27 @@ export default function StudentsPage() {
             .map(l => ({ lesson: l, status: attMap[`${s.id}_${l.id}`] || null }))
 
           return (
-            <div key={s.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 card-hover animate-scaleIn relative overflow-hidden group"
+            <div key={s.id} className="card p-5 card-hover animate-scaleIn relative overflow-hidden group"
               style={{ transformStyle: "preserve-3d", perspective: "800px" }}>
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                style={{ background: "linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.4) 50%, transparent 60%)", transform: "translateX(100%)", transition: "all 0.6s" }} />
 
               {s.startDate && (
-                <div className="absolute -top-1 -right-1 w-16 h-16 overflow-hidden pointer-events-none">
-                  <div className="absolute top-1 right-1 w-14 h-14 flex items-center justify-center border-2 border-orange-400 text-orange-500 font-bold text-[10px] leading-tight text-center rotate-12 rounded-lg bg-orange-50/80 opacity-70"
-                    style={{ transform: "rotate(15deg)" }}>
-                    {formatStamp(s.startDate)}
-                  </div>
-                </div>
+                <span className="absolute top-2 right-2 z-10 px-2 py-1 rounded-lg text-[10px] font-semibold text-orange-600 bg-orange-50 border border-orange-200 leading-tight text-center">
+                  {formatStamp(s.startDate)}
+                </span>
               )}
 
-              <div className="flex justify-between items-start mb-2">
+              <div className="flex justify-between items-start mb-3">
                 <div>
-                  <h3 className="font-bold text-gray-900 text-lg">{s.name}</h3>
-                  <p className="text-xs text-gray-400"><i className="fas fa-phone mr-1" />{s.phone || "Telefon yo'q"}</p>
+                  <h3 className="font-bold text-gray-900 text-base tracking-tight">{s.name}</h3>
+                  <p className="text-xs text-gray-400 mt-0.5"><i className="fas fa-phone mr-1" />{s.phone || "Telefon yo'q"}</p>
                   {s.startDate && <p className="text-xs text-gray-400 mt-0.5"><i className="fas fa-calendar-check mr-1" />{s.startDate} ({monthsCount} oy)</p>}
                 </div>
-                <button onClick={() => del(s.id)} className="p-1.5 rounded-lg text-xs hover:bg-red-50 text-red-400 hover:text-red-600 transition cursor-pointer">
+                <button onClick={() => del(s.id)} className="p-2 rounded-lg text-xs hover:bg-red-50 text-red-400 hover:text-red-600 transition cursor-pointer shrink-0">
                   <i className="fas fa-trash-can" />
                 </button>
               </div>
 
-              <div className="flex items-center gap-2 mb-3">
+              <div className="flex items-center gap-2 mb-3 flex-wrap">
                 <span className="text-xs px-3 py-1 rounded-lg font-semibold text-white" style={{ background: `linear-gradient(135deg, var(--theme-primary), var(--theme-secondary))` }}>
                   <i className={`fas ${group?.subject === "arabic" ? "fa-language" : group?.subject === "english" ? "fa-book-open" : "fa-layer-group"} mr-1`} />
                   {s.groupName}
@@ -218,7 +209,7 @@ export default function StudentsPage() {
                 )}
               </div>
 
-              <div className="p-3 rounded-xl mb-3 text-center relative overflow-hidden" style={{ background: s.balance >= 0 ? "#f0fdf4" : "#fef2f2" }}>
+              <div className="p-3 rounded-lg mb-3 text-center relative overflow-hidden" style={{ background: s.balance >= 0 ? "#f0fdf4" : "#fef2f2" }}>
                 <p className="text-xs text-gray-400"><i className="fas fa-wallet mr-1" />Balans</p>
                 <p className={`text-2xl font-bold ${s.balance >= 0 ? "text-green-600" : "text-red-600"}`}>
                   {s.balance.toLocaleString()} <span className="text-sm font-normal">so'm</span>
