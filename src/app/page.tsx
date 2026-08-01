@@ -48,19 +48,19 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative p-4 overflow-hidden" style={{ background: "var(--bg)" }}>
+    <div className="min-h-screen flex items-center justify-center relative p-4 overflow-hidden pt-20 lg:pt-24" style={{ background: "var(--bg)" }}>
       <LiquidNav />
       <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10" style={{ perspective: "1200px" }}>
-        <div className="absolute top-[15%] left-[10%] w-20 h-20 border-2 border-orange-500/20 rounded-2xl animate-float" style={{ animationDelay: "0s", animationDuration: "6s", transform: "rotateX(45deg) rotateZ(15deg)" }} />
-        <div className="absolute top-[60%] right-[12%] w-28 h-28 border-2 border-orange-500/15 rounded-full animate-float" style={{ animationDelay: "1.5s", animationDuration: "8s", transform: "rotateY(30deg)" }} />
-        <div className="absolute top-[30%] right-[20%] w-16 h-16 border-2 border-purple-500/20 animate-float" style={{ animationDelay: "3s", animationDuration: "7s", transform: "rotateX(60deg) rotateZ(45deg)" }} />
-        <div className="absolute bottom-[20%] left-[15%] w-24 h-24 border border-orange-500/10 rounded-full animate-float" style={{ animationDelay: "2s", animationDuration: "9s" }} />
+        <div className="absolute top-[15%] left-[10%] w-20 h-20 border-2 border-teal-500/20 rounded-2xl animate-float" style={{ animationDelay: "0s", animationDuration: "6s", transform: "rotateX(45deg) rotateZ(15deg)" }} />
+        <div className="absolute top-[60%] right-[12%] w-28 h-28 border-2 border-teal-500/15 rounded-full animate-float" style={{ animationDelay: "1.5s", animationDuration: "8s", transform: "rotateY(30deg)" }} />
+        <div className="absolute top-[30%] right-[20%] w-16 h-16 border-2 border-amber-500/20 animate-float" style={{ animationDelay: "3s", animationDuration: "7s", transform: "rotateX(60deg) rotateZ(45deg)" }} />
+        <div className="absolute bottom-[20%] left-[15%] w-24 h-24 border border-teal-500/10 rounded-full animate-float" style={{ animationDelay: "2s", animationDuration: "9s" }} />
       </div>
 
       <div className="w-full max-w-md relative z-10">
-        <form onSubmit={handleSubmit} className="card p-8 animate-scaleIn mb-4" style={{ boxShadow: "0 20px 60px -15px rgba(0,0,0,0.15)" }}>
+        <form onSubmit={handleSubmit} className="card p-8 animate-scaleIn mb-4" style={{ boxShadow: "0 24px 60px -18px rgba(13,148,136,0.22)" }}>
           <div className="text-center mb-6">
-            <div className="w-20 h-20 rounded-2xl mx-auto mb-3 overflow-hidden flex items-center justify-center shadow-lg shadow-orange-500/30"
+            <div className="w-20 h-20 rounded-2xl mx-auto mb-3 overflow-hidden flex items-center justify-center shadow-lg shadow-teal-500/25"
               style={{ background: "linear-gradient(135deg, var(--theme-primary), var(--theme-secondary))" }}>
               <i className="fas fa-graduation-cap text-white text-3xl" />
             </div>
@@ -90,12 +90,12 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div className="card p-4 animate-slideIn" style={{ boxShadow: "0 10px 30px -12px rgba(0,0,0,0.12)" }}>
+        <div className="card p-4 animate-slideIn" style={{ boxShadow: "0 12px 30px -14px rgba(13,148,136,0.18)" }}>
           <p className="text-center text-xs text-gray-400 mb-3"><i className="fas fa-users mr-1" />Mavjud akkauntlar</p>
           <div className="grid grid-cols-2 gap-2">
             {ACCOUNTS.map(a => {
               const isSel = selected === a.label
-              const accent = a.role === "admin" ? "#f97316" : a.label === "G'ayrat" ? "#3b82f6" : "#f97316"
+              const accent = a.label === "G'ayrat" ? "#3b82f6" : a.label === "Sardor" || a.label === "Shoxali" ? "#14b8a6" : "var(--theme-primary)"
               return (
                 <div key={a.login} onClick={() => selectAccount(a.label)}
                   className="p-2.5 rounded-xl text-center transition-all cursor-pointer border relative overflow-hidden select-none"
@@ -103,9 +103,9 @@ export default function LoginPage() {
                     background: isSel ? `linear-gradient(135deg, ${accent}, ${accent})` : "var(--surface)",
                     borderColor: isSel ? "transparent" : "var(--border)",
                   }}>
-                  <p className={`text-sm font-bold ${isSel ? "text-white" : "text-gray-900"}`}>{a.label}</p>
-                  <p className={`text-[10px] ${isSel ? "text-white/80" : "text-gray-400"}`}>{a.desc}</p>
-                  {!isSel && <div className="absolute inset-0 hover:bg-orange-50 transition-colors dark:hover:bg-gray-700" />}
+                  <p className={`relative z-10 text-sm font-bold ${isSel ? "text-white" : "text-gray-900"}`}>{a.label}</p>
+                  <p className={`relative z-10 text-[10px] ${isSel ? "text-white/80" : "text-gray-400"}`}>{a.desc}</p>
+                  {!isSel && <div className="absolute inset-0 hover:bg-teal-50 transition-colors dark:hover:bg-gray-700" />}
                 </div>
               )
             })}

@@ -181,7 +181,7 @@ export default function StudentsPage() {
               style={{ transformStyle: "preserve-3d", perspective: "800px" }}>
 
               {s.startDate && (
-                <span className="absolute top-2 right-2 z-10 px-2 py-1 rounded-lg text-[10px] font-semibold text-orange-600 bg-orange-50 border border-orange-200 leading-tight text-center">
+                <span className="absolute top-2 right-2 z-10 px-2 py-1 rounded-lg text-[10px] font-semibold text-teal-700 bg-teal-50 border border-teal-200 leading-tight text-center">
                   {formatStamp(s.startDate)}
                 </span>
               )}

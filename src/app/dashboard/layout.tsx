@@ -6,10 +6,10 @@ import { LiquidNav } from "@/components/LiquidNav"
 import { getTokenUser, authHeaders } from "@/lib/auth-client"
 
 const THEMES = [
-  { name: "Orange", primary: "#f97316", secondary: "#ea580c" },
+  { name: "Teal", primary: "#0d9488", secondary: "#0f766e" },
   { name: "Blue", primary: "#3b82f6", secondary: "#2563eb" },
-  { name: "Green", primary: "#22c55e", secondary: "#16a34a" },
-  { name: "Purple", primary: "#a855f7", secondary: "#9333ea" },
+  { name: "Violet", primary: "#8b5cf6", secondary: "#7c3aed" },
+  { name: "Emerald", primary: "#10b981", secondary: "#059669" },
   { name: "Rose", primary: "#f43f5e", secondary: "#e11d48" },
 ]
 
@@ -36,8 +36,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [showTheme, setShowTheme] = useState(false)
   const [showHeaderTheme, setShowHeaderTheme] = useState(false)
   const [theme, setTheme] = useState(() => {
-    if (typeof window !== "undefined") return localStorage.getItem("theme") || "Orange"
-    return "Orange"
+    if (typeof window !== "undefined") return localStorage.getItem("theme") || "Teal"
+    return "Teal"
   })
   const [dark, setDark] = useState(() => {
     if (typeof window !== "undefined") return localStorage.getItem("dark") === "true"
@@ -119,7 +119,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
       {/* Sidebar */}
       <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-64 flex flex-col p-4 text-white transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
-        style={{ background: "linear-gradient(180deg, #0f0f13 0%, #16161d 100%)" }}>
+        style={{ background: "linear-gradient(180deg, #0b1716 0%, #0e211f 100%)" }}>
         <div className="flex items-center gap-3 mb-6 px-2">
           <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: `linear-gradient(135deg, var(--theme-primary), var(--theme-secondary))` }}>
             <i className="fas fa-graduation-cap text-white text-lg" />
@@ -201,6 +201,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             items={links.filter(l => LIQUID_PATHS[l.href]).map(l => ({ href: l.href, label: l.label, icon: LIQUID_PATHS[l.href] }))}
             dark={dark}
             onToggleDark={() => setDark(!dark)}
+            hideBrand
+            wrapperClassName="lg:left-64 lg:pr-4"
             right={
               <div className="flex items-center gap-2">
                 {/* Theme picker */}

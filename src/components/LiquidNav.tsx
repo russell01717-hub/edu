@@ -17,6 +17,8 @@ export function LiquidNav({
   dark: controlledDark,
   onToggleDark,
   right,
+  hideBrand = false,
+  wrapperClassName = "",
 }: {
   items?: LiquidNavItem[];
   brand?: string;
@@ -24,6 +26,8 @@ export function LiquidNav({
   dark?: boolean;
   onToggleDark?: () => void;
   right?: React.ReactNode;
+  hideBrand?: boolean;
+  wrapperClassName?: string;
 }) {
   const pathname = usePathname();
   const navRef = useRef<HTMLDivElement>(null);
@@ -96,15 +100,17 @@ export function LiquidNav({
         <div className="liquid-blob liquid-blob-3" />
       </div>
 
-      <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3">
-        <Link href="/" className="flex items-center gap-2 z-10">
-          <div className="h-8 w-8 rounded-lg flex items-center justify-center" style={{ background: "linear-gradient(135deg, #f97316, #ea580c)" }}>
-            <span className="text-white font-bold text-sm">{brandMark}</span>
-          </div>
-          <span className="font-bold text-xl" style={{ background: "linear-gradient(135deg, #f97316, #ea580c, #fdba74)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-            {brand}
-          </span>
-        </Link>
+      <div className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 ${wrapperClassName}`}>
+        {hideBrand ? <div className="w-32 shrink-0 lg:w-40" aria-hidden="true" /> : (
+          <Link href="/" className="flex items-center gap-2 z-10">
+            <div className="h-8 w-8 rounded-lg flex items-center justify-center" style={{ background: "linear-gradient(135deg, #0d9488, #0f766e)" }}>
+              <span className="text-white font-bold text-sm">{brandMark}</span>
+            </div>
+            <span className="font-bold text-xl" style={{ background: "linear-gradient(135deg, #0d9488, #14b8a6, #5eead4)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+              {brand}
+            </span>
+          </Link>
+        )}
 
         {items.length > 0 && (
           <nav

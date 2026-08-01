@@ -6,7 +6,7 @@ const DAYS_UZ = ["Yak", "Du", "Se", "Chor", "Pay", "Jum", "Shan"]
 const DAYS_FULL = ["Yakshanba", "Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma", "Shanba"]
 const SUBJECTS = [
   { value: "", label: "Tanlanmagan" },
-  { value: "arabic", label: "Arab tili", color: "from-orange-400 to-orange-600" },
+  { value: "arabic", label: "Arab tili", color: "from-teal-400 to-teal-600" },
   { value: "english", label: "Ingliz tili", color: "from-blue-400 to-blue-600" },
 ]
 
@@ -194,7 +194,7 @@ export default function GroupsPage() {
                     </div>
                     <div className="flex items-center gap-1">
                       {(user?.role === "admin" || user?.id === g.teacherId) && <>
-                        <button onClick={(e) => { e.stopPropagation(); openEdit(g) }} className="p-2 rounded-lg text-xs hover:bg-orange-50 transition cursor-pointer" style={{ color: "var(--theme-primary)" }}>
+                        <button onClick={(e) => { e.stopPropagation(); openEdit(g) }} className="p-2 rounded-lg text-xs hover:bg-teal-50 transition cursor-pointer" style={{ color: "var(--theme-primary)" }}>
                           <i className="fas fa-pen-to-square" />
                         </button>
                         <button onClick={(e) => { e.stopPropagation(); del(g.id) }} className="p-2 rounded-lg text-xs hover:bg-red-50 text-red-500 transition cursor-pointer">
