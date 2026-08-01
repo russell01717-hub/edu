@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { LiquidNav } from "@/components/LiquidNav"
 
 const ACCOUNTS = [
   { label: "Admin", login: "admin", pass: "admin123", role: "admin", desc: "Hamma narsani ko'radi" },
@@ -47,7 +48,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative bg-gradient-to-br from-gray-900 via-gray-800 to-black p-4">
+    <div className="min-h-screen flex items-center justify-center relative p-4 overflow-hidden">
+      <LiquidNav />
       <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ perspective: "1200px" }}>
         <div className="absolute top-[15%] left-[10%] w-20 h-20 border-2 border-orange-500/20 rounded-2xl animate-float" style={{ animationDelay: "0s", animationDuration: "6s", transform: "rotateX(45deg) rotateZ(15deg)" }} />
         <div className="absolute top-[60%] right-[12%] w-28 h-28 border-2 border-orange-500/15 rounded-full animate-float" style={{ animationDelay: "1.5s", animationDuration: "8s", transform: "rotateY(30deg)" }} />

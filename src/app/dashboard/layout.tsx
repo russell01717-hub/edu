@@ -2,6 +2,7 @@
 import Link from "next/link"
 import { useRouter, usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
+import { LiquidNav } from "@/components/LiquidNav"
 
 const THEMES = [
   { name: "Orange", primary: "#f97316", secondary: "#ea580c" },
@@ -10,6 +11,16 @@ const THEMES = [
   { name: "Purple", primary: "#a855f7", secondary: "#9333ea" },
   { name: "Rose", primary: "#f43f5e", secondary: "#e11d48" },
 ]
+
+const LIQUID_PATHS: Record<string, string> = {
+  "/dashboard": "M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z",
+  "/dashboard/groups": "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z",
+  "/dashboard/students": "M16 11a3 3 0 10-6 0 3 3 0 006 0zm-8.5 8a4.5 4.5 0 019 0M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4",
+  "/dashboard/attendance": "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
+  "/dashboard/lessons": "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253",
+  "/dashboard/payments": "M3 10h18M7 15h3m-6 8h16a2 2 0 002-2V9a2 2 0 00-2-2H3a2 2 0 00-2 2v12a2 2 0 002 2z",
+  "/dashboard/users": "M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z",
+}
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter()
@@ -186,24 +197,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
       {/* Main */}
       <main className="flex-1 overflow-y-auto w-full">
-        {/* Top header bar */}
-        <div className={`sticky top-0 z-30 border-b ${dark ? "bg-gray-800 border-gray-700" : "bg-white border-gray-100"}`}>
-          <div className="flex items-center justify-between px-4 h-14">
-            <div className="flex items-center gap-3">
-              <button onClick={() => setSidebarOpen(true)} className={`lg:hidden text-xl cursor-pointer ${dark ? "text-gray-300" : "text-gray-700"}`}>
-                <i className="fas fa-bars" />
-              </button>
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs"
-                  style={{ background: `linear-gradient(135deg, var(--theme-primary), var(--theme-secondary))` }}>
-                  <i className="fas fa-graduation-cap" />
-                </div>
-                <span className={`font-semibold text-sm ${dark ? "text-white" : "text-gray-900"}`}>Akademiya</span>
-                <span className={`text-xs ml-2 hidden sm:inline ${dark ? "text-gray-400" : "text-gray-400"}`}>
-                  {user?.name} {user?.role === "teacher" ? `(${user?.login === "sardor" || user?.login === "shoxali" ? "Arab tili" : user?.login === "gayrat" ? "Ingliz tili" : ""})` : ""}
-                </span>
-              </div>
-            </div>
+        <LiquidNav
+          items={links.filter(l => LIQUID_PATHS[l.href]).map(l => ({ href: l.href, label: l.label, icon: LIQUID_PATHS[l.href] }))}
+          dark={dark}
+          onToggleDark={() => setDark(!dark)}
+          right={
             <div className="flex items-center gap-2">
               {/* Theme picker */}
               <div className="relative">
@@ -225,16 +223,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   </div>
                 )}
               </div>
-              {/* Dark mode toggle */}
-              <button onClick={() => setDark(!dark)}
-                className={`w-9 h-9 rounded-xl flex items-center justify-center cursor-pointer transition-all ${dark ? "hover:bg-gray-700 text-yellow-400" : "hover:bg-gray-100 text-gray-500"}`}
-                title={dark ? "Kun rejimi" : "Tun rejimi"}>
-                <i className={`fas ${dark ? "fa-sun" : "fa-moon"}`} />
+              <button onClick={() => setSidebarOpen(true)} className={`lg:hidden w-9 h-9 rounded-xl flex items-center justify-center cursor-pointer ${dark ? "text-gray-300 hover:bg-gray-700" : "text-gray-700 hover:bg-gray-100"}`} title="Menyu">
+                <i className="fas fa-bars" />
               </button>
             </div>
-          </div>
-        </div>
-        <div className={`p-4 lg:p-8 ${dark ? "text-gray-200" : ""}`}>{children}</div>
+          }
+        />
+        <div className={`pt-16 p-4 lg:p-8 ${dark ? "text-gray-200" : ""}`}>{children}</div>
       </main>
     </div>
   )
