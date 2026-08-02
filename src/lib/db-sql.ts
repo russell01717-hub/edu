@@ -31,6 +31,26 @@ const sql = postgres(process.env.DATABASE_URL!, {
       await sql`INSERT INTO users (name, login, password, role, phone) VALUES ('Sardor', 'sardor', ${fh}, 'teacher', '+998901234567')`
       await sql`INSERT INTO users (name, login, password, role, phone) VALUES (${"G'ayrat"}, 'gayrat', ${fh}, 'teacher', '+998901234568')`
       await sql`INSERT INTO users (name, login, password, role, phone) VALUES ('Shoxali', 'shoxali', ${fh}, 'teacher', '+998901234569')`
+    } else {
+      // Ensure default admin/teachers exist even if DB was previously seeded
+      const admin = await sql`SELECT id, password FROM users WHERE login = 'admin'`
+      if (admin.length > 0) {
+        if (bcrypt.compareSync("admin123", admin[0].password)) {
+          await sql`UPDATE users SET password = ${bcrypt.hashSync("admin1234", 10)} WHERE id = ${admin[0].id}`
+        }
+      }
+      const fh = bcrypt.hashSync("4444", 10)
+      const defaults = [
+        ["Sardor", "sardor", "+998901234567"],
+        ["G'ayrat", "gayrat", "+998901234568"],
+        ["Shoxali", "shoxali", "+998901234569"],
+      ]
+      for (const [name, login, phone] of defaults) {
+        const exists = await sql`SELECT id FROM users WHERE login = ${login}`
+        if (exists.length === 0) {
+          await sql`INSERT INTO users (name, login, password, role, phone) VALUES (${name}, ${login}, ${fh}, 'teacher', ${phone})`
+        }
+      }
     }
     // Seed default groups if none exist
     const [gc] = await sql`SELECT COUNT(*)::int as c FROM groups`

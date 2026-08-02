@@ -4,10 +4,10 @@ import { useRouter } from "next/navigation"
 import { LiquidNav } from "@/components/LiquidNav"
 
 const ACCOUNTS = [
-  { label: "Admin", login: "admin", pass: "admin1234", role: "admin", desc: "Hamma narsani ko'radi" },
-  { label: "Sardor", login: "sardor", pass: "4444", role: "teacher", desc: "Arab tili o'qituvchisi" },
-  { label: "G'ayrat", login: "gayrat", pass: "4444", role: "teacher", desc: "Ingliz tili o'qituvchisi" },
-  { label: "Shoxali", login: "shoxali", pass: "4444", role: "teacher", desc: "Arab tili o'qituvchisi" },
+  { label: "Admin", login: "admin", role: "admin", desc: "Hamma narsani ko'radi" },
+  { label: "Sardor", login: "sardor", role: "teacher", desc: "Arab tili o'qituvchisi" },
+  { label: "G'ayrat", login: "gayrat", role: "teacher", desc: "Ingliz tili o'qituvchisi" },
+  { label: "Shoxali", login: "shoxali", role: "teacher", desc: "Arab tili o'qituvchisi" },
 ]
 
 export default function LoginPage() {

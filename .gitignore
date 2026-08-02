@@ -6,3 +6,5 @@ data.db
 .env
 .env.local
 data.json
+
+.vercel
